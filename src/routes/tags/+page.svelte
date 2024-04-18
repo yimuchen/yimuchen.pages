@@ -3,24 +3,26 @@
   import { date_str } from "$lib/posts.js";
   import { base } from "$app/paths";
   export let data; // data obtained from +posts
+
+  const post_grouping = [...Object.entries(data)];
+  post_grouping.sort();
 </script>
 
 <svelte:head>
-  <title>Posts by date</title>
+  <title>Posts by tag</title>
 </svelte:head>
 
-<h1>Posts by date</h1>
+<h1>Posts by tags</h1>
 
-{#each [...Object.entries(data)].reverse() as [year, post_list]}
+{#each post_grouping as [tag, post_list]}
   <div class="content-container">
-    <h2 id="year{year}">{year}</h2>
+    <h2 id={tag} style="text-transform: capitalize;">{tag}</h2>
     <ul>
       {#each post_list as post}
         <li>
           <a href="{base}{post.path}">{post.meta.title} </a> ({date_str(
             new Date(post.meta.date)
-          )})<br />
-          {post.meta.description ? post.meta.description : ""}
+          )})
         </li>
       {/each}
     </ul>
@@ -29,8 +31,8 @@
 
 <div class="toc">
   <ul>
-    {#each [...Object.entries(data)].reverse() as [year, _]}
-      <li><a href="#year{year}">{year}</a></li>
+    {#each post_grouping as [tag, _]}
+      <li><a href="#{tag}">{tag}</a></li>
     {/each}
   </ul>
 </div>
@@ -41,6 +43,9 @@
     padding-top: 1.5em;
     padding-bottom: 1.2em;
     font-size: 36pt;
+  }
+  .toc li {
+    text-transform: capitalize;
   }
   .toc:before {
     /* Overwrite the header for this section */

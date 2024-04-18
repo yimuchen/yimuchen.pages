@@ -1,0 +1,137 @@
+body {
+  font-size: 14pt;
+}
+
+.content-container {
+  margin: auto;
+  max-width: 50em;
+  text-align: justify;
+  text-justify: inter-word;
+  padding: 3em;
+  margin-top: 2em;
+  border-radius: 15px;
+  padding-top: 2em;
+  line-height: 1.6em;
+}
+
+.toc {
+  position: fixed;
+  right: 0px;
+  top: 50%;
+  padding-right: 2em;
+  padding-left: 2em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  max-width: 400px;
+  padding-right: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+  .toc-link-h2 {
+    font-weight: bold;
+  }
+  .toc-link-h3 {
+    font-weight: normal;
+  }
+}
+
+.toc::before {
+  content: "Outline";
+}
+
+.toc ol:first-child {
+  font-size: 0.6em;
+}
+
+/* For automatic heading link */
+:where(h2, h3, h4, h5, h6) {
+  .icon-link {
+    position: relative;
+
+    &::before {
+      content: "#";
+      position: absolute;
+      left: -1ch;
+      top: 0;
+      line-height: 1;
+      opacity: 0;
+      text-decoration: underline;
+    }
+  }
+
+  &:hover .icon-link::before {
+    opacity: 1;
+  }
+}
+
+/** Code styling, we will not be using light/dark distinction */
+.code-block-header {
+  font-family: "Monospace";
+  background-color: #171812;
+  padding: 0.4em;
+  border-bottom: solid black;
+  font-style: bold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.code-block pre {
+  margin-top: 0;
+  padding: 0.5em;
+  overflow-x: scroll;
+  position: relative;
+  font-size: 0.8em;
+  line-height: 1.6;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.code-block-lang {
+  color: #AAA;
+  font-style: italic;
+}
+
+.code-block:only-child pre {
+  border-radius: 10px;
+}
+
+span.highlight.line {
+  background-color: #434442;
+}
+
+.code-block pre .code-block-copy {
+  position: absolute;
+  top: 0.3em;
+  right: 0.3em;
+  background-color: #171812;
+  border-color: #373832;
+  color: white;
+  border-radius: 10px;
+}
+
+.code-block-numbered code {
+  counter-reset: line;
+}
+
+.code-block-numbered code > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+
+  /* Other styling */
+  display: inline-block;
+  width: 1rem;
+  margin-right: 2rem;
+  text-align: right;
+  color: gray;
+}
+
+.code-block-numbered
+  code[data-line-numbers-max-digits="2"]
+  > [data-line]::before {
+  width: 2rem;
+}
+
+.code-block-numbered [data-line-numbers-max-digits="3"] > [data-line]::before {
+  width: 3rem;
+}

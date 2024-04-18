@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.BYKVZ8w5.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.COLTZAcl.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.D6qaq_FZ.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.BPEYEsqQ.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CDLpzJm1.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.BBzVTq_G.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.QC4gxSWQ.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CnTpL24J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.et2ct6Cr.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index._pBFpMxY.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.C_-d4jv8.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Migrating to Atom</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Migrating to Atom</h1> <p>2016.Feb.22</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-1lo23ch"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-ideal-black-box-model">The Ideal Black Box Model</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#designing-for-the-user">Designing for the user</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#opening-the-black-box">Opening the black box</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-appeal-of-atom">The appeal of Atom</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#difficulties-and-closing-words">Difficulties and closing words</a></li></ol></nav> <p data-svelte-h="svelte-1rdnbrb">Recently I stumbled across the editor <a href="https://atom.io/" rel="nofollow">Atom</a>, and it was
+amazing! I am often accused of being a “command-line guy”, and I disagree, I
+love the graphical interface, using the mouse for certain tasks, and yet enjoy
+using <a href="http://www.vim.org/" rel="nofollow">vim</a> and the command line interface all the same.
+So here here is the reasons why I’m now deciding to leave the command line
+editor vim in favour of a graphical editor.</p> <h2 id="the-ideal-black-box-model" data-svelte-h="svelte-1o5p7m7"><a aria-hidden="true" tabindex="-1" href="#the-ideal-black-box-model"><span class="icon icon-link"></span></a>The Ideal Black Box Model</h2> <p data-svelte-h="svelte-qdtio8">I have slowly over the years formed a Ideology of what the a tool or a set of
+tools should be like. Though neraly everyone in the modern era has embraced the
+idea of the “abstaction as a black box”, but I think there should be more to
+the black box model than simply hiding stuff from view. There should be some
+thing that people should go the extra mile of designing to try and get most out
+of the box they spent so much time on, to be able to make the tools we have
+evolve as we find or require more stuff.</p> <h3 id="designing-for-the-user" data-svelte-h="svelte-15x782v"><a aria-hidden="true" tabindex="-1" href="#designing-for-the-user"><span class="icon icon-link"></span></a>Designing for the user</h3> <p data-svelte-h="svelte-1cnellf">The interface should be clear, intuitive and and well documented, so it should
+have the properties that:</p> <ol data-svelte-h="svelte-12eq8ay"><li><strong>Definite behaviour</strong>: For some a difinitive input, there should be a
+definitive and fixed output</li> <li><strong>Ease of access</strong>: Anyone should to be able to get their hands on it
+without direct aid from the developers, or opening the black box.</li> <li><strong>Black boxes don’t cast shadows</strong>: All flow in and out of the box should
+be transparent.</li></ol> <p data-svelte-h="svelte-4asfhx">For software design, the first point this is typically achieved in all every
+well-known software (as to the so-called “interface” design in physics
+analysis, that a completely different rant all together…). But there should
+be more to the second point then some people think: to “anyone” means that the
+tool should be adaptable to suit the perculiarities of the audience using your
+tool, both for habits of the user in question, and for the various task they
+wish to perform.</p> <p data-svelte-h="svelte-c39kgt">Of course, you don’t have to design for anyone, and your program will forever
+have such a limit user base. Then, there is the “apple-style” approach, work
+very hard to find a good pre-set that works well for a lot of people. But then
+as your audience grows, and develops new habits, and demand more out of their
+tool, it is completely up to the deveoplers to keep one step ahead of their
+users, and this approach is requires the foresight that not development team
+could have (even giants in this philosophy like Apple flops very badly with
+some of their products).</p> <p data-svelte-h="svelte-1frxj6n">I’m more of a fan of the appraoch that the developers grant the freedom to the
+user to modify the the tool to some extent. Since the tool’s design should be
+for the user, it makes sense that we should allow the tool to be tune for their
+needs, and to learn from what they tune to further imporve the experience
+of users. <a href="https://www.mozilla.org/en-US/firefox/new/" rel="nofollow">Firefox</a>’s <a href="http://www.pcworld.com/article/221150/Firefox.html" rel="nofollow">smooth
+scroll</a>,
+<a href="https://atom.io/" rel="nofollow">Atom</a>’s <a href="https://atom.io/packages/snippets" rel="nofollow">snippet
+package</a>, <a href="https://kerbalspaceprogram.com/en/" rel="nofollow">Kerbal space
+program</a>’s improved aerodynamics system
+are all great examples of this. Interaction between the developers and the
+user is what pushes the tool to evolve in the direction that is benefical
+as a whole, removing the blind spots that the devs might have when fixated
+on performance and raw numbers alone.</p> <h3 id="opening-the-black-box" data-svelte-h="svelte-1gmnf65"><a aria-hidden="true" tabindex="-1" href="#opening-the-black-box"><span class="icon icon-link"></span></a>Opening the black box</h3> <p data-svelte-h="svelte-l5j89a">If we accept this model for making the program, the why don’t we go the extra
+step? Instead of just letting the user added stuff via a predefined interface,
+we should allow the user to enter the box itself and allow the to modify the
+black box itself, to further blur the boundary between the developers and
+users. This is the final point that I found so appealing about the open-source
+movements, that tools are truely being design for the user, that the user are
+empowered by the tools they want for themselves.</p> <p data-svelte-h="svelte-1eh75qd">Of course to allow this to work, even more documentation and maintenance is
+required, to keep everything clean and clean for people that are new to you
+project to understand (as for physics analysis… that would be yet another
+longer rant…). But all of what I said is not limited to command line tools.
+But is might be still valid that I am commonly mistaken for a command line guy:
+tools that fit the criteria above are so much more common in command line
+interfaces. Whether this is due to the longer history or the hassel of having
+to design for the graphical interfaces, I don’t know, but the tools in command
+line tools are seems much more complete and mature and powerful and general.
+But then, alas, tools will always have their limitations. And I think I have
+found the missing elements I have crave for so long in vim to appear in the
+editor atom.</p> <h2 id="the-appeal-of-atom" data-svelte-h="svelte-pyhd3q"><a aria-hidden="true" tabindex="-1" href="#the-appeal-of-atom"><span class="icon icon-link"></span></a>The appeal of Atom</h2> <p data-svelte-h="svelte-1nnxqii">Let’s start with the annoying little annoying things about using vim. The first
+is that vim’s display is all character based (this is true even for gvim). So
+try as I might, there are just some things that don’t look as nice in vim.</p> <figure data-svelte-h="svelte-wl38be"><img src="https://drive.google.com/thumbnail?id=0Bw8_U9a0g9nHTG9CT3VkcnJBd1k"> <figcaption>My vim layout at the time of writing</figcaption></figure> <p data-svelte-h="svelte-ttze4e">Little things, like icons for file type indicators, minimap of the file you are
+editing, latex formula previews, markdown document previews just isn’t
+impossible in vim. Does this make vim any less of an text editor? Not really,
+but it’s just things that I wish where possible to make my workflow easier.</p> <p data-svelte-h="svelte-13aaqyz">Then there is the <a href="http://tvtropes.org/pmwiki/pmwiki.php/Main/DamnYouMuscleMemory" rel="nofollow">Damn You Muscle
+Memory</a> moments
+when moving from application to application. Vim’s keystrokes for executing
+commands is… unique. Not doubt it is efficient for those very familiar with
+it, but when your work requires you to move from application to application, it
+can get very infuriating getting your fingers to perform different motions in
+diffent application. I’m not that a big fan of the the hyper efficient
+keystrokes, but still wish to retain that precise motions you can perfom in vim
+by exiting the edit mode and using commands/hotkeys.</p> <p data-svelte-h="svelte-p33fkp">Is vim a bad editor? No! It’s <a href="http://vimawesome.com/" rel="nofollow">awesome</a>! There are just
+some aspects of it that doesn’t sit right with the workflow I wish I could
+have.</p> <p data-svelte-h="svelte-j8rkt4">Then I was introduced to atom:</p> <blockquote data-svelte-h="svelte-nrjx9p"><p>Atom is a text editor that’s modern, approachable, yet hackable to the core —
+a tool you can customize to do anything but also use productively without
+ever touching a config file.</p></blockquote> <p data-svelte-h="svelte-1q256vg">It was like the editor that works so well with what I want to do! Simple typing
+for simple, text based task, yet having the precision of a command line editor
+when I need such functionalities. All open-source and really hackable to
+the core, with tonnes of stuff that I could add to truly make the
+experience my own!</p> <h2 id="difficulties-and-closing-words" data-svelte-h="svelte-wjr4s"><a aria-hidden="true" tabindex="-1" href="#difficulties-and-closing-words"><span class="icon icon-link"></span></a>Difficulties and closing words</h2> <p data-svelte-h="svelte-doogp7">Not all is fine about atom though. I still miss it’s direct and straight
+forwards interface with the file system a lot better. I never quite got why
+someone would want to open files based on anything other than a working
+directory. I’m still in the <a href="http://tvtropes.org/pmwiki/pmwiki.php/Main/DamnYouMuscleMemory" rel="nofollow">damn you muscle
+memory</a> phase
+when editing text. Some plugins are nowhere near as powerful and mature as the
+plugins found at vim awesome (main complaint I have is the non-programable
+snippet system). The majority of people migrating to atom are web developers,
+meaning that a lot of C/C++ related plugins are rather slowing in development.
+But for all of that, I think it is time to move to this new environment!</p> <blockquote data-svelte-h="svelte-ah72vt"><p>Would vim be gone?</p></blockquote> <p data-svelte-h="svelte-17i2h8k">On my system, I will still be using it to system related stuff since it works
+so much better when moving around the file systems, but now atom would be my
+primary editor to the larger projects I work on. As my brother said:</p> <blockquote data-svelte-h="svelte-4vpsy7"><p>Vim is no longer just a program, it is a standard people set when comparing
+what a text editor should be able to do.</p></blockquote> <p data-svelte-h="svelte-nket59">Like what unix did to operating systems, TeX for typesetting systems, vim(and
+emacs) is doing the same for text editing.</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#thoughts">thoughts</a></span><span class="svelte-9cibcw"><a href="../../tags/#atom">atom</a></span><span class="svelte-9cibcw"><a href="../../tags/#vim">vim</a></span><span class="svelte-9cibcw"><a href="../../tags/#computing">computing</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_115hnw1 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.COLTZAcl.js"),
+						import("../../_app/immutable/entry/app.QC4gxSWQ.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

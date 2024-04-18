@@ -143,14 +143,14 @@
     bottom: 10px;
     padding-left: 20px;
   }
-
+  /*
   .experience-prof {
     position: absolute;
     font-style: italic;
     left: 0;
     bottom: 10px;
     padding-left: 20px;
-  }
+  }*/
 
   :global(.toc) {
     display: none;

@@ -39,7 +39,7 @@
       according to the related topics.
     </li>
     <li>
-      <a href="{base}/tags/#tools">Tools</a>: Some fun single-page tools that I
+      <a href="{base}/tags/">Tools</a>: Some fun single-page tools that I
       developed for some odd issues I ran into.
     </li>
   </ul>

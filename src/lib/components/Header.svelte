@@ -43,7 +43,7 @@
     <span><a href="{base}/about">About Me</a></span>
     <span><a href="{base}/posts">Posts by date</a></span>
     <span><a href="{base}/tags">Posts by tags</a></span>
-    <span><a href="{base}/tags/#tools">Online tools</a></span>
+    <span><a href="{base}/tags">Online tools</a></span>
     <span style="margin-top: 1em;">
       <FontAwesomeIcon icon={faMoon} />
       <label class="switch">

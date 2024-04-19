@@ -146,12 +146,8 @@ you clear your browser cookies).
 I'm still working on having the site use cookies to remember which setting to
 use, but at least we now have a toggle!
 
-
 ---
 
-When this page does live, I still have yet to figure out how to include my
-posts that include LaTeX math in a good and painless way. But code-related
-posts should have been migrated over. Hopefully this fresh framework motivates
-me to write here more often.
-
-
+Certain content pages are still under construction, but the majority of posts
+that I feel remains relevant should have been migrated over. Hopefully this
+fresh framework motivates me to write here more often.

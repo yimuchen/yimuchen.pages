@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "deploy": "gh-pages -d build -t true"
+    "deploy": "vite build & gh-pages -d build -t true"
   },
   "devDependencies": {
     "@bitmachina/highlighter": "^1.0.0-alpha.5",

@@ -1,7 +1,7 @@
 ---
 title: Migrating blog to Svelte
 description: Documenting some of the reason and rebooting the blog constructions using a fresh framework.
-tags: [computing, notes, thoughts]
+tags: [computing, notes, thoughts, javascript]
 banner: code_head_1.png
 ---
 
@@ -31,11 +31,11 @@ directly the HTML layout.
 
 Additionally, I'm also not a fan of how "variables" are handled in Jekyll using
 YAML, meaning that aside from HTML/CSS/JavaScript files, and the content
-markdown files, I also need to keep track of additional file, that has yet
-another format. The flexibility of JavaScript frameworks, is that the parsing
-of markdown files can technically be handled anywhere if I want to specify,
-meaning that the handling of "data" can be done easily with markdown files with
-injected metadata.
+markdown files, I also need to keep track of additional "data" file, that has
+yet another format. The flexibility of JavaScript frameworks, is that the
+parsing of markdown files can technically be handled anywhere if I want to
+specify, meaning that the handling of "data" can be done easily with markdown
+files with injected metadata.
 
 [ghpages]: https://pages.github.com/
 [jekyll]: https://jekyllrb.com/
@@ -74,12 +74,12 @@ event provide any reflective values. That combined with my original setup with
 Jekyll making it incredibly frustrating to update the CV page, made me decide
 to start over from scratch.
 
+[agemilk]: https://en.wiktionary.org/wiki/age_like_milk
+
 The idea is that I will only migrate over posts that are of STEM topics, as
 even if what I wrote did turn out to be wrong, it would be interesting to see
 what goes wrong, while pure opinion pieces doesn't really add much if it ends
 up being a poor writing.
-
-[agemilk]: https://en.wiktionary.org/wiki/age_like_milk
 
 Some pure technical posts might take a while to transfer, I am still figuring
 out some of the new technologies with svelte (and seeing if there is a better
@@ -105,7 +105,7 @@ highlighting. This allows for additional items that I did not in the old blog, i
 
 Using the python autocomplete code block as an example:
 
-```python title="Notice magic comment in the highlight!" hl={2,17}
+```python showLineNumber title="Notice magic comment on line 2 and method call on l17" hl={2,17}
 #!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
 
@@ -130,17 +130,28 @@ Of course, all of these are toggle-able, just in case I want a snippet that is
 incomplete or should not be automatically added to clipboards for safety
 reasons:
 
-
 ```bash title="PLEASE DO NOT COPY THIS" nocopy
 rm -rf . /
 ```
 
+[shiki]: https://github.com/shikijs/shiki
+
 ### Site theming toggles
 
 There is now a site color theme toggle that one can use in the hamburger menu!
+This toggle is persistent, so if you prefer reading in light mode, you only
+need to toggle this button once and the changes should persist (at least until
+you clear your browser cookies).
+
 I'm still working on having the site use cookies to remember which setting to
-use, but at least we now have a toggle! 
+use, but at least we now have a toggle!
 
 
+---
 
-[shiki]: https://github.com/shikijs/shiki
+When this page does live, I still have yet to figure out how to include my
+posts that include LaTeX math in a good and painless way. But code-related
+posts should have been migrated over. Hopefully this fresh framework motivates
+me to write here more often.
+
+

@@ -14,6 +14,15 @@ body {
   line-height: 1.6em;
 }
 
+.content-container figure img {
+  max-width: 100%;
+}
+
+.content-container figure figcaption {
+  font-size: 0.8em;
+  text-align: center
+}
+
 .toc {
   position: fixed;
   right: 0px;

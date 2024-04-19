@@ -3,11 +3,11 @@
   --theme-body-color: #222;
   --theme-container-txt-color: #eee;
   --theme-container-bkg-color: #333;
-  --theme-link-none: #8DF;
-  --theme-link-visit: #D8F;
+  --theme-link-none: #8df;
+  --theme-link-visit: #d8f;
   --theme-header-txt-color: #f80;
   --theme-dark-shadow-color: #181818;
-  --theme-light-shadow-color: #AAA;
+  --theme-light-shadow-color: #aaa;
 }
 
 [data-theme="light"] {
@@ -17,9 +17,9 @@
   --theme-container-bkg-color: #eee;
   --theme-link-none: blue;
   --theme-link-visit: purple;
-  --theme-header-txt-color: #C60;
-  --theme-dark-shadow-color: #AAA;
-  --theme-light-shadow-color: #FFF;
+  --theme-header-txt-color: #c60;
+  --theme-dark-shadow-color: #aaa;
+  --theme-light-shadow-color: #fff;
 }
 
 body {
@@ -28,6 +28,14 @@ body {
 
   /* This transition property will be propagated to all elements */
   transition: all 0.2s ease;
+}
+
+a {
+  color: var(--theme-link-none);
+}
+
+a:visited {
+  color: var(--theme-link-visit);
 }
 
 .content-container {

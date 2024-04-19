@@ -17,6 +17,10 @@ import { parse } from "shell-quote";
 export const highlighter = async (code, lang, meta) => {
   const meta_options = parse_meta_string(meta);
 
+  if (lang === "math") {
+    return "";
+  }
+
   const html = await codeToHtml(code, {
     lang: lang,
     theme: "monokai",
@@ -41,16 +45,16 @@ export const highlighter = async (code, lang, meta) => {
             ? `<span class="code-block-lang">[${lang}]</span>`
             : ``;
 
-          const head_block = meta_options.title || lang
-            ? `<div class="code-block-header">${meta_options.title} ${lang_block}</div>`
-            : "";
+          const head_block =
+            meta_options.title || lang
+              ? `<div class="code-block-header">${meta_options.title} ${lang_block}</div>`
+              : "";
           const block_class =
             meta_options.showLineNumber != null
               ? `code-block-numbered numbered-start-${meta_options.showLineNumber}`
               : "";
-          const copy_class = meta_options.allowcopy === true ? "code-copyable" : "";
-
-          console.log(meta_options)
+          const copy_class =
+            meta_options.allowcopy === true ? "code-copyable" : "";
 
           html = `
             <div class="code-block-container">

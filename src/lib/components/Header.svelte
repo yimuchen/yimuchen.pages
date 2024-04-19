@@ -28,7 +28,6 @@
     $isLightTheme = (current_theme == "light");
 
     isLightTheme.subscribe((value) => {
-      console.log("isLight theme:", value);
       document
         .querySelector("html")
         .setAttribute("data-theme", value ? "light" : "dark");

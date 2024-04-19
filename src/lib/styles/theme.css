@@ -1,0 +1,60 @@
+[data-theme="dark"] {
+  --theme-text-color: white;
+  --theme-body-color: #222;
+  --theme-container-txt-color: #eee;
+  --theme-container-bkg-color: #333;
+  --theme-link-none: #8DF;
+  --theme-link-visit: #D8F;
+  --theme-header-txt-color: #f80;
+  --theme-dark-shadow-color: #181818;
+  --theme-light-shadow-color: #AAA;
+}
+
+[data-theme="light"] {
+  --theme-text-color: black;
+  --theme-body-color: #fff;
+  --theme-container-txt-color: "black";
+  --theme-container-bkg-color: #eee;
+  --theme-link-none: blue;
+  --theme-link-visit: purple;
+  --theme-header-txt-color: #C60;
+  --theme-dark-shadow-color: #AAA;
+  --theme-light-shadow-color: #FFF;
+}
+
+body {
+  color: var(--theme-text-color);
+  background-color: var(--theme-body-color);
+
+  /* This transition property will be propagated to all elements */
+  transition: all 0.2s ease;
+}
+
+.content-container {
+  /* Coloring */
+  background-color: var(--theme-container-bkg-color);
+  color: var(--theme-container-txt-color);
+}
+
+.content-container a {
+  color: var(--theme-link-none);
+}
+
+.content-container a:visited {
+  color: var(--theme-link-visit);
+}
+
+.content-container h1,
+.content-container h2,
+.content-container h3,
+.content-container h4,
+.content-container h5,
+.content-container h6 {
+  color: var(--theme-header-txt-color);
+}
+
+/*Table of contents*/
+.toc {
+  background-color: var(--theme-container-bkg-color);
+  box-shadow: 0 0 3px 3px var(--theme-dark-shadow-color);
+}

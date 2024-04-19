@@ -11,8 +11,28 @@
   let show_menu = false;
 
   onMount(() => {
+    // Setting up the hiding pattern
     document.body.addEventListener("click", (_) => {
       show_menu = false;
+    });
+
+    // Finding the current theme based on cusston stored results
+    var current_theme = localStorage.getItem("data-theme");
+    if (current_theme === null) {
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        current_theme = "dark";
+      } else {
+        current_theme = "light";
+      }
+    }
+    $isLightTheme = (current_theme == "light");
+
+    isLightTheme.subscribe((value) => {
+      console.log("isLight theme:", value);
+      document
+        .querySelector("html")
+        .setAttribute("data-theme", value ? "light" : "dark");
+      localStorage.setItem("data-theme", value ? "light" : "dark");
     });
   });
 </script>

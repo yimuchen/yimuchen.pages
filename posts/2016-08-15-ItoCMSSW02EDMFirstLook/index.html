@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Introduction to CMSSW part II - First Look at the EDM file format</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/code_head_1.png&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Introduction to CMSSW part II - First Look at the EDM file format</h1> <p>2016.Aug.15</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-4ktqcu"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#reading-the-contents-of-a-edm-file">Reading the contents of a EDM file</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#comparison-with-root-ttree-flavoured-files">Comparison with ROOT TTree flavoured files</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#intuitive-modification">Intuitive Modification</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#ease-of-encapsulation">Ease of Encapsulation</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#arguments-against-the-edm-file-format">Arguments against the EDM file format</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#closing-words">Closing words</a></li></ol></nav> <p data-svelte-h="svelte-afgri">In high energy physics, what we typically analysis is a list of events, extract
+what we deem useful from each event to compute physical variables like coupling
+strengths, production cross-sections and such. But what variables in an event
+are deemed useful varies greatly from analysis to analysis. The <em>Event Data
+Model(EDM)</em> format is a core backbone to the CMS software suite, giving great
+flexibility to the user to define an event by the variables they are interested
+in. From the official “tiers” that include raw electronics data collected at
+the CMS, general usage physical objects like electrons and jets made from the
+official reconstruction algorithms, to user-made EDM files where the property
+of the event is condensed down to a single <code>double</code> variable of interested to an
+analysis. Getting familiar with how to operator on <code>EDM</code> files is a first step
+on getting started with analysis at CMS.</p> <h2 id="reading-the-contents-of-a-edm-file" data-svelte-h="svelte-qwpp7e"><a aria-hidden="true" tabindex="-1" href="#reading-the-contents-of-a-edm-file"><span class="icon icon-link"></span></a>Reading the contents of a <code>EDM</code> file</h2> <p data-svelte-h="svelte-1hunca8">We are going to provide a dummy <code>EDM</code> file
+<a href="https://drive.google.com/open?id=0Bw8_U9a0g9nHUkg1eU1ZVEh0TTQ" rel="nofollow">here</a> to use as
+an example, and give instruction to find official <code>EDM</code> files that you should
+be able to get is you have access to a CMSSW environment.</p> <p data-svelte-h="svelte-eyeib4">As always, move to a <code>CMSSW/src</code> directory and load the environment by
+<code>cmsenv</code>. To look what is variables are available in each event, run the
+command</p> <div class="code-block-container" data-svelte-h="svelte-bcbml4"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">edmDumpEventContent</span><span style="color:#E6DB74">  yourfile.root</span></span></code></pre></div></div> <p data-svelte-h="svelte-15vvrc9">You should get an output like</p> <div class="code-block-container" data-svelte-h="svelte-wnvx9"><div class="code-block-header"><span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Type       Module     Label      Process</span></span>
+<span class="line"><span>-------------------------------------------</span></span>
+<span class="line"><span>double     &quot;myprod&quot;   &quot;Gauss&quot;    &quot;Dummy&quot;</span></span>
+<span class="line"><span>int        &quot;myprod&quot;   &quot;Poisson&quot;  &quot;Dummy&quot;</span></span></code></pre></div></div> <p data-svelte-h="svelte-ktrx3a">The first column is the C++ type needed to read the variable. The last three
+strings are related with how this variable was produced. You can think of it as
+three magic strings that allows you to access the variable. This dummy file
+isn’t very interesting. Each event contains a <code>double</code> variable that is
+generated according to a Gaussian distribution and a <code>int</code> generated according
+to a Poisson distribution. The outputs of a standard <code>EDM</code> files is much more
+interesting:</p> <div class="code-block-container" data-svelte-h="svelte-1c5afwp"><div class="code-block-header">Example output of a real EDM file used by CMS <span class="code-block-lang">[plaintext]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Type                                  Module                      Label             Process</span></span>
+<span class="line"><span>----------------------------------------------------------------------------------------------</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>double                                &quot;fixedGridRhoAll&quot;           &quot;&quot;                &quot;RECO&quot;</span></span>
+<span class="line"><span>double                                &quot;fixedGridRhoFastjetAll&quot;    &quot;&quot;                &quot;RECO&quot;</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>vector&lt;pat::Electron&gt;                 &quot;slimmedElectrons&quot;          &quot;&quot;                &quot;PAT&quot;</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>vector&lt;pat::Jet&gt;                      &quot;slimmedJets&quot;               &quot;&quot;                &quot;PAT&quot;</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>vector&lt;pat::MET&gt;                      &quot;slimmedMETs&quot;               &quot;&quot;                &quot;PAT&quot;</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>vector&lt;pat::Muon&gt;                     &quot;slimmedMuons&quot;              &quot;&quot;                &quot;PAT&quot;</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>unsigned int                          &quot;bunchSpacingProducer&quot;      &quot;&quot;                &quot;PAT&quot;</span></span></code></pre></div></div> <p data-svelte-h="svelte-f123h3">where you could see what look to be like physical objects.</p> <p data-svelte-h="svelte-1nay83e">To read this file with a main function, there are two key classes you will need
+to use. the
+<a href="http://cmsdoxygen.web.cern.ch/cmsdoxygen/CMSSW_8_0_26_patch1/doc/html/d0/d3f/classfwlite_1_1Event.html" rel="nofollow"><code>fwlite::Event</code></a>
+class and the
+<a href="http://cmsdoxygen.web.cern.ch/cmsdoxygen/CMSSW_8_0_26_patch1/doc/html/d1/dd2/classfwlite_1_1Handle.html" rel="nofollow"><code>fwlite::Handle</code></a>
+class. The example version of how to use the classes could be given as:</p> <div class="code-block-container" data-svelte-h="svelte-6m96zz"><div class="code-block-header">Simple example of looping over file with fwlite <span class="code-block-lang">[cpp]</span></div> <div class="code-block code-block-numbered numbered-start-0 code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line" data-line="1"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;DataFormats/FWLite/interface/Handle.h&quot;</span></span>
+<span class="line" data-line="2"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;DataFormats/FWLite/interface/Event.h&quot;</span></span>
+<span class="line" data-line="3"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &lt;iostream&gt;</span></span>
+<span class="line" data-line="4"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;TFile.h&quot;</span></span>
+<span class="line" data-line="5"><span style="color:#66D9EF;font-style:italic">int</span><span style="color:#A6E22E"> main</span><span style="color:#F8F8F2">()</span></span>
+<span class="line" data-line="6"><span style="color:#F8F8F2">{</span></span>
+<span class="line" data-line="7"><span style="color:#88846F">  // For single files</span></span>
+<span class="line" data-line="8"><span>  </span><span style="color:#A6E22E;text-decoration:underline">fwlite</span><span style="color:#F8F8F2">::event </span><span style="color:#A6E22E">ev</span><span style="color:#F8F8F2">( </span><span style="color:#A6E22E;text-decoration:underline">TFile</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">Open</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;myedmfile.root&quot;</span><span style="color:#F8F8F2">) );</span></span>
+<span class="line" data-line="9"><span>  </span><span style="color:#A6E22E;text-decoration:underline">fwlite</span><span style="color:#F8F8F2">::Handle</span><span style="color:#F92672">&lt;</span><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F92672">&gt;</span><span style="color:#F8F8F2"> mydouble;</span></span>
+<span class="line" data-line="10"><span style="color:#F92672">  for</span><span style="color:#F8F8F2">( ev.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2">ev.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#F8F8F2">ev ){</span></span>
+<span class="line" data-line="11"><span style="color:#F8F8F2">    mydouble.</span><span style="color:#A6E22E">getByLabel</span><span style="color:#F8F8F2">( ev , </span><span style="color:#E6DB74">&quot;myprod&quot;</span><span style="color:#F8F8F2">,   </span><span style="color:#E6DB74">&quot;Gaussian&quot;</span><span style="color:#F8F8F2">,   </span><span style="color:#E6DB74">&quot;Dummy&quot;</span><span style="color:#F8F8F2">   );</span></span>
+<span class="line" data-line="12"><span>    </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::cout </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#F92672"> *</span><span style="color:#F8F8F2">mydouble </span><span style="color:#F92672">&lt;&lt;</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::endl;</span></span>
+<span class="line" data-line="13"><span style="color:#F8F8F2">  }</span></span>
+<span class="line" data-line="14"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-11d37bq">Make sure you add the required entries for the <code>BuildFile.xml</code> accordingly.</p> <p data-svelte-h="svelte-1wg3dla">The class <code>fwlite::Event</code> the class that helps with iterating through the
+file(s), and <code>fwlite::Handle</code> is the class that helps exposes the data in the
+corrected datatype. To tell the <code>Handle</code> class which variable to extract, the
+<code>getByLabel()</code> member function must be called, with the latter three strings
+corresponding to the strings that are generated by the <code>edmDumpEventContent</code>
+commend. After calling the <code>getByLabel()</code> function, one could treat the
+instance of <code>Handle&lt;T&gt;</code> as a pointer to a <code>const T</code> instance.</p> <p data-svelte-h="svelte-k7n6dy">After this, the analysis is a case of understanding what variables/classes are
+available in the <code>EDM</code> file you are working with, and how to extract the
+information of getting the information you are interested in. For the official
+<code>EDM</code> files, recipes for operating the data formats might be found on official
+documentation pages, such is the case for
+<a href="https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD2016" rel="nofollow">MINIAOD</a>.
+Or you can look in the documentation of individual classes to see what
+variables are available on the CMSSW <a href="http://cmsdoxygen.web.cern.ch/cmsdoxygen/" rel="nofollow">doxygen
+page</a>.</p> <h2 id="comparison-with-root-ttree-flavoured-files" data-svelte-h="svelte-hsjpjq"><a aria-hidden="true" tabindex="-1" href="#comparison-with-root-ttree-flavoured-files"><span class="icon icon-link"></span></a>Comparison with ROOT TTree flavoured files</h2> <p data-svelte-h="svelte-oxa41l">If you are familiar with <code>ROOT</code> <a href="https://root.cern.ch/doc/master/classTTree.html" rel="nofollow"><code>TTree</code></a> class, you might
+think this look familiar. A simple root flavored class could be read as
+something like:</p> <div class="code-block-container" data-svelte-h="svelte-6v93qi"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">TFile </span><span style="color:#F92672">*</span><span style="color:#F8F8F2">myfile </span><span style="color:#F92672">=</span><span style="color:#F92672">  new</span><span style="color:#A6E22E"> TFile</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;myfile.root&quot;</span><span style="color:#F8F8F2">);</span></span>
+<span class="line"><span style="color:#F8F8F2">TTree </span><span style="color:#F92672">*</span><span style="color:#F8F8F2">mytree </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> (TTree</span><span style="color:#F92672">*</span><span style="color:#F8F8F2">) myfile-&gt;</span><span style="color:#A6E22E">GetObject</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;mytree&quot;</span><span style="color:#F8F8F2">);</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F8F8F2"> mydouble;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">mytree-&gt;</span><span style="color:#A6E22E">SetBranchAddress</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;myvar&quot;</span><span style="color:#F8F8F2">,</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2">myvar);</span></span>
+<span class="line"><span style="color:#F92672">for</span><span style="color:#F8F8F2">( </span><span style="color:#66D9EF;font-style:italic">int</span><span style="color:#F8F8F2"> i </span><span style="color:#F92672">=</span><span style="color:#AE81FF"> 0</span><span style="color:#F8F8F2"> ; i </span><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2"> i </span><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2"> mytree-&gt;</span><span style="color:#A6E22E">GetEntries</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#F8F8F2">i ){</span></span>
+<span class="line"><span style="color:#F8F8F2">   mytree-&gt;</span><span style="color:#A6E22E">GetEntry</span><span style="color:#F8F8F2">(i);</span></span>
+<span class="line"><span style="color:#F8F8F2">   cout </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#F8F8F2"> mydouble </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#F8F8F2"> endl;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1mgnvmu">and you would be correct. The EDM file format is indeed powered by the <code>TTree</code>
+technology, but there are several advantages that could be achieved by using
+this wrapper system. You can always make the argument that if this is possible
+in ROOT, why not just use ROOT, and the answer will always be yes, but how much
+time are you willing to spending writing you own code for reading files when
+you could be writing code for actual analysis purposes.</p> <h3 id="intuitive-modification" data-svelte-h="svelte-10ph9d9"><a aria-hidden="true" tabindex="-1" href="#intuitive-modification"><span class="icon icon-link"></span></a>Intuitive Modification</h3> <p data-svelte-h="svelte-jzily">As we will see in later tutorials, the EDM file is intuitive to manipulate. You
+could:</p> <ul data-svelte-h="svelte-ckhn4t"><li>remove entries</li> <li>add variable</li> <li>remove variables</li> <li>remove parts of arrays</li></ul> <p data-svelte-h="svelte-1isjbie">that was stored in a large file to produce a new, slimmed and much smaller size
+file with very intuitive code writing.</p> <p data-svelte-h="svelte-88wh0l">In high every physics, unselected data typically contain up to billions of
+events, most of which are not particularly interesting to the analysis, and
+even the events that are considered interesting might contain particles that
+are uninteresting. The ability to strip down these files to a manageable size
+is a key step in making analysis work of any kind possible at all.</p> <h3 id="ease-of-encapsulation" data-svelte-h="svelte-1oiwr37"><a aria-hidden="true" tabindex="-1" href="#ease-of-encapsulation"><span class="icon icon-link"></span></a>Ease of Encapsulation</h3> <p data-svelte-h="svelte-u5k558">As you can see when dumping the contents of an <code>EDM</code> file, you could see that
+entire classes and array of classes could actually be stored inside the file.
+The ROOT <code>TTree</code>s could save classes as well. But to do this is rather finicky.</p> <p data-svelte-h="svelte-3b6bji">Encapsulation has the advantage of making you code far more readable and thus
+much more manageable? If you have used the a <code>TTree</code> consisting only of C++
+concrete types before, you might be familiar with this kind of code for getting
+the invariant mass of each jet pair in an event:</p> <div class="code-block-container" data-svelte-h="svelte-abv2uf"><div class="code-block-header">Example of a n-tuple like look <span class="code-block-lang">[cpp]</span></div> <div class="code-block code-block-numbered numbered-start-0 code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line" data-line="1"><span style="color:#66D9EF;font-style:italic">int</span><span style="color:#F8F8F2"> size_of_jetlist;</span></span>
+<span class="line" data-line="2"><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F8F8F2"> jetpt[SIZE];</span></span>
+<span class="line" data-line="3"><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F8F8F2"> jeteata[SIZE];</span></span>
+<span class="line" data-line="4"><span style="color:#F8F8F2">...</span></span>
+<span class="line" data-line="5"></span>
+<span class="line" data-line="6"><span style="color:#F8F8F2">tree-&gt;</span><span style="color:#A6E22E">SetBranchAddress</span><span style="color:#F8F8F2">( </span><span style="color:#E6DB74">&quot;sizeofjet&quot;</span><span style="color:#F8F8F2"> , </span><span style="color:#F92672">*</span><span style="color:#F8F8F2">size_of_jetlist );</span></span>
+<span class="line" data-line="7"><span style="color:#F8F8F2">tree-&gt;</span><span style="color:#A6E22E">SetBranchAddress</span><span style="color:#F8F8F2">( </span><span style="color:#E6DB74">&quot;jetpt&quot;</span><span style="color:#F8F8F2">     , jetpt );</span></span>
+<span class="line" data-line="8"><span style="color:#F8F8F2">...</span></span>
+<span class="line" data-line="9"></span>
+<span class="line" data-line="10"><span style="color:#F92672">for</span><span style="color:#F8F8F2">( i </span><span style="color:#F92672">=</span><span style="color:#AE81FF"> 0</span><span style="color:#F8F8F2"> ; i </span><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2"> tree-&gt;</span><span style="color:#A6E22E">GetEntries</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#F8F8F2">i ){</span></span>
+<span class="line" data-line="11"><span style="color:#F8F8F2">   tree-&gt;</span><span style="color:#A6E22E">GetEnty</span><span style="color:#F8F8F2">(i);</span></span>
+<span class="line" data-line="12"><span style="color:#F92672">   for</span><span style="color:#F8F8F2">( j </span><span style="color:#F92672">=</span><span style="color:#AE81FF"> 0</span><span style="color:#F8F8F2"> ; j </span><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2"> size_of_jetlist ; </span><span style="color:#F92672">++</span><span style="color:#F8F8F2">j ){</span></span>
+<span class="line" data-line="13"><span style="color:#F92672">      for</span><span style="color:#F8F8F2">( k </span><span style="color:#F92672">=</span><span style="color:#AE81FF"> 0</span><span style="color:#F8F8F2"> ; k </span><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2"> size_of_jetlist ; </span><span style="color:#F92672">++</span><span style="color:#F8F8F2">k ){</span></span>
+<span class="line" data-line="14"><span style="color:#F8F8F2">         TLorentzVector jet1 ; jet1.</span><span style="color:#A6E22E">SetPtEtaPhiE</span><span style="color:#F8F8F2">( jetpt[j], jeteta[j] .... );</span></span>
+<span class="line" data-line="15"><span style="color:#F8F8F2">         TLorentzVector jet2 ; jet2.</span><span style="color:#A6E22E">SetPtEtaPhiE</span><span style="color:#F8F8F2">( jetpt[k], jeteta[k] .... );</span></span>
+<span class="line" data-line="16"><span style="color:#F8F8F2">         TLorentzVector sum </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> jet1 </span><span style="color:#F92672">+</span><span style="color:#F8F8F2"> jet2;</span></span>
+<span class="line" data-line="17"><span style="color:#F8F8F2">         cout </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#F8F8F2"> sum.</span><span style="color:#A6E22E">M</span><span style="color:#F8F8F2">() </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#F8F8F2"> endl;</span></span>
+<span class="line" data-line="18"><span style="color:#F8F8F2">      }</span></span>
+<span class="line" data-line="19"><span style="color:#F8F8F2">   }</span></span>
+<span class="line" data-line="20"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-7wm33a">There are several problems with writing code like this:</p> <ul data-svelte-h="svelte-pqwdw1"><li>Managing variables becomes repeated chore that has to be rewritten for every
+analysis.</li> <li>Counter-intuitive index handling: why is the <code>jetpt</code> variable capable of
+running a separate index with the <code>jeteta</code> variable?</li> <li>Excessive amounts of variables that are only used once.</li></ul> <p data-svelte-h="svelte-1ys7n95">All in all, it makes the code needlessly long, difficult to read and difficult
+to maintain and alter. With the power of encapsulation classes already existing
+the <code>CMSSW</code>, the power of the <code>EDM</code> file format and the <code>C++11</code> standard, once
+could write:</p> <div class="code-block-container" data-svelte-h="svelte-1lwuqjj"><div class="code-block-header">Example of a EDM loop <span class="code-block-lang">[cpp]</span></div> <div class="code-block code-block-numbered numbered-start-0 code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line" data-line="1"><span style="color:#A6E22E;text-decoration:underline">fwlite</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">Event</span><span style="color:#A6E22E"> ev</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;myfile.root&quot;</span><span style="color:#F8F8F2">);</span></span>
+<span class="line" data-line="2"><span style="color:#A6E22E;text-decoration:underline">fwlite</span><span style="color:#F8F8F2">::Handle</span><span style="color:#F92672">&lt;</span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::vector</span><span style="color:#F92672">&lt;</span><span style="color:#A6E22E;text-decoration:underline">pat</span><span style="color:#F8F8F2">::Jet</span><span style="color:#F92672">&gt;&gt;</span><span style="color:#F8F8F2"> jethandle;</span></span>
+<span class="line" data-line="3"></span>
+<span class="line" data-line="4"><span style="color:#F92672">for</span><span style="color:#F8F8F2">( ev.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2">ev.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#A6E22E">ev</span><span style="color:#F8F8F2">() ){</span></span>
+<span class="line" data-line="5"><span style="color:#F8F8F2">   jethandle.</span><span style="color:#A6E22E">getByLabel</span><span style="color:#F8F8F2">( ev, </span><span style="color:#E6DB74">&quot;MyLabel&quot;</span><span style="color:#F8F8F2"> );</span></span>
+<span class="line" data-line="6"><span style="color:#F92672">   for</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">const</span><span style="color:#66D9EF;font-style:italic"> auto</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> jet1 : </span><span style="color:#F92672">*</span><span style="color:#F8F8F2">jethandle ){</span></span>
+<span class="line" data-line="7"><span style="color:#F92672">      for</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">const</span><span style="color:#66D9EF;font-style:italic"> auto</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> jet2 : </span><span style="color:#F92672">*</span><span style="color:#F8F8F2">jethandle ){</span></span>
+<span class="line" data-line="8"><span style="color:#F8F8F2">         cout </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#F8F8F2"> (jet1.</span><span style="color:#A6E22E">p4</span><span style="color:#F8F8F2">() </span><span style="color:#F92672">+</span><span style="color:#F8F8F2"> jet2.</span><span style="color:#A6E22E">p4</span><span style="color:#F8F8F2">()).</span><span style="color:#A6E22E">M</span><span style="color:#F8F8F2">() </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#F8F8F2"> endl;</span></span>
+<span class="line" data-line="9"><span style="color:#F8F8F2">      }</span></span>
+<span class="line" data-line="10"><span style="color:#F8F8F2">   }</span></span>
+<span class="line" data-line="11"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1b5ntdk">Which is a lot easier to read and understand than the long-winded code of a
+flat <code>TTree</code> format.</p> <h2 id="arguments-against-the-edm-file-format" data-svelte-h="svelte-jwj4sy"><a aria-hidden="true" tabindex="-1" href="#arguments-against-the-edm-file-format"><span class="icon icon-link"></span></a>Arguments against the <code>EDM</code> file format</h2> <p data-svelte-h="svelte-4502ol">In all analysis I have come across, the <code>EDM</code> file format is typically
+disfavored over the plain <code>TTree</code> file (commonly referred to as Ntuples). The
+reasons I will list here, and also include the reason why these arguments are
+becoming increasingly invalid.</p> <ul data-svelte-h="svelte-r41z58"><li><p><strong>Forced ties to <code>CMSSW</code> environment</strong>: This might be a problem when internet
+connections are still not as reliable as they are now. But now, logging onto
+a machine with the correct environments should not be a problem most of the
+time, and a uniform environment makes it easier to debug in most of the
+cases.</p></li> <li><p><strong>The <code>EDM</code> file format is large</strong>: It is true that the <code>EDM</code> file contains a
+much larger header space than a normal <code>TTree</code> file. But the main bulk of the
+<code>EDM</code> file actually comes in the physical object classes storing a lot of
+variables. Flattening these objects to arrays with variables dropped out
+could be used to reduce file size, but comes at the risk that wanted variable
+might be thrown out and there is an extra level of maintenance that needs to
+be worked on in addition to the analysis (n-tuplizer codes are notoriously
+hard to maintain). I believe that one should focus on how to remove events
+and objects that are not useful to the analysis in question is a much more
+effective may of reduce storage space required for an analysis.</p></li> <li><p><strong>The <code>EDM</code> file format is difficult to learn</strong> This is perhaps the only
+valid argument in my opinion. Learning how to read and modify <code>EDM</code> files of
+your own is not easy. Learning ROOT is already difficult enough same reason
+of spare documentation (and extremely counter C++ intuition designs),
+learning <code>CMSSW</code> and <code>EDM</code> file manipulation is even harder. But all in all,
+I think it would be worth the time.</p></li></ul> <h2 id="closing-words" data-svelte-h="svelte-okdfe8"><a aria-hidden="true" tabindex="-1" href="#closing-words"><span class="icon icon-link"></span></a>Closing words</h2> <p data-svelte-h="svelte-382jy6">I have said that manipulating the contents of an <code>EDM</code> file is intuitive. This
+is where the brilliance of <code>CMSSW</code> really shines, but is not easy to learn, as
+it:</p> <ul data-svelte-h="svelte-1wyr11l"><li>Requires extensive knowledge of C++ syntax: (templates, virtual functions)</li> <li>Lacks a direct file for a main function, and you could only interact with a
+main function through a <em>python</em> file.</li></ul> <p data-svelte-h="svelte-18pqegk">In a lot of the cases, I could not tell you how the <code>CMSSW</code> framework is doing
+what it is doing. But hopefully I could give you enough information to get
+started and get familiar with this strange and powerful framework. In the next
+part, I will start getting you familiar with looping thought <code>EDM</code> files in
+this <code>CMSSW</code> framework, knowing how to read to file, and next tell you how to
+modify its contents.</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#edm">edm</a></span><span class="svelte-9cibcw"><a href="../../tags/#cmssw">cmssw</a></span><span class="svelte-9cibcw"><a href="../../tags/#c++">c++</a></span><span class="svelte-9cibcw"><a href="../../tags/#analysis">analysis</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

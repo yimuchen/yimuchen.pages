@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Python script Tab completion in CLI</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/code_head_1.png&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Python script Tab completion in CLI</h1> <p>2019.Mar.27</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-11ukb7v"><ol class="toc-level toc-level-1"></ol></nav> <p data-svelte-h="svelte-cmqahp">Every once in a while, I write a custom python script to simplify certain
+command line tasks: such as mass conversion of PDF files into PNG files. If it
+was just a single file with some set operation flags, the command is relatively
+simple:</p> <div class="code-block-container" data-svelte-h="svelte-1voobsu"><div class="code-block-header">bash solution to PDF conversion <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">function</span><span style="color:#A6E22E"> convert_pdf</span><span style="color:#F8F8F2">(){</span></span>
+<span class="line"><span style="color:#F8F8F2">  input_pdf</span><span style="color:#F92672">=</span><span style="color:#FD971F;font-style:italic">$1</span></span>
+<span class="line"><span style="color:#A6E22E">  convert</span><span style="color:#AE81FF"> -density</span><span style="color:#AE81FF"> 400</span><span style="color:#AE81FF"> \</span></span>
+<span class="line"><span style="color:#AE81FF">          -trim</span><span style="color:#AE81FF"> \</span></span>
+<span class="line"><span style="color:#F8F8F2">          $input_pdf</span></span>
+<span class="line"><span style="color:#A6E22E">          -quality</span><span style="color:#AE81FF"> 100</span><span style="color:#AE81FF"> \</span></span>
+<span class="line"><span style="color:#AE81FF">          -sharpen</span><span style="color:#E6DB74"> 0x1.0</span><span style="color:#AE81FF"> \</span></span>
+<span class="line"><span style="color:#F8F8F2">          ${input_pdf</span><span style="color:#F92672">/</span><span style="color:#F8F8F2">.pdf</span><span style="color:#F92672">/</span><span style="color:#F8F8F2">.png} </span><span style="color:#88846F"># Renaming with extension PNG</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1jpb0rf">When batch processing some/all PDF files in a directory however, this operation
+isn’t easily achieved by simple command aliases: there is the issue of running
+the same command for multiple files, argument parsing, and also filename
+conversion. While I can of course write a bash/zsh/sh script or a single line
+bash for loop:</p> <div class="code-block-container" data-svelte-h="svelte-d0exi2"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F92672">for</span><span style="color:#F8F8F2"> mypdf </span><span style="color:#F92672">in</span><span style="color:#F8F8F2"> dir/</span><span style="color:#F92672">*</span><span style="color:#F8F8F2">.pdf ; </span><span style="color:#F92672">do</span><span style="color:#A6E22E"> convert_pdf</span><span style="color:#F8F8F2"> $mypdf; </span><span style="color:#F92672">done</span></span></code></pre></div></div> <p data-svelte-h="svelte-ivgjps">But there is still no easy way of including additional option flags (ex. I want
+PDF files in this directory to only run a coarse 72DPI conversion). Python has
+so many nice parsing tools such as <a href="https://docs.python.org/3/library/argparse.html" rel="nofollow"><code>argparse</code></a>, that makes
+everything so much more convenient. So in the end, writing brief python scripts
+was the method of I ended up using for a while.</p> <p data-svelte-h="svelte-152um1b">Then I notice a nice feature that common commands/applications have, say the KDE
+document browser <a href="https://okular.kde.org/" rel="nofollow"><code>okular</code></a>. In the <code>zsh</code> shell, when I hit tab to
+autocomplete the file that I want to open, it will <em>only</em> list PDF files. If I
+hit tab when the current cursor word was an option, the autocomplete is limited
+to the options that <code>okular</code> gives. It was a very handy function, especially if the
+directory I am working with is populated with both PDF and PNG files, so I was
+wondering if this sort of behavior can also be implemented into my custom python
+scripts. Turns out one can! With very minimal adjustments to the code if you are
+already using <code>argparse</code>!</p> <p data-svelte-h="svelte-1s66ukn">The package is called <a href="https://argcomplete.readthedocs.io/en/latest/" rel="nofollow"><code>argcomplete</code></a>, and for the auto completion
+to work, one only needs to add:</p> <ol data-svelte-h="svelte-1644co7"><li>One magic comment line after the shebang.</li> <li>One function call after options declaration.</li> <li>One global completion function file for <code>~/.bashrc</code></li> <li>One register function in <code>~/.bashrc</code></li></ol> <p data-svelte-h="svelte-chopa7">Let’s see the modifications to the python script. First the magic comments and
+the new import and package uses.</p> <div class="code-block-container" data-svelte-h="svelte-fcvknd"><div class="code-block-header"><span class="code-block-lang">[python]</span></div> <div class="code-block code-block-numbered numbered-start-0 code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line" data-line="1"><span style="color:#88846F">#!/usr/bin/env python</span></span>
+<span class="line" data-line="2"><span style="color:#88846F"># PYTHON_ARGCOMPLETE_OK</span></span>
+<span class="line" data-line="3"><span style="color:#F92672">import</span><span style="color:#F8F8F2"> argcomplete, argparse</span></span>
+<span class="line" data-line="4"><span style="color:#F8F8F2">parser </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> argparse.ArgumentParser()</span></span>
+<span class="line" data-line="5"><span style="color:#AE81FF">...</span></span>
+<span class="line" data-line="6"><span style="color:#F8F8F2">argcomplete.autocomplete(parser)</span></span>
+<span class="line" data-line="7"><span style="color:#F8F8F2">args </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> parser.parse_args()</span></span>
+<span class="line" data-line="8"></span>
+<span class="line" data-line="9"><span style="color:#88846F"># For completing files with specific patterns</span></span>
+<span class="line" data-line="10"><span style="color:#F8F8F2">parser.add_argument( </span><span style="color:#E6DB74">&quot;files&quot;</span><span style="color:#F8F8F2">, </span><span style="color:#FD971F;font-style:italic">nargs</span><span style="color:#F92672">=</span><span style="color:#E6DB74">&#39;+&#39;</span><span style="color:#F8F8F2">).completer </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> argcomplete.completers.FileCompleter( </span><span style="color:#E6DB74">&quot;*.pdf *.ps&quot;</span><span style="color:#F8F8F2"> )</span></span>
+<span class="line" data-line="11"><span style="color:#88846F"># No completers is also fine!</span></span>
+<span class="line" data-line="12"><span style="color:#F8F8F2">parser.add_argument(</span><span style="color:#E6DB74">&quot;--myflag1&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line" data-line="13"><span style="color:#F8F8F2">parser.add_argument(</span><span style="color:#E6DB74">&quot;--myflag2&quot;</span><span style="color:#F8F8F2">)</span></span></code></pre></div></div> <p data-svelte-h="svelte-1gnn1qk">Now for the <code>bash</code>/<code>zsh</code> configurations. You will need to get a copy of the
+bash completion function from the <code>argcomplete</code> repository,</p> <div class="code-block-container" data-svelte-h="svelte-v9wqfv"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>wget https://raw.githubusercontent.com/kislyuk/argcomplete/master/argcomplete/bash_completion.d/python-argcomplete.sh</span></span></code></pre></div></div> <p data-svelte-h="svelte-11w05vu">Then you will need to source this file in your global <code>~/.bashrc</code> file. For
+python script you want to include auto complete, you will also need to register
+the script using the provide function.</p> <div class="code-block-container" data-svelte-h="svelte-fusw9q"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF">source</span><span style="color:#E6DB74"> python-argcomplete.sh</span></span>
+<span class="line"><span style="color:#66D9EF">eval</span><span style="color:#E6DB74"> &quot;$(</span><span style="color:#A6E22E">register-python-argcomplete</span><span style="color:#E6DB74"> my-awesome-script.py)&quot;</span></span></code></pre></div></div> <p data-svelte-h="svelte-1kuwe1v">And then you are done! Now you can see the following when using tab completion:</p> <div class="code-block-container" data-svelte-h="svelte-ytmwzu"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F92672">&gt;</span><span style="color:#F8F8F2"> ls</span></span>
+<span class="line"><span style="color:#A6E22E">Dir1/</span><span style="color:#E6DB74"> Dir2/</span><span style="color:#E6DB74">  pdffile1.pdf</span><span style="color:#E6DB74"> pdffile2.pdf</span><span style="color:#E6DB74">  ignore.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F92672">&gt;</span><span style="color:#F8F8F2"> my-awesome-script.py </span><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2">tab</span><span style="color:#F92672">&gt;</span></span>
+<span class="line"><span style="color:#A6E22E">pdffile1.pdf</span><span style="color:#E6DB74"> pdffile2.pdf</span><span style="color:#E6DB74">  Dir1/</span><span style="color:#E6DB74"> Dir2/</span><span style="color:#AE81FF">  --myflag1</span><span style="color:#AE81FF"> --myflag2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F92672">&gt;</span><span style="color:#F8F8F2"> my-awesome-script.py --</span><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2">tab</span><span style="color:#F92672">&gt;</span></span>
+<span class="line"><span style="color:#A6E22E">--myflag1</span><span style="color:#AE81FF"> --myflag2</span></span></code></pre></div></div> <p data-svelte-h="svelte-1yj9yjx">Pretty neat right?</p> <hr> <p data-svelte-h="svelte-rw9q3d">Unfortunately, if you are also used to the nice completion style of <code>zsh</code>, you
+will find the autocompletion function rather lack-lustering. Double tapping
+<code>&lt;tab&gt;</code> on the flag option will not give you a help string, the autocompletion
+results are not colored and sorted. Such is the limitations of the package
+being designed mainly for bash users. But it is a starter! It makes the
+experience of your own written scripts just this little bit nicer, without
+having to go into the depth of writing your own completion script for every
+custom python script you write.</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#computing">computing</a></span><span class="svelte-9cibcw"><a href="../../tags/#python">python</a></span><span class="svelte-9cibcw"><a href="../../tags/#scripting">scripting</a></span><span class="svelte-9cibcw"><a href="../../tags/#command line">command line</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

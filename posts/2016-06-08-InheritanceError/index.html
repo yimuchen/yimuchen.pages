@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Experiences with Inheritance</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/code_head_1.png&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Experiences with Inheritance</h1> <p>2016.Jun.8</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-qka4hr"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-diamond-problem">The Diamond Problem</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-missing-vtable-error-message">The missing vtable error message</a></li></ol></nav> <p data-svelte-h="svelte-d85iwm">I have recently tried to practice designing more general purpose classes for my
+analysis. Conceptualizing the concept object itself is difficult enough: one
+needs to avoid both being specific and too general, but over these days of
+experience with C++‘s more obscure syntax and quirks, I really began to see why
+some might not consider C++ a complete object-oriented programming language.</p> <h2 id="the-diamond-problem" data-svelte-h="svelte-155vky2"><a aria-hidden="true" tabindex="-1" href="#the-diamond-problem"><span class="icon icon-link"></span></a>The Diamond Problem</h2> <p data-svelte-h="svelte-1dr161x">One handy way of avoiding repeated code is by class inheritance, so when you
+want to merge the functionality of two classes <code>B</code> and <code>C</code>, one might build an
+inherited class <code>D</code> that inherits both <code>B</code> and <code>C</code>:</p> <div class="code-block-container" data-svelte-h="svelte-1s002un"><div class="code-block-header">Simple multiple inheritance <span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">B</span><span style="color:#F8F8F2"> {};</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">C</span><span style="color:#F8F8F2"> {};</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">D</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">B</span><span style="color:#F8F8F2">, </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">C</span><span style="color:#F8F8F2">{};</span></span></code></pre></div></div> <p data-svelte-h="svelte-1idh2vd">But now a problem arises if <code>B</code> and <code>C</code> has a common ancestor, say class <code>A</code>:</p> <div class="code-block-container" data-svelte-h="svelte-1vxugj7"><div class="code-block-header">Diamon multiple inheritance <span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2"> { </span><span style="color:#66D9EF;font-style:italic">public:</span><span style="color:#66D9EF;font-style:italic"> int</span><span style="color:#F8F8F2"> x;};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">B</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2">{};</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">C</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2">{};</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">D</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">B</span><span style="color:#F8F8F2">, </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">C</span><span style="color:#F8F8F2">{};</span></span></code></pre></div></div> <p data-svelte-h="svelte-djo103">Because when we create an instance of object <code>D</code>, we create an instance of
+object <code>B</code> and <code>C</code>, which respectively creates and instance of object <code>A</code>. So
+when we write: <code>C.x</code>, are we referring to the instance <code>C::A::D.x</code> or
+<code>C::B::D.x</code>? Such is known as the <a href="https://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem" rel="nofollow">diamond
+problem</a>,
+or the <a href="http://objectmentor.com/resources/articles/javacpp.pdf" rel="nofollow">deadly diamond of
+death</a></p> <figure data-svelte-h="svelte-dkmkzn"><a href="https://en.wikipedia.org/wiki/Multiple_inheritance"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Diamond_inheritance.svg/180px-Diamond_inheritance.svg.png" alt=""></a> <figcaption><a href="https://commons.wikimedia.org/w/index.php?curid=1015688">Dependency diagram of diamond problem - By RokerHRO</a></figcaption></figure> <p data-svelte-h="svelte-17jdori">Each program has their own approach to solving this problem. In C++, we require
+that at least one of the intermediate classes to be “virtually inherited”, so
+that extended classes <code>D</code> will only create one instance on grandparent class
+<code>A</code>:</p> <div class="code-block-container" data-svelte-h="svelte-167f5we"><div class="code-block-header">Virtual inheritance <span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2"> { </span><span style="color:#66D9EF;font-style:italic">public:</span><span style="color:#66D9EF;font-style:italic"> int</span><span style="color:#F8F8F2"> x;};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">B</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">virtual</span><span style="color:#66D9EF;font-style:italic"> public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2">{};</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">C</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">virtual</span><span style="color:#66D9EF;font-style:italic"> public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2">{};</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">D</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">B</span><span style="color:#F8F8F2">, </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">C</span><span style="color:#F8F8F2">{};</span></span></code></pre></div></div> <p data-svelte-h="svelte-zgiv65">In the cases that simple inheritance and virtual inheritance at mixed and
+matched, the non-virtually inherited instances create independent instances of
+base class <code>A</code>, and explicit paths are used expressed access:</p> <div class="code-block-container" data-svelte-h="svelte-t5k050"><div class="code-block-header">Example of multiple inheritance <span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2"> { </span><span style="color:#66D9EF;font-style:italic">public:</span><span style="color:#66D9EF;font-style:italic"> int</span><span style="color:#F8F8F2"> x;};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">B</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">virtual</span><span style="color:#66D9EF;font-style:italic"> public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2">{ </span><span style="color:#66D9EF;font-style:italic">public:</span><span style="color:#66D9EF;font-style:italic"> int</span><span style="color:#F8F8F2"> b; };</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">C</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">virtual</span><span style="color:#66D9EF;font-style:italic"> public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2">{ </span><span style="color:#66D9EF;font-style:italic">public:</span><span style="color:#66D9EF;font-style:italic"> int</span><span style="color:#F8F8F2"> c; };</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">E</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">A</span><span style="color:#F8F8F2">{ </span><span style="color:#66D9EF;font-style:italic">public:</span><span style="color:#66D9EF;font-style:italic"> int</span><span style="color:#F8F8F2"> e ; };</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">D</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">B</span><span style="color:#F8F8F2">, </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">C</span><span style="color:#F8F8F2">, </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">E</span><span style="color:#F8F8F2">{};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">D d;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">d.x </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> d.b </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> d.c </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> d.e;</span><span style="color:#88846F"> // All Legal variables</span></span>
+<span class="line"><span style="color:#A6E22E;text-decoration:underline">d</span><span style="color:#F8F8F2">::B.x;</span><span style="color:#88846F"> // Equivalent to d.x</span></span>
+<span class="line"><span style="color:#A6E22E;text-decoration:underline">d</span><span style="color:#F8F8F2">::A.x;</span><span style="color:#88846F"> // Equivalent to d.x</span></span>
+<span class="line"><span style="color:#A6E22E;text-decoration:underline">d</span><span style="color:#F8F8F2">::E.x;</span><span style="color:#88846F"> // An Independent variable to the one above!</span></span></code></pre></div></div> <p data-svelte-h="svelte-mtrllc">While this does give most of the flexibility to the user as to what variables
+are used in an extended inheritance class, this still poses some issues: Since
+a virtual instance of grandparent class exists, the grandchild class has to
+explicitly call grandparent constructor for initialization (unless an
+argument-less constructor exists). While it seems like a minor feature, it
+still means that abstraction in not as “opaque” as it should be. For instance,
+Python tackles this problem by guessing the meaning of <code>d.x</code> by the inheritance
+order during the declaration <code>class D(B,C,E):</code>, with the rule of thumb being
+“First found in DSF searching” and allowing syntax for hierarchy shifting,
+which makes class design much more intuitive.</p> <h2 id="the-missing-vtable-error-message" data-svelte-h="svelte-1d18ml"><a aria-hidden="true" tabindex="-1" href="#the-missing-vtable-error-message"><span class="icon icon-link"></span></a>The missing <code>vtable</code> error message</h2> <p data-svelte-h="svelte-gown1x">One of the most infuriating compile error messages in <code>g++4.9.3</code> is:</p> <div class="code-block-container" data-svelte-h="svelte-1747lwn"><div class="code-block-header"><span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>In function &lt;class&gt;::&lt;constructor&gt;</span></span>
+<span class="line"><span>undefined reference to vtable for &lt;class&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-y33pht">As it is annoying uninformative as to what is missing. A simplified view of the
+<code>vtable</code> (or virtual table) is a table of virtual methods that the compiler
+generates for a class, which is then linked for each class in an inheritance
+hierarchy. Missing <code>vtable</code> may be caused by the following issues:</p> <ul data-svelte-h="svelte-1p5kjn2"><li>The file containing the <code>vtable</code> was not included for linking.</li> <li>The <code>vtable</code> was not generated. For a <code>vtable</code> to be generated, the all
+instances of reimplemented virtual functions to exists.</li></ul> <p data-svelte-h="svelte-9azn0t">Most of the time, when a method is missing, the following error message is much
+more informative:</p> <div class="code-block-container" data-svelte-h="svelte-j9hj6"><div class="code-block-header"><span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Error: undefined reference to &lt;class&gt;::&lt;method&gt;(&lt;arguments&gt;)</span></span></code></pre></div></div> <p data-svelte-h="svelte-er5cfq">But in the case of methods related to the <code>vtable</code> generation, the error
+messages for missing methods is all compacted into a <code>missing vtable</code> and send
+to look for bugs in the constructor. Not only are you not-told where you bug
+might be, but it actively tells you to look for somewhere where the bug isn’t.</p> <p data-svelte-h="svelte-15xyktn">I know that the error messages have been greatly improved in <code>g++6.1</code>. But
+working in a collaboration, I don’t have the luxury to choose which compiler
+version I get to use. This is a memo to help me remember what this error
+message means and how to avoid it in the future.</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#thoughts">thoughts</a></span><span class="svelte-9cibcw"><a href="../../tags/#computing">computing</a></span><span class="svelte-9cibcw"><a href="../../tags/#c++">c++</a></span><span class="svelte-9cibcw"><a href="../../tags/#recipe">recipe</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

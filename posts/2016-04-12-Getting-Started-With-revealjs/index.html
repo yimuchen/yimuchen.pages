@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Getting started with reveal.js</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Getting started with reveal.js</h1> <p>2016.Apr.12</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-145rok9"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#moving-away-from-latex-beamer">Moving away from Latex Beamer</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-i-was-looking-for">What I was looking for</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-i-found">What I found</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#alternative-for-tikzpictures">Alternative for TIKZPICTURES</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#conclusion">Conclusion</a></li></ol></li></ol></nav> <p data-svelte-h="svelte-1xl0nii">New presentation making platform! Nice but changeable aesthetics and easy
+editing! Hopefully this would work out for me!</p> <p data-svelte-h="svelte-ef5jpe">Here is a quick sample that I made!</p> <iframe src="http://yimuchen.github.io/slides/slides/GeneralPhysicsII_midterm/#/"></iframe> <h2 id="moving-away-from-latex-beamer" data-svelte-h="svelte-1nysv0i"><a aria-hidden="true" tabindex="-1" href="#moving-away-from-latex-beamer"><span class="icon icon-link"></span></a>Moving away from Latex Beamer</h2> <p data-svelte-h="svelte-13s93kb">Previously, I have been attempting to find a replacement for <a href="https://en.wikibooks.org/wiki/LaTeX/Presentations" rel="nofollow">Latex
+Beamer</a> for making
+presentation slides. Latex is a very… unpleasant markup language to work with
+when typing the small section of text used in slides, the over-head is just too
+high, and default settings for various slide elements is either non-existent or
+hard to find proper documentations. I thought it was maybe time to try and
+find an alternative to use.</p> <h2 id="what-i-was-looking-for" data-svelte-h="svelte-9gem1q"><a aria-hidden="true" tabindex="-1" href="#what-i-was-looking-for"><span class="icon icon-link"></span></a>What I was looking for</h2> <p data-svelte-h="svelte-1buv5l2">There are still quite a lot of aspects of Latex beamer that I wish I could keep
+in the new platform that I am looking for.</p> <ul data-svelte-h="svelte-aoi6f9"><li><p><strong>Cut between template design in content design:</strong> This is the part I find
+very annoying with most GUI based document makers, for most of the slides,
+I would like to keep a uniformed look, and for some reason I had always
+thought the way GUI based presentation makers handled templates is a bit
+hard to work with and difficult to pass between machines.</p></li> <li><p><strong>Minimal Overhead in document:</strong> The main problem with making slides in
+latex is that often the documents is cluttered up with the latex commands
+rather than the content.
+<a href="https://guides.github.com/features/mastering-markdown/" rel="nofollow">Markdown</a> is one
+of the most lightweight yet comprehensive markup languages, and what it
+lacks in advanced formatting features, it makes up for by allowing embed
+HTML! Here apparently HTML/CSS web based tools would be a good idea to
+proceed. I have always shied away at the idea since I didn’t like the
+aesthetics of HTML tags in documents too much. But is everything could be
+packed into CSS, this might be a good alternative to work with!</p></li> <li><p><strong>Minimal use of external tools:</strong> I would rather that I don’t have to
+constantly switch between application to make a document. Right now,
+everything other document related tasks are performed using
+<a href="https://atom.io/" rel="nofollow">atom</a> as my primary editor, so I would prefer
+text-based applications, but I would mind a whole new platform if it meant
+there is a good all-in-one package where I can complete all of my editing
+works.</p></li> <li><p><strong>(Optional) WYSIWYG editing:</strong> Many things in slide creation are
+case-by-case: adding description beside a diagram, tweaking template
+parameters. I must say that text based is precise, but very slow to make
+graphical changes.</p></li> <li><p><strong>Local editing:</strong> I’m not a bit fan of cloud editing.</p></li></ul> <h2 id="what-i-found" data-svelte-h="svelte-19huut9"><a aria-hidden="true" tabindex="-1" href="#what-i-found"><span class="icon icon-link"></span></a>What I found</h2> <p data-svelte-h="svelte-ki320p">When searching for a solution that uses
+<a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" rel="nofollow">Markdown</a>
+for the primary text format, I was introduced to various web-based presentation
+solution, the one that stood out for me was
+<a href="https://github.com/hakimel/reveal.js/#" rel="nofollow">reveal.js</a></p> <iframe src="http://lab.hakim.se/reveal-js/#/"></iframe> <ul data-svelte-h="svelte-3c7861"><li><p>Off the shelf, it looks fresh and appealing, and being HTML+CSS, everything
+is essentially tweak-able. To that is the problem template problem sorted
+out (with a big plus of having a good starting point for making new
+templates).</p></li> <li><p>I could mix and match markdown and HTML, meaning that I could have a very
+simple work flow if I’m going for a simple slide look, by at the same time,
+I won’t be limited by Markdown if I want to make something fancier. It also
+means I could embed it into other websites if I so desire.</p></li> <li><p>Text based. Talk about no other tools.</p></li> <li><p>WYSIWYG Editing. This is where is fall flat. There is the <a href="https://slides.com/" rel="nofollow">official
+graphical editor</a>, but the HTML it generates is not
+designed to be human editable. But given the tools I could have, there
+might be alternatives.</p></li></ul> <p data-svelte-h="svelte-qpb515"><a href="https://github.com/hakimel/reveal.js/#pdf-export" rel="nofollow">Exporting to PDF</a> (something
+I consider essential for presentation in groups) is rather more troublesome
+that I had thought. But I guess since atom is essentially a heavily modded
+browser, I should be able to get the preview within atom, and only export to
+DPF when everything is done. (If I cared to look hard enough, I guess there
+will be JavaScript libraries to export with atom, but that is getting ahead of
+myself)</p> <hr> <p data-svelte-h="svelte-xbh13l">Given all of its merits, there is one big thing I miss about beamer that I still
+haven’t found and alternative to:</p> <h3 id="alternative-for-tikzpictures" data-svelte-h="svelte-w7fgts"><a aria-hidden="true" tabindex="-1" href="#alternative-for-tikzpictures"><span class="icon icon-link"></span></a>Alternative for <a href="http://www.texample.net/tikz/" rel="nofollow">TIKZ</a>PICTURES</h3> <p data-svelte-h="svelte-fd0v5k">Easily the most powerful diagram making package I have encountered. It could
+easily make your diagrams look precise and could do a surprisingly complex
+diagrams easily. HTML Canvases just isn’t as powerful (Unless I find a very
+powerful JavaScript library).</p> <p data-svelte-h="svelte-nqii2a">Looking at if I could export single TeX files into a PNG/SVG file however, I
+have found that I have been using the whole <code>\input</code>, <code>\include</code> work flow of
+latex completely wrong! So I guess diagrams could be made using single <code>.tex</code>
+files! Image files are supposed to be independent of the content after all :)</p> <p data-svelte-h="svelte-z868ac">Now, if there is only a WYSIWYG editor for <code>tikz</code>…</p> <h3 id="conclusion" data-svelte-h="svelte-1jd8e63"><a aria-hidden="true" tabindex="-1" href="#conclusion"><span class="icon icon-link"></span></a>Conclusion</h3> <p data-svelte-h="svelte-xqna99">There is still a lot of work needed for making the slides: writing the CSS
+themes, defining snippets that work with the themes in atom, writing scripts
+that make deploying more simple. But I think this has quite a lot of potential
+to be my platform of choice for a long time to come!</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#revealjs">revealjs</a></span><span class="svelte-9cibcw"><a href="../../tags/#presentation">presentation</a></span><span class="svelte-9cibcw"><a href="../../tags/#computing">computing</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Introduction to CMSSW Part I - The compiling environment and Hello world</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/code_head_1.png&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Introduction to CMSSW Part I - The compiling environment and Hello world</h1> <p>2016.Aug.14</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-emq91b"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#writing-a-main-function-and-a-first-look-at-buildfiles">Writing a main function and a first look at BuildFiles</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#writing-a-working-version">Writing a working version</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#simple-explanation-of-the-buildefilexml">Simple explanation of The BuildeFile.xml</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-cmssw-buildfile-structure">The CMSSW BuildFile structure</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#exposing-a-library-and-understanding-the-include-path">Exposing a library and understanding the include path</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#using-shared-libraries">Using shared libraries.</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#more-details-about-the-buildfilexml">More details about the BuildFile.xml.</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#official-packages-that-you-can-add-to-use">Official packages that you can add to use</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#external-libraries-to-be-added-to-use">External libraries to be added to use.</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#defining-additional-compile-flags">Defining additional compile flags</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#additional-documentations-and-closing-words">Additional documentations and closing words</a></li></ol></nav> <p data-svelte-h="svelte-1ur4dic">Let’s begin with the simplest of examples for any programming language, how to
+write a hello world program. The example files used in this page could be found
+<a href="https://drive.google.com/file/d/0Bw8_U9a0g9nHTHhjSlNiamQ5RWc/view?usp=sharing" rel="nofollow">here</a>,
+and extract the file to the <code>CMSSW_X_X_X/src</code> directory with the command:</p> <div class="code-block-container" data-svelte-h="svelte-f90wai"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">tar</span><span style="color:#AE81FF"> -zxvf</span><span style="color:#E6DB74"> HelloWorld.tar.gz</span></span></code></pre></div></div> <p data-svelte-h="svelte-1konr7q">Remember each time you enter this directory, you should load the CMSSW
+environment with the command</p> <div class="code-block-container" data-svelte-h="svelte-1poq3px"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">cmsenv</span></span></code></pre></div></div> <p data-svelte-h="svelte-hr73mj">If you wish to follow the build the sample up yourself, I will also be listing
+the directory structure used below</p> <h2 id="writing-a-main-function-and-a-first-look-at-buildfiles" data-svelte-h="svelte-1iuzwqm"><a aria-hidden="true" tabindex="-1" href="#writing-a-main-function-and-a-first-look-at-buildfiles"><span class="icon icon-link"></span></a>Writing a main function and a first look at <code>BuildFiles</code></h2> <h3 id="writing-a-working-version" data-svelte-h="svelte-u1bijs"><a aria-hidden="true" tabindex="-1" href="#writing-a-working-version"><span class="icon icon-link"></span></a>Writing a working version</h3> <p data-svelte-h="svelte-132rqgh">Writing a main function is simple, but you will need to structure your file in
+the specific structure to properly expose the file containing the main function
+to the <code>CMSSW</code> compiling environment. For the simplest example of just one file
+containing a main function, you will need to construct the following structure
+below the <code>CMSSW_X_X_X/src</code> directory:</p> <div class="code-block-container" data-svelte-h="svelte-17ya7tz"><div class="code-block-header"><span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>CMSSW_X_X_X/src</span></span>
+<span class="line"><span>└── &lt;HelloWorld&gt;</span></span>
+<span class="line"><span>    └── &lt;Example1&gt;</span></span>
+<span class="line"><span>        └── bin</span></span>
+<span class="line"><span>            ├── BuildFile.xml</span></span>
+<span class="line"><span>            └── &lt;main&gt;.cc</span></span>
+<span class="line"><span></span></span></code></pre></div></div> <p data-svelte-h="svelte-1jk8dcn">where all the files and directory could be named whatever you want with a few
+exceptions:</p> <ul data-svelte-h="svelte-1n45f9v"><li>Your <code>&lt;main&gt;.cc</code> file must end with a valid C++ extension: <code>.cc</code>, <code>.cpp</code>,
+<code>.cxx</code> and such.</li> <li>The <code>BuildFile.xml</code> must be named exactly as indicated.</li></ul> <p data-svelte-h="svelte-h4dgr4">Write your <code>main.cc</code> however you like, and add in the <code>BuildFile.xml</code> the file
+below.</p> <div class="code-block-container" data-svelte-h="svelte-oenwtf"><div class="code-block-header"><span class="code-block-lang">[xml]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F92672">bin</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;HelloWorld&quot;</span><span style="color:#A6E22E"> file</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;main.cc&quot;</span><span style="color:#F8F8F2">/&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-brrkft">Be careful to change the entry after <code>file</code> to be whatever you have called your
+C++ file. Now you can call the <code>CMSSW</code> compile command in any working directory
+above <code>HelloWorld/Example1</code>.</p> <div class="code-block-container" data-svelte-h="svelte-8mje3w"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">scram</span><span style="color:#E6DB74"> b</span></span></code></pre></div></div> <p data-svelte-h="svelte-4ndmzs">After the command has finished (and no compile errors are produced), you should
+now have a new command available, type <code>HelloWorld</code> (or whatever you have
+added in the <code>name</code> entry in the <code>BuildFile.xml</code>) into your command line and
+see the result of your main file!</p> <div class="code-block-container" data-svelte-h="svelte-npzg6x"><div class="code-block-header"><span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>[user@machine Example1] HelloWorld</span></span>
+<span class="line"><span>Hello World!</span></span></code></pre></div></div> <h3 id="simple-explanation-of-the-buildefilexml" data-svelte-h="svelte-ajd3pm"><a aria-hidden="true" tabindex="-1" href="#simple-explanation-of-the-buildefilexml"><span class="icon icon-link"></span></a>Simple explanation of The <code>BuildeFile.xml</code></h3> <p data-svelte-h="svelte-1h8xcgy">The <code>BuildFile.xml</code> replaces the <code>makefile</code> file to tell the compiler what to
+compile; in our case, the contents for our file <code>BuidlFile.xml</code> is rather
+simple, you could read as:</p> <ul data-svelte-h="svelte-1mjidih"><li>Request to build a <code>bin</code>ary file to be called <code>HelloWorld</code> using the main
+function found in the C++ file <code>main.cc</code>.</li></ul> <p data-svelte-h="svelte-1h54sa9">The binary file that is created would be stored under the <code>CMSSW_X_X_X/bin/</code>.
+The first thing that you could try out is that you could write multiple main
+function files in the <code>Example1/bin</code> directory provided that the final
+executable are named differently! Just remember for each new <code>.cc</code> you write to
+add an entry in the <code>BuildFile.xml</code>.</p> <p data-svelte-h="svelte-3ogxkr">It is also worth noting that <code>xml</code> is fully named the <a href="https://en.wikipedia.org/wiki/XML" rel="nofollow"><em>extensible markup
+language</em></a>, which is used for storing
+information in a document in a specific way so that should be both human- and
+machine-readable. Though commonly seen in web application (alongside his famous
+cousin <a href="https://en.wikipedia.org/wiki/HTML" rel="nofollow"><code>HTML</code></a>), the usage of <code>xml</code> files
+are not limit to such applications only.</p> <p data-svelte-h="svelte-jg2pf3">Writing a main function is only the first step. If you are the kind of guy that
+writes analysis code in a single file consisting of a few thousand lines of
+code, then I can guarantee you that after three weeks without looking at it,
+the code would become unintelligible, even by the writer. How you write you own
+libraries and split subroutines into multiple files is on big step for making
+you code readable. This ties in with the next part we will be looking at, about
+directories other than <code>bin</code> and how to write their corresponding
+<code>BuildFile.xml</code></p> <h2 id="the-cmssw-buildfile-structure" data-svelte-h="svelte-adj66u"><a aria-hidden="true" tabindex="-1" href="#the-cmssw-buildfile-structure"><span class="icon icon-link"></span></a>The CMSSW <code>BuildFile</code> structure</h2> <p data-svelte-h="svelte-11t0qha">Here we take a look at a more complicated structure. One what that might
+commonly occur:</p> <ul data-svelte-h="svelte-1p4jpro"><li>We want to create a library <code>ExampleLib</code> containing the complete
+implementation of a class and relate function.</li> <li>We want some additional wrapper function to help interface the classes to the
+main function</li> <li>The main function to actually execute the code.</li></ul> <p data-svelte-h="svelte-1abv3jn">The structure we would want to create would be something like this:</p> <div class="code-block-container" data-svelte-h="svelte-nnvzs7"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>CMSSW_X_X_X/src</span></span>
+<span class="line"><span>└── HelloWorld</span></span>
+<span class="line"><span>    ├── Example2</span></span>
+<span class="line"><span>    │   ├── bin</span></span>
+<span class="line"><span>    │   │   ├── BuildFile.xml</span></span>
+<span class="line"><span>    │   │   └── main.cc</span></span>
+<span class="line"><span>    │   ├── interface</span></span>
+<span class="line"><span>    │   │   └── funclib.hpp</span></span>
+<span class="line"><span>    │   └── src</span></span>
+<span class="line"><span>    │       ├── BuildFile.xml</span></span>
+<span class="line"><span>    │       └── funclib.cc</span></span>
+<span class="line"><span>    └── ExampleLib</span></span>
+<span class="line"><span>        ├── interface</span></span>
+<span class="line"><span>        │   └── MyClass.hpp</span></span>
+<span class="line"><span>        └── src</span></span>
+<span class="line"><span>            ├── BuildFile.xml</span></span>
+<span class="line"><span>            ├── MyClass.cc</span></span>
+<span class="line"><span>            └── MyClass_Say.cc</span></span></code></pre></div></div> <h3 id="exposing-a-library-and-understanding-the-include-path" data-svelte-h="svelte-1yk1q06"><a aria-hidden="true" tabindex="-1" href="#exposing-a-library-and-understanding-the-include-path"><span class="icon icon-link"></span></a>Exposing a library and understanding the include path</h3> <p data-svelte-h="svelte-1gpv1fd">Inside the directory <code>HelloWorld/ExampleLib</code> is a class declaration and
+implementation</p> <div class="code-block-container" data-svelte-h="svelte-1hgzsuj"><div class="code-block-header">Some example code of sharinf functions <span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F">// in MyClass.hpp</span></span>
+<span class="line"><span style="color:#F92672">#ifndef</span><span style="color:#A6E22E"> HELLOWORLD_MYCLASS</span></span>
+<span class="line"><span style="color:#F92672">#define</span><span style="color:#A6E22E"> HELLOWORLD_MYCLASS</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &lt;string&gt;</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">MyClass</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">public:</span></span>
+<span class="line"><span style="color:#A6E22E">   MyClass</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">string</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> );</span></span>
+<span class="line"><span style="color:#F92672">   virtual</span><span style="color:#F92672"> ~</span><span style="color:#A6E22E">MyClass</span><span style="color:#F8F8F2"> ();</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">   void</span><span style="color:#A6E22E"> Say</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">string</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> );</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">private:</span></span>
+<span class="line"><span style="color:#F92672">   const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::string _name;</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span>
+<span class="line"><span style="color:#F92672">#endif</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F">//-------------------------</span></span>
+<span class="line"><span style="color:#88846F">// in MyClass.cc</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;HelloWorld/ExampleLib/interface/MyClass.hpp&quot;</span></span>
+<span class="line"><span style="color:#A6E22E;text-decoration:underline">MyClass</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">MyClass</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::string</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> x ) : </span><span style="color:#A6E22E">_name</span><span style="color:#F8F8F2">(x) {}</span></span>
+<span class="line"><span style="color:#A6E22E;text-decoration:underline">MyClass</span><span style="color:#F8F8F2">::</span><span style="color:#F92672">~</span><span style="color:#A6E22E">MyClass</span><span style="color:#F8F8F2">(){}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F">//-------------------------</span></span>
+<span class="line"><span style="color:#88846F">// in MyClass_Say.cc</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;HelloWorld/ExampleLib/interface/MyClass.hpp&quot;</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &lt;iostream&gt;</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">void</span><span> </span><span style="color:#A6E22E;text-decoration:underline">MyClass</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">Say</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">string</span><span style="color:#F92672">&amp;</span><span style="color:#FD971F;font-style:italic"> x</span><span style="color:#F8F8F2"> ){</span></span>
+<span class="line"><span>   </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::cout </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#FD971F"> this</span><span style="color:#F8F8F2">-&gt;_name </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#E6DB74"> &quot; says: &quot;</span><span style="color:#F92672"> &lt;&lt;</span><span style="color:#F8F8F2"> x </span><span style="color:#F92672">&lt;&lt;</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::endl ;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1nikfna">Looking at how the various <code>.cc</code> file include the common header, you can see
+that the CMSSW compile environment adds a new include path in the compilation
+flags, which is the <code>CMSSW_X_Y_Z/src</code> directory! To tell the compiler that the
+contents of this folder is meant for a shared library, you must include this
+line in the <code>BuildFile.xml</code> file:</p> <div class="code-block-container" data-svelte-h="svelte-rwao0z"><div class="code-block-header"><span class="code-block-lang">[xml]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F92672">export</span><span style="color:#F8F8F2">&gt;&lt;</span><span style="color:#F92672">lib</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;1&quot;</span><span style="color:#F8F8F2"> /&gt;&lt;/</span><span style="color:#F92672">export</span><span style="color:#F8F8F2">&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-xwlari">Again the meaning of this file is meant to be human-readable:</p> <blockquote data-svelte-h="svelte-7lbitr"><p>Export <strong>every</strong> c++ file in the <code>HelloWorld/ExampleLib/src</code> directory as a
+single shared object file, with the library name left automatic (1).</p></blockquote> <p data-svelte-h="svelte-u60axv">You can see this in action by checking the content in <code>CMSSWW_X_Y_Z/lib</code>
+directory.</p> <p data-svelte-h="svelte-1riyjid">All this instruction is well, but a shared library isn’t much use without an
+executable file.</p> <h3 id="using-shared-libraries" data-svelte-h="svelte-178w4ey"><a aria-hidden="true" tabindex="-1" href="#using-shared-libraries"><span class="icon icon-link"></span></a>Using shared libraries.</h3> <p data-svelte-h="svelte-nu0cvr">We first use an example of a library using another library. In the directory
+<code>HelloWorld/Example2</code>, we could see in the <code>interface/funclib.hpp</code> and
+<code>src/funclib.cc</code> file that this library provides one function, which depends on
+the example just given:</p> <div class="code-block-container" data-svelte-h="svelte-1ax3czg"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;HelloWorld/ExampleLib/interface/MyClass.hpp&quot;</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &lt;iostream&gt;</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">int</span><span style="color:#A6E22E"> myfunction</span><span style="color:#F8F8F2">()</span></span>
+<span class="line"><span style="color:#F8F8F2">{</span></span>
+<span class="line"><span style="color:#F92672">   static</span><span style="color:#F8F8F2"> MyClass </span><span style="color:#A6E22E">myinst</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;hello&quot;</span><span style="color:#F8F8F2">); myinst.</span><span style="color:#A6E22E">Say</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;World&quot;</span><span style="color:#F8F8F2">);</span></span>
+<span class="line"><span>   </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::cout </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#E6DB74">  &quot;Hello World from my function!&quot;</span><span style="color:#F92672"> &lt;&lt;</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::endl;</span></span>
+<span class="line"><span style="color:#F92672">   return</span><span style="color:#AE81FF"> 0</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1ccqlz0">Again, note how the external header file is included. Now for the building of
+this library we need to link it with the functions found in
+<code>HelloWorld/ExampleLib</code>, so the <code>BuildFile.xml</code> in <code>HelloWorld/Example2/src</code>
+need to have one more line:</p> <div class="code-block-container" data-svelte-h="svelte-atwfvj"><div class="code-block-header"><span class="code-block-lang">[xml]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F92672">use</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;HelloWorld/ExampleLib&quot;</span><span style="color:#F8F8F2"> /&gt; &lt;</span><span style="color:#F92672">export</span><span style="color:#F8F8F2">&gt;&lt;</span><span style="color:#F92672">lib</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;1&quot;</span><span style="color:#F8F8F2"> /&gt;&lt;/</span><span style="color:#F92672">export</span><span style="color:#F8F8F2">&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-1ivpy9s">The second line is already exampled with the <code>HelloWorld/ExampleLib</code> build
+file. The first line list the dependency of this library. Notice to list a
+library withing CMSSW as a dependency, you just need to use the <code>use</code> tag, with
+the <code>name</code> field being the directory of the dependency from within the
+<code>CMSSW_X_Y_Z/src</code> directory!</p> <p data-svelte-h="svelte-7psoig">Finally, for the <code>BuildFile.xml</code> in the <code>bin</code> directory, where the main function
+file requires the use of both of these external libraries, the <code>BuildFile.xml</code>
+there would read something like:</p> <div class="code-block-container" data-svelte-h="svelte-eyoc34"><div class="code-block-header"><span class="code-block-lang">[html]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">use</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;HelloWorld/ExampleLib&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">use</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;HelloWorld/Example2&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">bin</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;HelloWorld2&quot;</span><span style="color:#A6E22E"> file</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;main.cc&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-153ou8b">Go and give the code a run and add your own tweaks, this should give you an
+idea of how to write your own libraries in the <code>CMSSW</code> compiling environment.</p> <h2 id="more-details-about-the-buildfilexml" data-svelte-h="svelte-xcjbv3"><a aria-hidden="true" tabindex="-1" href="#more-details-about-the-buildfilexml"><span class="icon icon-link"></span></a>More details about the <code>BuildFile.xml</code>.</h2> <p data-svelte-h="svelte-19hkvsp">As we have previously states, the <code>BuildFile.xml</code> is designed to reduce the
+verbosity of writing <code>MakeFile</code> like compiling control flows. This
+simplification is based on the fact that code structure of the <code>CMSSW</code>
+compiling environment is very strict. With all the <code>BuildFile.xml</code> required to
+be located under a <code>CMSSW_X_X_X/src/Package/Subpackage/&lt;dir&gt;</code> path, where
+<code>&lt;dir&gt;</code> could only be named as a directory that the compile environment
+recognizes. What <code>&lt;dir&gt;</code> could be will be picked up as we go along.</p> <h3 id="official-packages-that-you-can-add-to-use" data-svelte-h="svelte-1ucvyva"><a aria-hidden="true" tabindex="-1" href="#official-packages-that-you-can-add-to-use"><span class="icon icon-link"></span></a>Official packages that you can add to <code>use</code></h3> <p data-svelte-h="svelte-1xx96nc">When you first initiate your <code>CMSSW</code> environment, the <code>src</code> directory might
+look empty. The whole arsenal of packages and sub-packages in the official
+<code>CMSSW</code> repository would be pre-compiled and at your disposal. Which is a good
+thing, because the whole CMSSW code would take approximately 20 hours to
+compile at the very least. For example, your package could have C++ code that
+reads:</p> <div class="code-block-container" data-svelte-h="svelte-8x736g"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F">// In a c++ file</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;DataFormats/FWLite/interace/Event.hpp&quot;</span></span></code></pre></div></div> <p data-svelte-h="svelte-129zunb">together with the <code>BuildFile.xml</code> with contents</p> <div class="code-block-container" data-svelte-h="svelte-io3z7c"><div class="code-block-header"><span class="code-block-lang">[html]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F">&lt;!--- In a BuildFile.xml  ---&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">use</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;DataFormats/FWLite&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-54xdv1">would be totally legal. For a list of all the packages you could use, see the
+<a href="https://github.com/cms-sw/cmssw" rel="nofollow">official GitHub page</a>. Some of these official
+<code>CMSSW</code> packages are highly specialized packages for specific use cases within
+the operator of CMS operation, data collecting and processing, while other
+packages are core framework packages that will be used by nearly everyone who
+needs information from the data collected at CMS. The core packages will be
+what we mainly focus on for these tutorials.</p> <h3 id="external-libraries-to-be-added-to-use" data-svelte-h="svelte-1588o9u"><a aria-hidden="true" tabindex="-1" href="#external-libraries-to-be-added-to-use"><span class="icon icon-link"></span></a>External libraries to be added to use.</h3> <p data-svelte-h="svelte-1nb5kob">What about packages outside <code>CMSSW</code>? Unfortunately, there is no easy way of
+including them. But there are special libraries that are commonly used in the
+field of experimental high energy physics that could be used without hassle.
+These libraries include:</p> <ul data-svelte-h="svelte-19vkz4"><li><a href="https://root.cern.ch/" rel="nofollow">ROOT</a>: <code>&lt;use name=&quot;root&quot;/&gt;</code></li> <li><a href="https://root.cern.ch/" rel="nofollow">ROOT</a> plotting libraries and <a href="https://root.cern.ch/roofit" rel="nofollow">RooFit</a>: <code>&lt;use name=&quot;roofit&quot;/&gt;</code></li> <li>The entire <a href="http://www.boost.org/" rel="nofollow">boost</a> library: <code>&lt;use name=&quot;boost&quot;/&gt;</code></li> <li>The <a href="http://www.boost.org/doc/libs/1_61_0/doc/html/program_options.html" rel="nofollow">boost program options</a> libraries: <code>&lt;use name=&quot;boost_program_options&quot;/&gt;</code></li> <li>The <a href="http://www.boost.org/doc/libs/1_61_0/libs/python/doc/html/index.html" rel="nofollow">boost python</a> libraries: <code>&lt;use name=&quot;boost_python&quot;/&gt;</code></li></ul> <h3 id="defining-additional-compile-flags" data-svelte-h="svelte-h6bh4v"><a aria-hidden="true" tabindex="-1" href="#defining-additional-compile-flags"><span class="icon icon-link"></span></a>Defining additional compile flags</h3> <p data-svelte-h="svelte-ecq8lw">If you wish to define additional compilation flags for specific optimization,
+debugging, declaring MACROS, and others, then you could do so for individual
+<code>BuildFile.xml</code> with lines such as</p> <div class="code-block-container" data-svelte-h="svelte-ytw2fr"><div class="code-block-header"><span class="code-block-lang">[html]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">flag</span><span style="color:#A6E22E"> CXXFLAGS</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;-O1 -g&quot;</span><span style="color:#F8F8F2"> /&gt; &lt;</span><span style="color:#F44747">flag</span><span style="color:#A6E22E"> CPPDEFINE</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;DEBUG=1&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span></code></pre></div></div> <h2 id="additional-documentations-and-closing-words" data-svelte-h="svelte-99id1t"><a aria-hidden="true" tabindex="-1" href="#additional-documentations-and-closing-words"><span class="icon icon-link"></span></a>Additional documentations and closing words</h2> <p data-svelte-h="svelte-x1ce92">This is by no means an exhaustive list of all the structures and options
+allowed in <code>CMSSW</code>, for the official documentation, see
+<a href="https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBuildFile" rel="nofollow">here</a>. We
+will be picking the ones we need up as we go along, but hopefully, with this
+knowledge it will become easier for you to organize the code in your analysis
+into a more organized structure.</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#c++">c++</a></span><span class="svelte-9cibcw"><a href="../../tags/#cmssw">cmssw</a></span><span class="svelte-9cibcw"><a href="../../tags/#analysis">analysis</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

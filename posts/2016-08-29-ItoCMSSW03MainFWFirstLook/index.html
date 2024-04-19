@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Introduction to CMSSW part III - First look at the CMSSW framework</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/code_head_1.png&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Introduction to CMSSW part III - First look at the CMSSW framework</h1> <p>2016.Aug.29</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-lzhyww"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#hiding-the-loop">Hiding the Loop</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#a-look-at-one-calculator-class-edproducer">A Look at one calculator class: EDProducer</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#structure-overview">Structure overview</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#getting-the-handle-class">Getting the Handle class</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#exposing-the-class-as-a-plugin">Exposing the class as a plugin.</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#a-python-configuration-file-for-the-main-function">A python configuration file for the main function</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#making-the-producer-produce-something">Making the producer produce something</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#comparison-between-fwlite-and-the-full-framework">Comparison between FWLite and the full framework</a></li></ol></nav> <p data-svelte-h="svelte-1x1fgms">In this article we are going to explore the (supposed) rationale behind why the
+CMSSW framework is designed as it is, as well as getting a first look at how
+one could easily alter the contents of an EDM file using this framework. As
+before all, the concrete code used in this article could be found
+<a href="https://drive.google.com/open?id=0Bw8_U9a0g9nHSG5rMEJWazdLMjQ" rel="nofollow">here</a></p> <h2 id="hiding-the-loop" data-svelte-h="svelte-1dsu04"><a aria-hidden="true" tabindex="-1" href="#hiding-the-loop"><span class="icon icon-link"></span></a>Hiding the Loop</h2> <p data-svelte-h="svelte-1n149t4">By now, you might have known that the core component of the main function for
+data processing would center around the event-by-event for loop, a skeleton
+code for the main function might look something like:</p> <div class="code-block-container" data-svelte-h="svelte-11e0uq7"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F">// code for opening file</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F92672">for</span><span style="color:#F8F8F2">( run.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2">run.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; run</span><span style="color:#F92672">++</span><span style="color:#F8F8F2"> ){</span></span>
+<span class="line"><span style="color:#88846F">   // come per run calculations...</span></span>
+<span class="line"><span style="color:#F92672">   for</span><span style="color:#F8F8F2">( lumi.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2">lumi.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#F8F8F2">lumi ){</span></span>
+<span class="line"><span style="color:#88846F">      // some per lumi calculations</span></span>
+<span class="line"><span style="color:#F92672">      for</span><span style="color:#F8F8F2">( event.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2"> event.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#A6E22E">event</span><span style="color:#F8F8F2">() ){</span></span>
+<span class="line"><span style="color:#88846F">         // some per-event calculations...</span></span>
+<span class="line"><span style="color:#88846F">         // some other per-event calculations...</span></span>
+<span class="line"><span style="color:#88846F">         //...</span></span>
+<span class="line"><span style="color:#F8F8F2">      }</span></span>
+<span class="line"><span style="color:#F8F8F2">   }</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"><span style="color:#88846F">// Save calculations of files</span></span></code></pre></div></div> <p data-svelte-h="svelte-13iarwr">There are a few rationals why the framework might want to hide the main loop
+from the user:</p> <ul data-svelte-h="svelte-13euzgq"><li>In mass data processing, the framework might not want to give the user
+freedom to manipulate the ordering of the for loop. For example there might
+be specialization for multi-threading.</li> <li>The framework might what to optimization global object handling, such as the
+the pointer to handle the event contents.</li></ul> <p data-svelte-h="svelte-140abdf">When designing the framework, one will still need to give the user an interface
+to defined calculation flows. One way of doing so would be using the concept of
+<a href="https://en.wikipedia.org/wiki/Polymorphism_(computer_science)" rel="nofollow">polymorphism</a>,
+which is implemented in C++ as the <a href="http://www.cplusplus.com/doc/tutorial/polymorphism/" rel="nofollow">virtual
+function</a> syntax:</p> <div class="code-block-container" data-svelte-h="svelte-e90lx0"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">BaseCalculator</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F92672">   virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> perrun_calc</span><span style="color:#F8F8F2">( </span><span style="color:#A6E22E;text-decoration:underline">run</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> )    {} ;</span><span style="color:#88846F"> // do nothing is not redefined by derived class</span></span>
+<span class="line"><span style="color:#F92672">   virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> perlumi_calc</span><span style="color:#F8F8F2">( </span><span style="color:#A6E22E;text-decoration:underline">lumi</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> )  {} ;</span></span>
+<span class="line"><span style="color:#F92672">   virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> perevent_calc</span><span style="color:#F8F8F2">( </span><span style="color:#A6E22E;text-decoration:underline">event</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> ){} ;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">MyCalc1</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">BaseCalculator</span><span style="color:#F8F8F2"> {};</span><span style="color:#88846F"> // implement one kind of calculation</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">MyCalc2</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">BaseCalculator</span><span style="color:#F8F8F2"> {};</span><span style="color:#88846F"> // implement another kind of calculation</span></span></code></pre></div></div> <p data-svelte-h="svelte-1rhlpqk">And the definition of the main functions would turn into something like this:</p> <div class="code-block-container" data-svelte-h="svelte-knlmaz"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F">// open file</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">vector</span><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2">BaseCalculator</span><span style="color:#F92672">*&gt;</span><span style="color:#F8F8F2"> processList ;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F">// Load the user defined calculation</span></span>
+<span class="line"><span style="color:#F8F8F2">processList.</span><span style="color:#A6E22E">push_back</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">new</span><span style="color:#F8F8F2"> MyCalc1 );</span></span>
+<span class="line"><span style="color:#F8F8F2">processList.</span><span style="color:#A6E22E">push_back</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">new</span><span style="color:#F8F8F2"> MyCalc2 );</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F92672">for</span><span style="color:#F8F8F2">( run.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2">run.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; run</span><span style="color:#F92672">++</span><span style="color:#F8F8F2"> ){</span></span>
+<span class="line"><span style="color:#F92672">   for</span><span style="color:#F8F8F2">( </span><span style="color:#66D9EF;font-style:italic">auto</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> calc : processList ){</span></span>
+<span class="line"><span style="color:#F8F8F2">      calc-&gt;</span><span style="color:#A6E22E">perrun_calc</span><span style="color:#F8F8F2">( run );</span></span>
+<span class="line"><span style="color:#F8F8F2">   }</span></span>
+<span class="line"><span style="color:#F92672">   for</span><span style="color:#F8F8F2">( lumi.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2">lumi.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#F8F8F2">lumi ){</span></span>
+<span class="line"><span style="color:#F92672">      for</span><span style="color:#F8F8F2">( </span><span style="color:#66D9EF;font-style:italic">auto</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> calc : processList ){</span></span>
+<span class="line"><span style="color:#F8F8F2">         calc-&gt;</span><span style="color:#A6E22E">perlumi_calc</span><span style="color:#F8F8F2">( lumi );</span></span>
+<span class="line"><span style="color:#F8F8F2">      }</span></span>
+<span class="line"><span style="color:#F92672">      for</span><span style="color:#F8F8F2">( event.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2"> event.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#A6E22E">event</span><span style="color:#F8F8F2">() ){</span></span>
+<span class="line"><span style="color:#F92672">         for</span><span style="color:#F8F8F2">( </span><span style="color:#66D9EF;font-style:italic">auto</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> calc : processList ){</span></span>
+<span class="line"><span style="color:#F8F8F2">            calc-&gt;</span><span style="color:#A6E22E">perevent_calc</span><span style="color:#F8F8F2">( event );</span></span>
+<span class="line"><span style="color:#F8F8F2">         }</span></span>
+<span class="line"><span style="color:#F8F8F2">      }</span></span>
+<span class="line"><span style="color:#F8F8F2">   }</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F">// Save  calculations of files</span></span></code></pre></div></div> <p data-svelte-h="svelte-fpu8ki">The merit of using this structure for the end user is that one could separate
+independent calculations from each other, so if we are only interested in
+altering one specific calculation, you could do so without having to comb
+through the entire high level control flow. Of course, there is the problem
+that calculations might depend on the results of other user calculations. So
+how to define the control flow couldn’t be as simple as above with a simple
+list of pointers. Luckily for use, the <code>CMSSW</code> framework as a set of very handy
+tools that could help us with the calculations. As will be demonstrated later.</p> <p data-svelte-h="svelte-qia0ba">After understanding the rationale behind the “why” when interacting with the
+CMSSW framework, you won’t be handling the high level control flows directly,
+we begin to get on the actual code for defining user calculations.</p> <h2 id="a-look-at-one-calculator-class-edproducer" data-svelte-h="svelte-q0t163"><a aria-hidden="true" tabindex="-1" href="#a-look-at-one-calculator-class-edproducer"><span class="icon icon-link"></span></a>A Look at one calculator class: <code>EDProducer</code></h2> <h3 id="structure-overview" data-svelte-h="svelte-1ohu4y"><a aria-hidden="true" tabindex="-1" href="#structure-overview"><span class="icon icon-link"></span></a>Structure overview</h3> <p data-svelte-h="svelte-3aetf1">Let us look at the structure required for using a
+<a href="https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookEDMTutorialProducer" rel="nofollow"><code>EDProducer</code></a>
+derived class to define calculation. It follows the standard
+<code>Package/Subpackage</code> structure required by <code>CMSSW</code>, but this time the C++ code
+is written in the <code>plugins</code> directory, and also an extra <code>python</code> directory.</p> <div class="code-block-container" data-svelte-h="svelte-a16xeu"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Package</span></span>
+<span class="line"><span>└── MyReader</span></span>
+<span class="line"><span>    ├── plugins</span></span>
+<span class="line"><span>    │   ├── BuildFile.xml</span></span>
+<span class="line"><span>    │   └── MyReader.cc</span></span>
+<span class="line"><span>    └── python</span></span>
+<span class="line"><span>        └── ConfFile_cfg.py</span></span></code></pre></div></div> <p data-svelte-h="svelte-bli64q">Let us look at the <code>MyReader.cc</code> file first, which should give you a rough idea
+of all the functions that are available in the calculator class. It does the
+same as the <code>FWLite</code> example given in the previous article, dumping the
+contents of the “Gaussian” variable stored in an EDM file, except using the C++
+technology described above:</p> <div class="code-block-container" data-svelte-h="svelte-1bx3usk"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &lt;memory&gt;</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;FWCore/Framework/interface/Frameworkfwd.h&quot;</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;FWCore/Framework/interface/stream/EDProducer.h&quot;</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;FWCore/Framework/interface/Event.h&quot;</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;FWCore/Framework/interface/MakerMacros.h&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;FWCore/ParameterSet/interface/ParameterSet.h&quot;</span></span>
+<span class="line"><span style="color:#F92672">#include</span><span style="color:#E6DB74"> &quot;FWCore/Utilities/interface/StreamID.h&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">MyReader</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">stream</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EDProducer</span><span style="color:#F8F8F2">&lt;&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">{</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">public:</span></span>
+<span class="line"><span style="color:#F92672">  explicit</span><span style="color:#A6E22E"> MyReader</span><span style="color:#F8F8F2">(</span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">ParameterSet</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2">);</span></span>
+<span class="line"><span style="color:#A6E22E">  ~MyReader</span><span style="color:#F8F8F2">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">private:</span></span>
+<span class="line"><span style="color:#F92672">  virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> beginStream</span><span style="color:#F8F8F2">(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">StreamID</span><span style="color:#F8F8F2">) </span><span style="color:#F92672">override</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F92672">  virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> endStream</span><span style="color:#F8F8F2">() </span><span style="color:#F92672">override</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F92672">  virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> beginRun</span><span style="color:#F8F8F2">(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">Run</span><span style="color:#F92672"> const&amp;</span><span style="color:#F8F8F2">, </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EventSetup</span><span style="color:#F92672"> const&amp;</span><span style="color:#F8F8F2">) </span><span style="color:#F92672">override</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F92672">  virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> endRun</span><span style="color:#F8F8F2">(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">Run</span><span style="color:#F92672"> const&amp;</span><span style="color:#F8F8F2">, </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EventSetup</span><span style="color:#F92672"> const&amp;</span><span style="color:#F8F8F2">) </span><span style="color:#F92672">override</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F92672">  virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> beginLuminosityBlock</span><span style="color:#F8F8F2">(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">LuminosityBlock</span><span style="color:#F92672"> const&amp;</span><span style="color:#F8F8F2">, </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EventSetup</span><span style="color:#F92672"> const&amp;</span><span style="color:#F8F8F2">) </span><span style="color:#F92672">override</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F92672">  virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> endLuminosityBlock</span><span style="color:#F8F8F2">(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">LuminosityBlock</span><span style="color:#F92672"> const&amp;</span><span style="color:#F8F8F2">, </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EventSetup</span><span style="color:#F92672"> const&amp;</span><span style="color:#F8F8F2">) </span><span style="color:#F92672">override</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F92672">  virtual</span><span style="color:#66D9EF;font-style:italic"> void</span><span style="color:#A6E22E"> produce</span><span style="color:#F8F8F2">(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">Event</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2">, </span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EventSetup</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2">) </span><span style="color:#F92672">override</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span></code></pre></div></div> <p data-svelte-h="svelte-14mt940">you could think of these private member functions corresponding to these
+execution points in the imaginary loop code:</p> <div class="code-block-container" data-svelte-h="svelte-n50pc2"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F">// &lt;--- beginStream() called here</span></span>
+<span class="line"><span style="color:#F92672">for</span><span style="color:#F8F8F2">( run.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2">run.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; run</span><span style="color:#F92672">++</span><span style="color:#F8F8F2"> ){</span></span>
+<span class="line"><span style="color:#88846F">   // &lt;-- beginRun() called here</span></span>
+<span class="line"><span style="color:#F92672">   for</span><span style="color:#F8F8F2">( lumi.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2">lumi.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#F8F8F2">lumi ){</span></span>
+<span class="line"><span style="color:#88846F">      // &lt;--- beginLuminosityBlock() called here</span></span>
+<span class="line"><span style="color:#F92672">      for</span><span style="color:#F8F8F2">( event.</span><span style="color:#A6E22E">toBegin</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">!</span><span style="color:#F8F8F2"> event.</span><span style="color:#A6E22E">atEnd</span><span style="color:#F8F8F2">() ; </span><span style="color:#F92672">++</span><span style="color:#A6E22E">event</span><span style="color:#F8F8F2">() ){</span></span>
+<span class="line"><span style="color:#88846F">         // &lt;--- produce() called here</span></span>
+<span class="line"><span style="color:#F8F8F2">      }</span></span>
+<span class="line"><span style="color:#88846F">      // &lt;--- endLuminosityBlock() called here</span></span>
+<span class="line"><span style="color:#F8F8F2">   }</span></span>
+<span class="line"><span style="color:#88846F">   // &lt;---  endRun() called here</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"><span style="color:#88846F">// &lt;--- endStream() called here</span></span></code></pre></div></div> <p data-svelte-h="svelte-sz9bsp">But note that the file opening and saving process are not handled by the
+<code>beginStream</code>/<code>endStream</code> functions. We will get to that in a bit. Now for the
+part of actually writing the “calculation” part of the code in the the
+<code>produce</code> member function.</p> <h3 id="getting-the-handle-class" data-svelte-h="svelte-u3awxl"><a aria-hidden="true" tabindex="-1" href="#getting-the-handle-class"><span class="icon icon-link"></span></a>Getting the Handle class</h3> <p data-svelte-h="svelte-1jxv7cp">Since the <code>CMSSW</code> main framework is designed with fast computing in hand, so
+the <code>Handle</code> class while similar in usage to that we have seen previously,
+requires slightly different initialization.</p> <p data-svelte-h="svelte-brii4i">The <a href="http://cmsdoxygen.web.cern.ch/cmsdoxygen/CMSSW_8_0_26/doc/html/de/dba/classedm_1_1EDGetToken.html" rel="nofollow"><code>edm::EDGetToken</code>
+class</a>
+is mandatory to be initialized during the constructor via a <code>consumes()</code> call,
+and this is used to get the <code>Handle</code> class we will be interested in.</p> <div class="code-block-container" data-svelte-h="svelte-g2s1ts"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">class</span><span> </span><span style="color:#A6E22E;text-decoration:underline">MyReader</span><span style="color:#F8F8F2"> : </span><span style="color:#66D9EF;font-style:italic">public</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">stream</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EDProducer</span><span style="color:#F8F8F2">&lt;&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">{...</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">private:</span><span style="color:#F8F8F2">...</span></span>
+<span class="line"><span style="color:#F92672">   const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::EDGetToken _mytoken;</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F">// Getting the token via the consumes call.</span></span>
+<span class="line"><span style="color:#88846F">// The Input Tag format is identical to that of the fwlite.</span></span>
+<span class="line"><span style="color:#A6E22E;text-decoration:underline">MyReader</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">MyReader</span><span style="color:#F8F8F2">(</span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::ParameterSet</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> iConfig):</span></span>
+<span class="line"><span style="color:#A6E22E">   _mytoken</span><span style="color:#F8F8F2">( </span><span style="color:#A6E22E">consumes</span><span style="color:#F8F8F2">&lt;</span><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F8F8F2">&gt;( </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">InputTag</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;myprod&quot;</span><span style="color:#F8F8F2">,</span><span style="color:#E6DB74">&quot;Gauss&quot;</span><span style="color:#F8F8F2">,</span><span style="color:#E6DB74">&quot;Dummy&quot;</span><span style="color:#F8F8F2">)) )</span></span>
+<span class="line"><span style="color:#F8F8F2">{}</span><span style="color:#88846F"> // No other initialization for now</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F">// Defining the calculation to be called per event</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">void</span><span> </span><span style="color:#A6E22E;text-decoration:underline">MyReader</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">produce</span><span style="color:#F8F8F2">(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">Event</span><span style="color:#F92672">&amp;</span><span style="color:#FD971F;font-style:italic"> iEvent</span><span style="color:#F8F8F2">, </span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EventSetup</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">{</span></span>
+<span class="line"><span>   </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::Handle</span><span style="color:#F92672">&lt;</span><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F92672">&gt;</span><span style="color:#F8F8F2"> myHandle;</span></span>
+<span class="line"><span style="color:#88846F">   // Note the big difference in the getByToken() call compared to fwlite!</span></span>
+<span class="line"><span style="color:#F8F8F2">   iEvent.</span><span style="color:#A6E22E">getByToken</span><span style="color:#F8F8F2">( _mytoken, myHandle );</span></span>
+<span class="line"><span style="color:#88846F">   // After a sucessful getByToken call</span></span>
+<span class="line"><span style="color:#88846F">   // myHandle is essentially a double pointer</span></span>
+<span class="line"><span>   </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::cout </span><span style="color:#F92672">&lt;&lt;</span><span style="color:#F92672"> *</span><span style="color:#F8F8F2">myHandle </span><span style="color:#F92672">&lt;&lt;</span><span> </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::endl;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-y03wcr">Take special note of the much more complex way of inserting the three magic
+strings to get the Handle object. Also take note that the <code>Handle</code> and <code>Event</code>
+class are no longer using the one in the <code>fwlite</code> namespace, but the <code>edm</code> work
+space.</p> <h3 id="exposing-the-class-as-a-plugin" data-svelte-h="svelte-zkugo"><a aria-hidden="true" tabindex="-1" href="#exposing-the-class-as-a-plugin"><span class="icon icon-link"></span></a>Exposing the class as a plugin.</h3> <p data-svelte-h="svelte-g3ej0l">The control flow part should be rather straight forwards, but there are still a
+few magic lines of code required to let the <code>CMSSW</code> framework understand this
+class as a calculation class. At the very end of the file, we need to call the
+MACROS function:</p> <div class="code-block-container" data-svelte-h="svelte-1g2yayh"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">DEFINE_FWK_MODULE</span><span style="color:#F8F8F2">(MyReader);</span></span></code></pre></div></div> <p data-svelte-h="svelte-208tnv">Be sure that the argument in the MACROS functions is the same as the name of
+your class. In the case that you have decided to split you calculator class
+across multiple <code>.cc</code> files, make sure that this MACROS function is called
+exactly once. Otherwise, you will get repeated definition error during the
+compilation.</p> <p data-svelte-h="svelte-11ajtn5">Now we look at the required <code>&lt;use&gt;</code> tags needed to add to the <code>BuildFile.xml</code>
+file in the <code>plugins</code> directory:</p> <div class="code-block-container" data-svelte-h="svelte-1ptblqa"><div class="code-block-header"><span class="code-block-lang">[html]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">use</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;FWCore/Framework&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">use</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;FWCore/PluginManager&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">use</span><span style="color:#A6E22E"> name</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;FWCore/ParameterSet&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F44747">flags</span><span style="color:#A6E22E"> EDM_PLUGIN</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;1&quot;</span><span style="color:#F8F8F2"> /&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-1jksvi7">Again, the <code>use</code> tag is used to list external libraries as dependencies. The
+minimal requirements for the “calculator” class are the three listed above. The
+last line is new! This time, instead of saying we are compiling to an external
+library, we are making a “plugin” for manipulating <code>EDM</code> files (again with the
+name left to be default by the <code>=&quot;1&quot;</code> flag). Now we are ready to compile!</p> <div class="code-block-container" data-svelte-h="svelte-qbbdw9"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>scram b</span></span></code></pre></div></div> <h2 id="a-python-configuration-file-for-the-main-function" data-svelte-h="svelte-3j6iy2"><a aria-hidden="true" tabindex="-1" href="#a-python-configuration-file-for-the-main-function"><span class="icon icon-link"></span></a>A python configuration file for the main function</h2> <p data-svelte-h="svelte-5kzpof">Next we would want to know how to run the main function, and how to alter its
+behavior, such as:</p> <ul data-svelte-h="svelte-1c430w1"><li>What input file to use.</li> <li>What output file (if any) to use</li> <li>What calculator classes to load</li></ul> <p data-svelte-h="svelte-8ctfpd">The main function containing the event loops is invoked via the <code>cmsRun</code>
+command provided by the <code>CMSSW</code> environment, but to alter the behavior of this
+main function, you need to provide it with a configuration file read, which is
+a python file that should be intuitive to read, and later down the line, allows
+the configuration itself to be programmable! But first, lets look at a minimal
+example the file in directory <code>MyReader/python/ConfFile_cfg.py</code>, where the file
+is basically a bunch of declaration for what the main function should use.</p> <div class="code-block-container" data-svelte-h="svelte-134ylqs"><div class="code-block-header"><span class="code-block-lang">[py]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F"># Getting the required python modules</span></span>
+<span class="line"><span style="color:#F92672">import</span><span style="color:#F8F8F2"> FWCore.ParameterSet.Config </span><span style="color:#F92672">as</span><span style="color:#F8F8F2"> cms</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Defining the process</span></span>
+<span class="line"><span style="color:#88846F"># You can say that process will be the object what is converted to</span></span>
+<span class="line"><span style="color:#88846F"># what the main function should do.</span></span>
+<span class="line"><span style="color:#F8F8F2">process </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.Process(</span><span style="color:#E6DB74">&quot;MyProcess&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># How many events before early exit (-1 for effectively every event)</span></span>
+<span class="line"><span style="color:#F8F8F2">process.maxEvents </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.untracked.PSet( </span><span style="color:#FD971F;font-style:italic">input</span><span style="color:#F92672"> =</span><span style="color:#F8F8F2"> cms.untracked.int32(</span><span style="color:#F92672">-</span><span style="color:#AE81FF">1</span><span style="color:#F8F8F2">) )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Define input, note that for local files, the prefix &#39;file:&#39; is required</span></span>
+<span class="line"><span style="color:#88846F"># so the below is referring to the local file ./edm_example.root</span></span>
+<span class="line"><span style="color:#F8F8F2">process.source </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.Source(</span></span>
+<span class="line"><span style="color:#E6DB74">    &quot;PoolSource&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#FD971F;font-style:italic">    fileNames</span><span style="color:#F92672"> =</span><span style="color:#F8F8F2"> cms.untracked.vstring(</span></span>
+<span class="line"><span style="color:#E6DB74">        &#39;file:edm_example.root&#39;</span></span>
+<span class="line"><span style="color:#F8F8F2">    )</span></span>
+<span class="line"><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Loading the producer, notice the string must the same as</span></span>
+<span class="line"><span style="color:#88846F"># the argument you placed in the C++ MACROS function!</span></span>
+<span class="line"><span style="color:#88846F"># but the name of the member in the process instance can be anything you want.</span></span>
+<span class="line"><span style="color:#F8F8F2">process.myProducer </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.EDProducer(</span></span>
+<span class="line"><span style="color:#E6DB74">    &#39;MyReader&#39;</span></span>
+<span class="line"><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Defining sequence of producer instances you want to run.</span></span>
+<span class="line"><span style="color:#88846F"># Again, the name of the member in the process instance could be anything you want.</span></span>
+<span class="line"><span style="color:#F8F8F2">process.mypath </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.Path(process.myProducer)</span></span></code></pre></div></div> <p data-svelte-h="svelte-186sron">A note to the folks that are not familiar with python syntax. The data members
+in a python class are completely dynamic, meaning you can <a href="https://docs.python.org/3/tutorial/classes.html" rel="nofollow">add data
+members</a> at will. The python
+memory manager will also keep track of what type each variable is declared by.
+So what the main file will be translated to will be something like this:</p> <div class="code-block-container" data-svelte-h="svelte-15k7klx"><div class="code-block-header"><span class="code-block-lang">[python]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">process </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> ReadFromConfig( </span><span style="color:#E6DB74">&quot;ConfFile_cfg.py&quot;</span><span style="color:#F8F8F2"> )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Opening the file</span></span>
+<span class="line"><span style="color:#66D9EF">open</span><span style="color:#F8F8F2">( process.source.fileName )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Defining the calculation classes to load via cms.Path variables</span></span>
+<span class="line"><span style="color:#F8F8F2">calclist </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> []</span></span>
+<span class="line"><span style="color:#F92672">for</span><span style="color:#F8F8F2"> member  </span><span style="color:#F92672">in</span><span style="color:#F8F8F2">  get_all_member( process ) :</span></span>
+<span class="line"><span style="color:#F92672">  if</span><span style="color:#F8F8F2"> get_type( member ) </span><span style="color:#F92672">==</span><span style="color:#F8F8F2"> get_type( cms.Path ):</span></span>
+<span class="line"><span style="color:#F8F8F2">    calclist.extend( member.content )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F">## main for loop</span></span>
+<span class="line"><span style="color:#F92672">for</span><span style="color:#F8F8F2"> evt  </span><span style="color:#F92672">in</span><span style="color:#F8F8F2"> opened_file :</span></span>
+<span class="line"><span style="color:#F92672">  for</span><span style="color:#F8F8F2"> calc </span><span style="color:#F92672">in</span><span style="color:#F8F8F2"> calclist :</span></span>
+<span class="line"><span style="color:#F8F8F2">    calc.produce( evt )</span></span></code></pre></div></div> <p data-svelte-h="svelte-cso8qm">It must be stressed that this is a very rough “translation”, and is definitely
+not what is actually implemented in the <code>CMSSW</code> framework. The core concept of
+what to take away from this translation is that ultimately what matters in the
+configuration file would be the final data members in the <code>cms.Process</code>
+instance.</p> <p data-svelte-h="svelte-m3ik8a">Having written you configuration file, you could then run the following
+command:</p> <div class="code-block-container" data-svelte-h="svelte-17uks17"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>cmsRun ConfFile_cfg.py</span></span></code></pre></div></div> <p data-svelte-h="svelte-k6cf2d">And you should get the output that looks something like:</p> <div class="code-block-container" data-svelte-h="svelte-1ngr15k"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>29-Aug-2016 20:53:16 CST  Initiating request to open file file://edm_example.root</span></span>
+<span class="line"><span>29-Aug-2016 20:53:17 CST  Successfully opened file file://edm_example.root</span></span>
+<span class="line"><span>Begin processing the 1st record. Run 1, Event 383601, LumiSection 1919 at 29-Aug-2016 20:53:18.320 CST</span></span>
+<span class="line"><span>2.9968</span></span>
+<span class="line"><span>Begin processing the 2nd record. Run 1, Event 383602, LumiSection 1919 at 29-Aug-2016 20:53:18.321 CST</span></span>
+<span class="line"><span>2.34539</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>Begin processing the 10th record. Run 1, Event 383610, LumiSection 1919 at 29-Aug-2016 20:53:18.322 CST</span></span>
+<span class="line"><span>6.78134</span></span>
+<span class="line"><span>29-Aug-2016 20:53:18 CST  Closed file file://edm_example.root</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>=============================================</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>MessageLogger Summary</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> type     category        sev    module        subroutine        count    total</span></span>
+<span class="line"><span> ---- -------------------- -- ---------------- ----------------  -----    -----</span></span>
+<span class="line"><span>    1 fileAction           -s file_close                             1        1</span></span>
+<span class="line"><span>    2 fileAction           -s file_open                              2        2</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> type    category    Examples: run/evt        run/evt          run/evt</span></span>
+<span class="line"><span> ---- -------------------- ---------------- ---------------- ----------------</span></span>
+<span class="line"><span>    1 fileAction           PostEndRun</span></span>
+<span class="line"><span>    2 fileAction           pre-events       pre-events</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Severity    # Occurrences   Total Occurrences</span></span>
+<span class="line"><span>--------    -------------   -----------------</span></span>
+<span class="line"><span>System                  3                   3</span></span>
+<span class="line"><span></span></span></code></pre></div></div> <p data-svelte-h="svelte-csazwb">Congratulations! You have completed an event loop using the full CMSSW
+framework! Notice that what you actually calculate and defined to be outputted
+is in between the messages pre-defined by the CMSSW framework for loop.</p> <h2 id="making-the-producer-produce-something" data-svelte-h="svelte-1mxk490"><a aria-hidden="true" tabindex="-1" href="#making-the-producer-produce-something"><span class="icon icon-link"></span></a>Making the producer produce something</h2> <p data-svelte-h="svelte-1m35c3m">As suggested by the name, the <code>EDProducer</code> this isn’t just a calculator class.
+The <code>EDProducer</code> class has functionalities that actually produces something
+that could be placed into an output <code>EDM</code>. Suppose I want to compute the square
+of all the <code>Gauss</code> variables and store them in the event. We would need to
+alter the constructor:</p> <div class="code-block-container" data-svelte-h="svelte-7uais4"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E;text-decoration:underline">MyProducer</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">MyProducer</span><span style="color:#F8F8F2">(</span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::ParameterSet</span><span style="color:#F92672">&amp;</span><span style="color:#F8F8F2"> iConfig):</span></span>
+<span class="line"><span style="color:#A6E22E">   _mytoken</span><span style="color:#F8F8F2">( </span><span style="color:#A6E22E">consumes</span><span style="color:#F8F8F2">&lt;</span><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F8F8F2">&gt;(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">InputTag</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;myprod&quot;</span><span style="color:#F8F8F2">,</span><span style="color:#E6DB74">&quot;Gauss&quot;</span><span style="color:#F8F8F2">,</span><span style="color:#E6DB74">&quot;Dummy&quot;</span><span style="color:#F8F8F2">)))</span></span>
+<span class="line"><span style="color:#F8F8F2">{</span></span>
+<span class="line"><span style="color:#A6E22E">   produces</span><span style="color:#F8F8F2">&lt;</span><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F8F8F2">&gt;(</span><span style="color:#E6DB74">&quot;GaussSquare&quot;</span><span style="color:#F8F8F2">);</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-110sppk">which tell the main function that we want to produce a <code>double</code> collection,
+called <code>GaussSquare</code>. Next we need to define how the <code>GaussSquare</code> variable
+should be calculated.</p> <div class="code-block-container" data-svelte-h="svelte-uvk4o2"><div class="code-block-header"><span class="code-block-lang">[cpp]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">void</span><span> </span><span style="color:#A6E22E;text-decoration:underline">MyProducer</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E">produce</span><span style="color:#F8F8F2">(</span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">Event</span><span style="color:#F92672">&amp;</span><span style="color:#FD971F;font-style:italic"> iEvent</span><span style="color:#F8F8F2">, </span><span style="color:#F92672">const</span><span> </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::</span><span style="color:#A6E22E;text-decoration:underline">EventSetup</span><span style="color:#F92672">&amp;</span><span style="color:#FD971F;font-style:italic"> iSetup</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">{</span></span>
+<span class="line"><span>   </span><span style="color:#A6E22E;text-decoration:underline">edm</span><span style="color:#F8F8F2">::Handle</span><span style="color:#F92672">&lt;</span><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F92672">&gt;</span><span style="color:#F8F8F2"> myHandle;</span></span>
+<span class="line"><span style="color:#F8F8F2">   iEvent.</span><span style="color:#A6E22E">getByToken</span><span style="color:#F8F8F2">( _mytoken, myHandle );</span></span>
+<span class="line"></span>
+<span class="line"><span>   </span><span style="color:#A6E22E;text-decoration:underline">std</span><span style="color:#F8F8F2">::auto_ptr</span><span style="color:#F92672">&lt;</span><span style="color:#66D9EF;font-style:italic">double</span><span style="color:#F92672">&gt;</span><span style="color:#A6E22E"> myptr</span><span style="color:#F8F8F2">( </span><span style="color:#F92672">new</span><span style="color:#66D9EF;font-style:italic"> double</span><span style="color:#F8F8F2"> );</span></span>
+<span class="line"><span style="color:#F92672">   *</span><span style="color:#F8F8F2">myptr </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> (</span><span style="color:#F92672">*</span><span style="color:#F8F8F2">myHandle) </span><span style="color:#F92672">*</span><span style="color:#F8F8F2"> (</span><span style="color:#F92672">*</span><span style="color:#F8F8F2">myHandle);</span></span>
+<span class="line"><span style="color:#F8F8F2">   iEvent.</span><span style="color:#A6E22E">put</span><span style="color:#F8F8F2">( myptr, </span><span style="color:#E6DB74">&quot;GaussSquare&quot;</span><span style="color:#F8F8F2"> );</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1xis8kf">The three new lines creates a new pointer to a double, store the results that
+we want, and associate the double with the <code>GaussSquare</code> name. If you are
+wondering what an
+<a href="http://en.cppreference.com/w/cpp/memory/auto_ptr" rel="nofollow"><code>auto_ptr</code></a> is, it is
+essentially the same as the pointer, except it automatically deletes at the end
+of the scope it is declared in. The use of this STL class, or its successor
+class <a href="http://en.cppreference.com/w/cpp/memory/unique_ptr" rel="nofollow"><code>std::unique_ptr</code></a>
+to call the <code>put</code> member function is mandatory.</p> <p data-svelte-h="svelte-1586t24">Next we need to add the following lines to the python configuration file:</p> <div class="code-block-container" data-svelte-h="svelte-g03d40"><div class="code-block-header"><span class="code-block-lang">[py]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F"># Same as before, but with the MyProducer instance instead</span></span>
+<span class="line"><span style="color:#F8F8F2">process.myProducerInstance </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.EDProducer(</span></span>
+<span class="line"><span style="color:#E6DB74">    &#39;MyProducer&#39;</span></span>
+<span class="line"><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">process.p </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.Path(process.myProducerInstance)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># We wish to output a EDM files containing all the stuff produced in this process</span></span>
+<span class="line"><span style="color:#F8F8F2">process.out </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.OutputModule(</span><span style="color:#E6DB74">&quot;PoolOutputModule&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#FD971F;font-style:italic">    fileName</span><span style="color:#F92672"> =</span><span style="color:#F8F8F2"> cms.untracked.string(</span><span style="color:#E6DB74">&#39;myoutput.root&#39;</span><span style="color:#F8F8F2">),</span></span>
+<span class="line"><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Marking the process as a EndPath (to be ran after everything else)</span></span>
+<span class="line"><span style="color:#F8F8F2">process.e </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> cms.EndPath( process.out )</span></span></code></pre></div></div> <p data-svelte-h="svelte-58u908">Next you could run the command</p> <div class="code-block-container" data-svelte-h="svelte-r4c03e"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>cmsRun python/Conf1.py</span></span></code></pre></div></div> <p data-svelte-h="svelte-sohn5p">You should see a new file called <code>myoutput.root</code>, and if you dump the contents
+of this file you should see:</p> <div class="code-block-container" data-svelte-h="svelte-sw5cxo"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Type                    Module                 Label           Process</span></span>
+<span class="line"><span>---------------------------------------------------------------------------------</span></span>
+<span class="line"><span>double                  &quot;myprod&quot;               &quot;Gauss&quot;         &quot;Dummy&quot;</span></span>
+<span class="line"><span>int                     &quot;myprod&quot;               &quot;Poisson&quot;       &quot;Dummy&quot;</span></span>
+<span class="line"><span>double                  &quot;myProducerInstance&quot;   &quot;GaussSquare&quot;   &quot;ProduceProcess&quot;</span></span></code></pre></div></div> <p data-svelte-h="svelte-1yy4cqr">You now have a new collection! You could also being to see where the three
+magic strings used to get objects in the <code>EDM</code> files are coming from:</p> <ul data-svelte-h="svelte-1w0u8s0"><li>The module name is the name you defined for the <code>cms.EDProducer</code> instance
+<strong>in the python file</strong></li> <li>the process name is the name you gave the <code>cms.Process</code> instance <strong>in the
+python file</strong>.</li> <li>The Label name is defined in the <code>C++</code> file on the <code>produces</code> call in the
+producer constructor. A common practice in the standard CMS data files is for
+each producer to produce only one variable for one type. In which case you
+can leave the entry in the <code>produces</code> call empty.</li></ul> <p data-svelte-h="svelte-1qcpjh0">It is worth noting that most of the standard “analysis recipes” in CMS revolves
+around using <code>EDProducers</code> to add more objects into an EDM file during runtime.
+For instance, we make a joint configuration to first product the “GaussSquare”
+variable before passing the calculation results to our <code>MyReader</code> class. In the
+next section, we will be introducing tool for better high level control flow in
+the python file, as well as a better look at the interface between the python
+and c++ interface.</p> <h2 id="comparison-between-fwlite-and-the-full-framework" data-svelte-h="svelte-1utr9cw"><a aria-hidden="true" tabindex="-1" href="#comparison-between-fwlite-and-the-full-framework"><span class="icon icon-link"></span></a>Comparison between <code>FWLite</code> and the full framework</h2> <p data-svelte-h="svelte-1ogot40">As you have probably seen, a CMSSW framework is aimed for event looping and
+event looping only. If you want to combine various <code>EDM</code> files with different
+weight associated with each file, it is do-able, but very hard. The <code>CMSSW</code>
+full framework is meant to dealing with bulk calculations across many files.
+The reason for using plugins and such C++ technologies is used so that the full
+framework could also multithreaded with minimal amount of additional user
+coding. The full framework should be used to reduce the bulky, general purpose
+files into a handful of variable/objects that are interesting to an analysis,
+and then a more flexible <code>fwlite</code> framework could be used to read the output
+and produce the final calculation.</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#c++">c++</a></span><span class="svelte-9cibcw"><a href="../../tags/#python">python</a></span><span class="svelte-9cibcw"><a href="../../tags/#cmssw">cmssw</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

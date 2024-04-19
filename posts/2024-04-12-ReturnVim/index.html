@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Returning to (Neo)Vim</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Returning to (Neo)Vim</h1> <p>2024.Apr.12</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-11o2t8s"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-cases-i-made-for-an-alternate-editor">The cases I made for an alternate editor</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-great-features-of-neovim">The great features of neovim</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#language-server-protocol">Language server protocol</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#fuzzy-finder">Fuzzy finder</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-functionalities-that-i-still-havent-found-the-solutions-for">Some functionalities that I still haven’t found the solutions for</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-new-functionalities-that-i-should-continue-learning">Some new functionalities that I should continue learning</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#links-to-resources">Links to resources</a></li></ol></nav> <p data-svelte-h="svelte-3n3zfi"><a href="http://yimuchen.github.io/Migrating-to-Atom/" rel="nofollow">Eight years ago</a>, I moved away from vim to using a graphical editor
+<a href="https://en.wikipedia.org/wiki/Atom_(text_editor)" rel="nofollow">Atom</a> (and later <a href="https://code.visualstudio.com/" rel="nofollow">VS Code</a>); four months ago, I started
+reconfiguring the many dot files to once again make the
+(<a href="https://neovim.io/" rel="nofollow">neo</a>)<a href="https://www.vim.org/" rel="nofollow">vim</a> my main editor. After close to cleaning up my first
+round of ricing (yes, it took 4 months), I’ve decided to revisit some of the
+issues I had when with vim at the time, and see what has changed my influence
+to change yet again.</p> <h2 id="the-cases-i-made-for-an-alternate-editor" data-svelte-h="svelte-teluj1"><a aria-hidden="true" tabindex="-1" href="#the-cases-i-made-for-an-alternate-editor"><span class="icon icon-link"></span></a>The cases I made for an alternate editor</h2> <p data-svelte-h="svelte-eksc8d">My old writing contained quite a bit of unrelated rambling, so to condense it
+down the following points:</p> <ul data-svelte-h="svelte-ytgjgp"><li><p><strong>Graphical feedback</strong>: from the smaller things like icons for indications of
+file type when navigating file systems; odd items like a minimap for
+indicating the overall file layout; preview to graphical output elements,
+like plots and latex formulas.</p> <p>While some of these items are partially solved with newer technologies (such
+as the first item with <a href="https://www.nerdfonts.com/" rel="nofollow">nerd fonts</a>; <a href="https://saitoha.github.io/libsixel/" rel="nofollow">sixel</a> for graphical
+results display), the requirement for constant feed-back actually points to a
+different issue in editing that I did not properly identify: can my editor
+help me make less mistakes, and indicate when I might be doing something
+wrong? The tools that has been developed since then also means that new
+editing tools make a lot of the concerns that I have be a moot point.</p></li> <li><p><strong>Obtuse-ness</strong>: At the time, I was complaining that keystrokes in vim was
+“too different” from other programs. What I realized over time is that
+problem with keystrokes is less to do with how obtuse the keystrokes are, but
+rather how easy it is to look up keystrokes that you might have forgotten,
+either because you are still learning the system, or it is a functionality
+that you did not use for some time. An alternate workflow for graphical
+editors for example:, while the keystrokes required to insert a “π” character
+in LibreOffice is also rather obtuse (<code>&lt;Alt&gt;i&lt;Alt&gt;ppi&lt;Cr&gt;&lt;Esc&gt;</code>), because of
+the graphical feedback, on holding down <code>Alt</code>, you can immediately see what
+keystrokes are needed to navigate the toolbar to reach what you need. So
+effectively, when trying to learn a new function, the only keystroke that I
+need to keep track of is effectively just <code>Alt</code>. At the time, I did not know
+whether there is an easy way to discover the mapping of additional vim
+motions other than <a href="https://en.wikipedia.org/wiki/RTFM" rel="nofollow">RTFM</a>. While reading the manual should be the best
+path to learn, having to constantly hop in-and-out of the editor just to
+learn the editor add rather heavily to the already steep learning curve.</p> <p>Another aspect of obtuseness that I did not explicitly say, was also that
+configuring vim via <a href="https://learnvimscriptthehardway.stevelosh.com/" rel="nofollow">vimscript</a> did (at least at the time), feel a
+lot less intuitive than writing a JSON file that feels easier to organize and
+track for configuration. This is one of the reasons that I opted to use
+<a href="https://neovim.io/" rel="nofollow">neovim</a> rather than <a href="https://www.vim.org/" rel="nofollow">vim</a>, with understanding how to do
+configurations with a general purpose language (<a href="https://www.lua.org/" rel="nofollow">lua</a>) makes everything
+simpler to learn.</p></li></ul> <p data-svelte-h="svelte-11ufsda">How that I have re-discussed the pain points that pushed me away from vim eight
+years ago, lets discussion the new points that pulled me back to vim after all
+these years.</p> <h2 id="the-great-features-of-neovim" data-svelte-h="svelte-1q59euo"><a aria-hidden="true" tabindex="-1" href="#the-great-features-of-neovim"><span class="icon icon-link"></span></a>The great features of neovim</h2> <p data-svelte-h="svelte-1ojkukz">The pain points that I discussed previously actually applies to many of the
+general workflow: how can my editor assist in text editing, pointing out when I
+make hard mistakes, and giving hints about items that I need refreshing in? The
+maturity of the two following tools are basically the killer apps that got me
+back into wanting to use neovim.</p> <h3 id="language-server-protocol" data-svelte-h="svelte-1gop2e3"><a aria-hidden="true" tabindex="-1" href="#language-server-protocol"><span class="icon icon-link"></span></a>Language server protocol</h3> <p data-svelte-h="svelte-umexr8"><a href="https://microsoft.github.io/language-server-protocol/" rel="nofollow">Language server protocols (LSP)</a> is what is need for you editor to
+understand the context of the code that you are editing. This includes the
+ability to make give in-time syntax error warning, context aware autocomplete,
+function signature lookup and hinting, and project-wide navigation and editing.
+Here we have a look at some of the functionality that can be brought to the
+editor if your editor has full integration with the language that you are
+working with. Because LSPs are a program separate from the actual editor, this
+means that it will not slow down you keystrokes on large files/project (one on
+the reasons why I gave up on an autocomplete plugin when I was using vanilla vim
+8 years ago), just that the suggestions might take a bit longer to show up.</p> <ul data-svelte-h="svelte-1s67978"><li>Syntax error indicator and warnings</li> <li>Context-aware autocomplete</li> <li>Function signature look up</li> <li>Code navigation - go to definition</li> <li>Code navigation - go to call instances</li> <li>Code navigation - go to next issue/list all issues in directory</li> <li>Project wide renaming</li></ul> <figure data-svelte-h="svelte-17rrq3l"><img src="../../image/posts/20240412/lsp_opt.GIF"> <figcaption>A quick demonstraction of the functionalities of LSP in code editing
+   workflow</figcaption></figure> <p data-svelte-h="svelte-5kyhba">Strangely enough, while LSP was originally developed for VS Code, it never
+quite worked properly for me, with the functions look up function never quite
+working unless I had the file containing the function in question opened in
+another tab. While <a href="https://github.com/VonHeikemen/lsp-zero.nvim" rel="nofollow">configuring LSPs</a> for neovim is not trivial, I did
+find it cohesive, and there are already complete resources out there for
+settings this. (Shout out to <a href="https://www.youtube.com/watch?v=w7i4amO_zaE&t=47s" rel="nofollow">this</a> ThePrimeagen video that convinced
+me to jump back into the vim world).</p> <h3 id="fuzzy-finder" data-svelte-h="svelte-wbyvse"><a aria-hidden="true" tabindex="-1" href="#fuzzy-finder"><span class="icon icon-link"></span></a>Fuzzy finder</h3> <p data-svelte-h="svelte-ypc88d">The secondary function is related to navigation: how do I look for a some code
+snippet, a particular file, some editor functionality from within the editor?
+What if I only remember some part of what I wanted to look up? Fuzzy finding is
+by no means a “new” idea, but the maturity of a fuzzy finding plugin such as
+<a href="https://github.com/nvim-telescope/telescope.nvim" rel="nofollow">telescope</a>, and its integration with neovim itself and its plugin
+functionalities means that there is now just a few sets of keystrokes that you
+need to set up to generically find items when code editing. You have actually
+seen telescope in action in the demonstation of the LSP functionalities. But
+here are some additional niceties that was not demonstrated:</p> <ul data-svelte-h="svelte-1sjzaah"><li>Find file by name (regardless of nested directory)</li> <li>Find file by grep pattern</li> <li>Find neovim lua API</li> <li>Find in current key maps</li></ul> <figure data-svelte-h="svelte-qifnwj"><img src="../../image/posts/20240412/fzf_opt.GIF"> <figcaption>Some common search navigations one can achieve with a good fuzzy finder.</figcaption></figure> <p data-svelte-h="svelte-1ctcv1m">The maturity of such plugins arguably changed my workflow just as much as LSPs,
+as jumping between what needs to be edited was something that disrupted my
+though process quite a bit. While fuzzy searches exist for the graphical
+editors, each item typically needs to open up something additional start the
+lookup process. Here the simplicity of a text-based interact actually works in
+favor of such functionalities, with any search being able to fired up
+immediately with a similar interface. Using this, my old requirements of
+keeping a file tree open at all times, having a file layout minimap, and having
+to have a separate “project manager” functionality in the editor now looks like
+and strange solution to a problematic workflow.</p> <hr> <p data-svelte-h="svelte-1micujr">Of course, being an open source project, there are of course many ways to add
+plenty of custom workflow improvements (and plenty of eye candy :))</p> <ul data-svelte-h="svelte-pexzzw"><li><p><a href="https://github.com/nvim-lualine/lualine.nvim" rel="nofollow">statuslines</a>/<a href="https://github.com/utilyre/barbecue.nvim?tab=readme-ov-file" rel="nofollow">breadcrumbs</a>. The addition of these 2 were
+actually utility inspired, when I had to stop talking during a screen share
+sessions, as to the collaborator having to constantly ask “which
+file/function are we on?” during the jumping around we can now do with LSP
+navigation. You can see these items in action in all the demonstration images
+above.</p></li> <li><p><a href="https://github.com/stevearc/oil.nvim/" rel="nofollow">oil</a>: Creating/renaming/removing text files as if it were a text
+buffer. Since telescope mainly works with existing files, oils was a nice
+addtion for directory tree navigation and manipulation.</p></li></ul> <figure data-svelte-h="svelte-35rqpu"><img src="../../image/posts/20240412/oil_opt.GIF"> <figcaption>Editing directory structure like a text buffer is kinda cool!</figcaption></figure> <ul data-svelte-h="svelte-9rnk6q"><li><a href="https://github.com/startup-nvim/startup.nvim/tree/master" rel="nofollow">startup</a>: To tell people “I use vim BTW”</li></ul> <figure data-svelte-h="svelte-ugzfv"><img src="../../image/posts/20240412/IusevimBTW.png"> <figcaption>Did I remember to say &quot;I use vim&quot; BTW?</figcaption></figure> <hr> <p data-svelte-h="svelte-jhs65y">With neovim working with lua, adding custom functionality is rather fun to
+learn once you get over the funny amalgamation of list and maps that is <a href="https://www.lua.org/pil/2.5.html" rel="nofollow">lua
+tables</a> and the very funny <a href="https://www.lua.org/pil/11.1.html" rel="nofollow">start-by-1 indexing</a> syntax. I
+have already added 2 functionality (not quite to the quality of an actual plugin)</p> <ul data-svelte-h="svelte-10dnb6r"><li><p><a href="https://github.com/yimuchen/dotfiles/blob/master/nvim/after/plugin/rsync.lua" rel="nofollow"><code>rsync</code> on save</a>: when working with remote servers, I like making all
+my edits locally, then passing newly edited files to the remote machine. This
+ensures that I can have a consistent editing environment without having to
+worry about what tools are available on the server. It also doubles as a
+backup copy on my local machine in case there were network outages and
+version management.</p></li> <li><p><a href="https://github.com/yimuchen/dotfiles/blob/master/nvim/after/plugin/startup.lua" rel="nofollow"><code>startup</code> with projects list</a>: not really a function that I use
+a lot, but since I moved away from using project managers, it seems good to
+have the start-up page list the 10 recent git repository edits (I very rarely
+use <code>startup</code>, so as long as ensure directory crawling is only performed on a
+<code>startup</code>, this has very minimal impact on neovim startup page).</p></li></ul> <h2 id="some-functionalities-that-i-still-havent-found-the-solutions-for" data-svelte-h="svelte-1e80vpm"><a aria-hidden="true" tabindex="-1" href="#some-functionalities-that-i-still-havent-found-the-solutions-for"><span class="icon icon-link"></span></a>Some functionalities that I still haven’t found the solutions for</h2> <p data-svelte-h="svelte-l1n59u">As of writing there is just one (admitted rather large) chunk of the workflow
+that I have not quite found solution to, and complicated enough that I cannot
+write up a solution in the 4 months of ricing. That is <strong><a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop" rel="nofollow">REPL</a>
+integration</strong>. Working with data analysis, a lot of the work flow requires me
+to write some code, checkout the partially processed data, then continue
+writing the next piece of code based on what I see. The requirement to see the
+output to write the next piece of code is the reason why the
+<a href="https://jupyter.org/" rel="nofollow">notebook</a> workflow is so popular. While there are existing REPL
+integration <a href="https://github.com/benlubas/molten-nvim" rel="nofollow">plugins</a> in neovim, there are still items that feel like
+breaking the neovim flow, with it requiring external buffers to open the
+window, and inline output displays not really looking very nice in a pure
+text-based display. The plugin still looks very active, though, so such this
+verdict may change soon in the future!</p> <h2 id="some-new-functionalities-that-i-should-continue-learning" data-svelte-h="svelte-cjga9r"><a aria-hidden="true" tabindex="-1" href="#some-new-functionalities-that-i-should-continue-learning"><span class="icon icon-link"></span></a>Some new functionalities that I should continue learning</h2> <ul data-svelte-h="svelte-395f2b"><li><strong>Vim motions</strong>: despite all that I have said about vim, my ability to
+properly use vim motions is terrible (If you noticed the lack of <code>hjkl</code>
+strokes in the demos above). Luckily, vim being vim, there are
+<a href="https://github.com/ThePrimeagen/vim-be-good" rel="nofollow">plugins</a> for that.</li> <li><strong>Git integration</strong>: I still mainly use git directly in the command line,
+though I’m also terrible with git. Learning more about how to use git and
+understanding how to use it in a vim <a href="https://github.com/tpope/vim-fugitive" rel="nofollow">workflow</a> would be nice.</li> <li><strong>Edit history</strong>: we how to effectively use the <a href="https://github.com/mbbill/undotree" rel="nofollow">edit histories</a> to
+make partial editing less of a pain.</li></ul> <h2 id="links-to-resources" data-svelte-h="svelte-s7mk5b"><a aria-hidden="true" tabindex="-1" href="#links-to-resources"><span class="icon icon-link"></span></a>Links to resources</h2> <ul data-svelte-h="svelte-ur31lp"><li>A link to my neovim configuration:
+<a href="https://github.com/yimuchen/dotfiles/tree/master/nvim" rel="nofollow">https://github.com/yimuchen/dotfiles/tree/master/nvim</a></li> <li>An up-to-date tutorial on neovim configurations from one of the core
+maintainers of neovim. Serves well as a good introductory video for how to
+understand neovim configurations:
+<a href="https://www.youtube.com/watch?v=m8C0Cq9Uv9o" rel="nofollow">https://www.youtube.com/watch?v=m8C0Cq9Uv9o</a></li> <li>GitHub repository of the video above:
+<a href="https://github.com/nvim-lua/kickstart.nvim" rel="nofollow">https://github.com/nvim-lua/kickstart.nvim</a></li></ul></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#vim">vim</a></span><span class="svelte-9cibcw"><a href="../../tags/#computing">computing</a></span><span class="svelte-9cibcw"><a href="../../tags/#tips">tips</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Making Vim Awesome</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Making Vim Awesome</h1> <p>2016.Feb.24</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-1raczg9"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#general-recommendations">General recommendations</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#configuring-vim">Configuring Vim</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#my-vimrc-settings">My vimrc settings</a><ol class="toc-level toc-level-3"><li class="toc-item toc-item-h4"><a class="toc-link toc-link-h4" href="#indention-settings">Indention settings</a><ol class="toc-level toc-level-4"><li class="toc-item toc-item-h5"><a class="toc-link toc-link-h5" href="#wild-card-settings">Wild card settings</a></li></ol></li></ol></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#search-settings">Search settings</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#line-number">Line number</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#miscellaneous-settings">Miscellaneous settings</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-essential-plugins">The Essential Plugins</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#vundle---the-package-manager">Vundle - the package manager</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#vim-airline---the-informative-interface">Vim Airline - the informative interface</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#ultisnip---programmable-snippet-insertion">Ultisnip - Programmable snippet insertion</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-nice-plugins">The Nice plugins</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#tabular---aligning-on-characters">Tabular - Aligning on characters</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#nerdtree---displaying-the-directory-structure">NerdTree - Displaying the directory structure</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#youcompleteme---advance-auto-completion-system">YouCompleteMe - Advance auto-completion system</a></li></ol></li></ol></nav> <p data-svelte-h="svelte-8o4reb">I guess the best way to say goodbye to vim would be to give a nice list of the
+things that I found handy in vim. As always with customizable tools like this,
+there is no definitive answer to how to make vim awesome. I would advise you to
+look at some basic <code>vimrc</code> settings and browse through <a href="http://vimawesome.com/" rel="nofollow">vim
+awesome</a> to find the things that make your vim
+workflow work best for you!</p> <h2 id="general-recommendations" data-svelte-h="svelte-fl4s2a"><a aria-hidden="true" tabindex="-1" href="#general-recommendations"><span class="icon icon-link"></span></a>General recommendations</h2> <p data-svelte-h="svelte-1l58bxo">For those who are still getting familiar with vim, the <a href="http://www.openvim.com/" rel="nofollow">interactive vim
+tutorial</a> is a good place to get started with the
+basic commands.</p> <ul data-svelte-h="svelte-3jhopu"><li>For general recommendation on the vimrc file, checkout the <a href="http://vim.wikia.com/wiki/Example_vimrc" rel="nofollow">vim wiki
+page</a>.</li> <li>For a list of commonly used plugins, see <a href="http://vimawesome.com/" rel="nofollow">vim
+awesome</a>.</li> <li>For in depth tutorials on popular vim plugins and vim scripting, check out
+<a href="http://vimcasts.org/" rel="nofollow">Vim cast</a></li></ul> <h2 id="configuring-vim" data-svelte-h="svelte-157vjh1"><a aria-hidden="true" tabindex="-1" href="#configuring-vim"><span class="icon icon-link"></span></a>Configuring Vim</h2> <p data-svelte-h="svelte-xaroml">As my brother said:</p> <blockquote data-svelte-h="svelte-1uca8pq"><p>Vim is not just a program, it is a standard to which people compare what one
+could expect out of their text editors</p></blockquote> <p data-svelte-h="svelte-c38g3q">So vim is not the “Real men use h-j-k-l” elitist BS that some people like to
+say, but what is possible in the text editor: Custom key-mapping, macros, block
+editing, keystroke recording… etc. The true power of vim is not in what you
+get directly out of the box, but what is potentially possible by the vim
+configuration settings via the <code>~/.vimrc</code> file. In addition to the powerful
+engines already given to you by vim (regex, syntax/file-type awareness…etc.),
+the configuration is programmable, so that you could shape vim to suit your own
+specific needs.</p> <hr> <h3 id="my-vimrc-settings" data-svelte-h="svelte-5mjv8h"><a aria-hidden="true" tabindex="-1" href="#my-vimrc-settings"><span class="icon icon-link"></span></a>My <code>vimrc</code> settings</h3> <p data-svelte-h="svelte-7y51as">Here is the list of options that I have activated to improve the overall typing
+experience. If you are highly into text based stuff, I highly recommend
+checking out some of the options (and related) below to find what works the
+best for you!</p> <h4 id="indention-settings" data-svelte-h="svelte-nr01ub"><a aria-hidden="true" tabindex="-1" href="#indention-settings"><span class="icon icon-link"></span></a>Indention settings</h4> <p data-svelte-h="svelte-1qf4mir">Indention is the simplest way of keeping maintaining appearance in text files,
+so might as well life easier</p> <div class="code-block-container" data-svelte-h="svelte-14bg2mc"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>set tabstop=3       &quot;&quot; Setting indention width</span></span>
+<span class="line"><span>set shiftwidth=3</span></span>
+<span class="line"><span>set expandtab       &quot;&quot; Replacing tab with spaces</span></span>
+<span class="line"><span>set smarttab        &quot;&quot; Use tab instead of spaces</span></span>
+<span class="line"><span>set autoindent      &quot;&quot; Indenting to current indention levle on new line input</span></span></code></pre></div></div> <h5 id="wild-card-settings" data-svelte-h="svelte-uonhk7"><a aria-hidden="true" tabindex="-1" href="#wild-card-settings"><span class="icon icon-link"></span></a>Wild card settings</h5> <p data-svelte-h="svelte-vn8dqw">Finding files should be left to the computer, not the user. Open files with
+command line like auto complete</p> <div class="code-block-container" data-svelte-h="svelte-z8t9x3"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>set wildmenu                &quot;&quot; Enable wild card</span></span>
+<span class="line"><span>set wildmode=longest,full   &quot;&quot; Set to autocomplete to the longest prefix</span></span>
+<span class="line"><span>set wildignore+=*.a,*.o     &quot;&quot; Setting to ignore non-textbased extensions</span></span>
+<span class="line"><span>set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png</span></span>
+<span class="line"><span>set wildignore+=.DS_Store,.git,.hg,.svn</span></span>
+<span class="line"><span>set wildignore+=*~,*.swp,*.tmp</span></span></code></pre></div></div> <h3 id="search-settings" data-svelte-h="svelte-dbmt49"><a aria-hidden="true" tabindex="-1" href="#search-settings"><span class="icon icon-link"></span></a>Search settings</h3> <p data-svelte-h="svelte-rh2rww">Settings I found when I just into vim, molded my workflow around them…</p> <div class="code-block-container" data-svelte-h="svelte-1iot8hs"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>set showmatch   &quot;&quot; Automatically move cursor to next results position</span></span>
+<span class="line"><span>set hlsearch    &quot;&quot; Highlight search results</span></span>
+<span class="line"><span>set incsearch</span></span>
+<span class="line"><span>set ignorecase  &quot;&quot; Ignore upper/lower-case different when searching all under-case</span></span>
+<span class="line"><span>set smartcase   &quot;&quot; Case-dependent search when search query includes uppercase or regex</span></span></code></pre></div></div> <h3 id="line-number" data-svelte-h="svelte-ljld1v"><a aria-hidden="true" tabindex="-1" href="#line-number"><span class="icon icon-link"></span></a>Line number</h3> <p data-svelte-h="svelte-oh1crl">Let vim display the line number.</p> <div class="code-block-container" data-svelte-h="svelte-8xy55"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>set number            &quot;&quot; Display linenumber</span></span>
+<span class="line"><span>set relativenumber    &quot;&quot; Show linenumber relative tu cursor</span></span>
+<span class="line"><span>set numberwidth=4     &quot;&quot; Width of numberline column</span></span></code></pre></div></div> <h3 id="miscellaneous-settings" data-svelte-h="svelte-9l8p8r"><a aria-hidden="true" tabindex="-1" href="#miscellaneous-settings"><span class="icon icon-link"></span></a>Miscellaneous settings</h3> <p data-svelte-h="svelte-e6u579">Other settings</p> <div class="code-block-container" data-svelte-h="svelte-a3npha"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>set showcmd                   &quot;&quot; Show input commands at bottom of screen</span></span>
+<span class="line"><span>set backspace=2               &quot;&quot; Allow backspace across new-line</span></span>
+<span class="line"><span>set formatoptions=c,q,r,t</span></span>
+<span class="line"><span>set ruler                     &quot;&quot; Display cursor position</span></span>
+<span class="line"><span>set background=dark           &quot;&quot; Choose color scheme for dark background</span></span>
+<span class="line"><span>set mouse=a                   &quot;&quot; Enable mouse interaction</span></span>
+<span class="line"><span>set shell=zsh\ --login        &quot;&quot; Set shell command environment to match regular terminal</span></span></code></pre></div></div> <p data-svelte-h="svelte-10w0w3g">Note that syntax highlighting would require <code>filetype on</code>, but we need to set
+up the plugin manager first.</p> <hr> <h2 id="the-essential-plugins" data-svelte-h="svelte-1fhembh"><a aria-hidden="true" tabindex="-1" href="#the-essential-plugins"><span class="icon icon-link"></span></a>The Essential Plugins</h2> <p data-svelte-h="svelte-1hpx1so">Though I say that vim configuration, I haven’t actually written any vim scripts
+myself, you could find a nice tutorial
+<a href="http://learnvimscriptthehardway.stevelosh.com/" rel="nofollow">here</a> though. What I do use
+are the plugins that are already written by others and do minor settings to
+make it look better. For a nice list of available and actively maintained
+plugins, check out <a href="https://vimawesome.org" rel="nofollow">vim awesome</a>.</p> <p data-svelte-h="svelte-vjoarg">The following plugins listed below is what I consider to be essential in my
+workflow, and editing in vim simply wouldn’t be the same without.</p> <h3 id="vundle---the-package-manager" data-svelte-h="svelte-1b8gl8v"><a aria-hidden="true" tabindex="-1" href="#vundle---the-package-manager"><span class="icon icon-link"></span></a>Vundle - the package manager</h3> <p data-svelte-h="svelte-1fnms2w">A package manager that is simple to use and maintain. To use it add the
+following lines to vimrc</p> <div class="code-block-container" data-svelte-h="svelte-txtfo9"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>set nocompatible</span></span>
+<span class="line"><span>filetype off</span></span>
+<span class="line"><span>set rtp+=~/.vim/bundle/Vundle.vim</span></span>
+<span class="line"><span>call vundle#begin()</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Plugin &#39;gmarik/Vundle.vim&#39;</span></span>
+<span class="line"><span>&quot;&quot;&quot; Add pacakges like [github_user]/[repository name]</span></span>
+<span class="line"><span>call vundle#end()</span></span>
+<span class="line"><span>filetype on</span></span>
+<span class="line"><span>filetype plugin on</span></span>
+<span class="line"><span>filetype indent on</span></span></code></pre></div></div> <p data-svelte-h="svelte-pkth0d">The lines that need to be added to vim could be directly found on
+<a href="https://vimawesome.org" rel="nofollow">vimawesome</a>.</p> <h3 id="vim-airline---the-informative-interface" data-svelte-h="svelte-1o3nk55"><a aria-hidden="true" tabindex="-1" href="#vim-airline---the-informative-interface"><span class="icon icon-link"></span></a>Vim Airline - the informative interface</h3> <p data-svelte-h="svelte-n8ouw7">During editing, you might want to get some useful information about your
+editing conditions, like your operation mode, the path of the file you are
+editing, the tabs you have opened, the git branch, the cursor position… etc.</p> <figure data-svelte-h="svelte-lsxisz"><img src="http://gdriv.es/ensc_github/vim_airline.png"> <figcaption>A nice interface display!</figcaption></figure> <p data-svelte-h="svelte-j9r8s0">While all of this information is available by the vim command line, this
+package makes is possible to choose the information you are typically
+interested and display it in a consistence and pretty way!</p> <p data-svelte-h="svelte-fzllz">To use add <code>Plugin &#39;bling/air-line&#39;</code> to the plugin lines, for the better fonts,
+you might want to install the <a href="https://powerline.readthedocs.org/en/master/installation/linux.html" rel="nofollow">powerline
+fonts</a> to you
+fonts (system or otherwise).</p> <h3 id="ultisnip---programmable-snippet-insertion" data-svelte-h="svelte-1kufhbk"><a aria-hidden="true" tabindex="-1" href="#ultisnip---programmable-snippet-insertion"><span class="icon icon-link"></span></a>Ultisnip - Programmable snippet insertion</h3> <p data-svelte-h="svelte-1yx4w0k">In coding there are typically patterns that will occur over and over again
+(Class declaration, tags, loops and ifs, comment blocks…) Snippets allow you
+to add inputs by simple inputs and string substitution so that you don’t need
+to key class names multiple times. What’s more, the output could be programmable
+by python to change based on your input in various sections!</p> <figure data-svelte-h="svelte-1uy781r"><img src="https://camo.githubusercontent.com/296aecf30e1607233814196db6bd3f5f47e70c73/68747470733a2f2f7261772e6769746875622e636f6d2f5369725665722f756c7469736e6970732f6d61737465722f646f632f64656d6f2e676966"> <figcaption>Ultisnip in action!</figcaption></figure> <p data-svelte-h="svelte-1t9gvjj">To use add <code>Plugin &#39;SirVer/ultisnips&#39;</code> to the plugins lines. See the GitHub
+page Readme.md for examples on programmable snippets!</p> <p data-svelte-h="svelte-zr65xo">My little test script was to make a separator comment what is easy to type!
+(For on how this is achieved, see my <a href="https://github.com/yimuchen/UnixConfig/blob/master/vim/UltiSnips/cpp.snippets" rel="nofollow">GitHub
+repository</a>)</p> <div class="code-block-container" data-svelte-h="svelte-edcv9w"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>//----- This is a seperator -------------------------------------------</span></span>
+<span class="line"><span>dummy_code = a ;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>//----- This is also seperator, with more test ------------------------</span></span>
+<span class="line"><span>dummy_code = b ;</span></span></code></pre></div></div> <p data-svelte-h="svelte-p6iap2">This is the feature that I miss the most about vim when migrating to
+<a href="https://atom.io" rel="nofollow">atom</a>, The snippet system in atom simply isn’t mature enough,
+and In my nearly two years in vim I have accumulated some snippets that is a
+bit annoying to port into atom’s <code>cson</code> format.</p> <hr> <h2 id="the-nice-plugins" data-svelte-h="svelte-si3pdw"><a aria-hidden="true" tabindex="-1" href="#the-nice-plugins"><span class="icon icon-link"></span></a>The Nice plugins</h2> <p data-svelte-h="svelte-1tukg37">The following are packages that ones that are not commonly used in everyday
+workflow, But is nice to have around.</p> <h3 id="tabular---aligning-on-characters" data-svelte-h="svelte-ura3oq"><a aria-hidden="true" tabindex="-1" href="#tabular---aligning-on-characters"><span class="icon icon-link"></span></a>Tabular - Aligning on characters</h3> <p data-svelte-h="svelte-je45ni">In the code I’m helping to maintain, there are usually long sections of
+declaration and assignment, and it helps with my sanity if I could align my
+code by the <code>=</code> operator or other aspects strings in the code!</p> <p data-svelte-h="svelte-6d72j5">Add the line <code>Plugin &#39;godlygeek/tabular&#39;</code> to use this plugin, and check out the
+<a href="http://vimcasts.org/episodes/aligning-text-with-tabular-vim/" rel="nofollow">vim cast video</a>
+to see how to use it!</p> <h3 id="nerdtree---displaying-the-directory-structure" data-svelte-h="svelte-1nbhh1l"><a aria-hidden="true" tabindex="-1" href="#nerdtree---displaying-the-directory-structure"><span class="icon icon-link"></span></a>NerdTree - Displaying the directory structure</h3> <p data-svelte-h="svelte-96s8d">Since vim is command line based and a lot of the work flow would be based
+around paths, it would be nice that the user could get a display of the
+directory structure if ever needed to be referenced. Since my discovery of the
+<code>tree</code> command, this task is typically managed via command line. But I do like
+my some interface open when I work.</p> <h3 id="youcompleteme---advance-auto-completion-system" data-svelte-h="svelte-1f3jbkg"><a aria-hidden="true" tabindex="-1" href="#youcompleteme---advance-auto-completion-system"><span class="icon icon-link"></span></a>YouCompleteMe - Advance auto-completion system</h3> <p data-svelte-h="svelte-1qeimrz">This is a syntax aware, content aware, fuzzy matching auto-completion system.
+This plugin is a bit hard to recommend: it’s heavy, sluggish with large files,
+and has a lot of dependencies if you want it to work with self-defined C++
+functions. But it works well with a number of other plugins (Ultisnip via
+supertab), and simply works with most of the stuff I expect from an
+auto-completions system.</p> <hr> <p data-svelte-h="svelte-fs7p74">Well, that is that. Since vim will survive in my main program as a system file
+editor, most of the heavier plugins will be disabled (ultisnip and
+YouCompleteMe). If you want to use vim as your primary text editor for general
+purpose text related tasks, I highly recommend checking out the settings that I
+have used above!</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#vim">vim</a></span><span class="svelte-9cibcw"><a href="../../tags/#computing">computing</a></span><span class="svelte-9cibcw"><a href="../../tags/#tips">tips</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

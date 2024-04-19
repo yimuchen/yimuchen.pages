@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Multi slides structure for reveal.js</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/code_head_1.png&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Multi slides structure for reveal.js</h1> <p>2016.Apr.21</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-149guas"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-i-needed-and-tools-available">What I needed and tools available</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#building-the-solution">Building the solution</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#tidying-up">Tidying up</a></li></ol></nav> <p data-svelte-h="svelte-pz5vtu">A few weeks back, I began to take a look at
+<a href="http://lab.hakim.se/reveal-js/" rel="nofollow">reveal.js</a> for presentation making. While the
+results looked fantastic, there are one key aspect that I need to mode in: The
+ability to keep multiple slides with the same theme with as little overhead as
+possible.</p> <h2 id="what-i-needed-and-tools-available" data-svelte-h="svelte-147sg39"><a aria-hidden="true" tabindex="-1" href="#what-i-needed-and-tools-available"><span class="icon icon-link"></span></a>What I needed and tools available</h2> <p data-svelte-h="svelte-owhcbi">I need to make slides for update reports nearly every week, so I wanted a way
+where <strong>all</strong> the styling and plugin management could be placed in a master
+<code>html</code> file while the contents are kept in other <code>.md</code> or <code>.html</code> files.</p> <p data-svelte-h="svelte-l2v834">The ability to do so is actually already implemented in the <a href="https://github.com/hakimel/reveal.js/blob/master/plugin/markdown/example.html" rel="nofollow"><code>markdown</code>
+plugin</a>
+of reveal.js, since we could change the entire contents of a slide by the
+changing the attributes of the <code>&lt;section&gt;</code> tag:</p> <div class="code-block-container" data-svelte-h="svelte-y2qlvg"><div class="code-block-header"><span class="code-block-lang">[html]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F92672">section</span><span style="color:#A6E22E"> data-markdown</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;example.md&quot;</span></span>
+<span class="line"><span style="color:#A6E22E">         data-separator</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;^\n\n\n&quot;</span></span>
+<span class="line"><span style="color:#A6E22E">         data-separator-vertical</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;^\n\n&quot;</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;/</span><span style="color:#F92672">section</span><span style="color:#F8F8F2">&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-1eab860">Here we only need to alter one line of code to change a big chunk of content in
+my slides!</p> <p data-svelte-h="svelte-ueoxim">Now that challenge was solved a bit too easily, so I introduced a new goal: not
+having to change the code to alter presentation content, which is more
+convenient for people to are interested in the contents of the slide.</p> <p data-svelte-h="svelte-1le29dh">I didn’t want to go all ham with a <a href="http://php.net/" rel="nofollow">php</a> server, as I might
+not have the luxury to deploy it. I decided to look into a
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" rel="nofollow">JavaScript</a> solution
+to the problem.</p> <h2 id="building-the-solution" data-svelte-h="svelte-oeebqs"><a aria-hidden="true" tabindex="-1" href="#building-the-solution"><span class="icon icon-link"></span></a>Building the solution</h2> <p data-svelte-h="svelte-1ifqe4x">There is already a JavaScript function that to change the attribute of a element:</p> <div class="code-block-container" data-svelte-h="svelte-10p6qng"><div class="code-block-header"><span class="code-block-lang">[js]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">document.</span><span style="color:#A6E22E">getElementById</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;foo&quot;</span><span style="color:#F8F8F2">).</span><span style="color:#A6E22E">setAttribute</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;data-markdown&quot;</span><span style="color:#F8F8F2">, </span><span style="color:#E6DB74">&quot;my.md&quot;</span><span style="color:#F8F8F2"> );</span></span></code></pre></div></div> <p data-svelte-h="svelte-qgie3n">The only problem is that this function has to be called before the Markdown
+plugin is called for the file to actually be processed. So this method could
+not be called on an event, but has to be called explicitly during the document
+loading. In other words, we have to know what the file we want to load before
+the file is loaded. The simplest solution to this is to directly store this
+information in the request URL!</p> <p data-svelte-h="svelte-1lsantw">We could specify the change we want by a pseudo <a href="http://www.w3schools.com/tags/ref_httpmethods.asp" rel="nofollow">HTTP GET
+method</a>: altering the URL to
+be something like:</p> <div class="code-block-container" data-svelte-h="svelte-1pfjipi"><div class="code-block-header"><span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>https://my/url/index.html?date=2016-04-22</span></span></code></pre></div></div> <p data-svelte-h="svelte-j98qu9">and extracting the results via JavaScript regex searching:</p> <div class="code-block-container" data-svelte-h="svelte-1nokt9k"><div class="code-block-header"><span class="code-block-lang">[js]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">var</span><span style="color:#F8F8F2"> page_idx  </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> window.location.href.</span><span style="color:#A6E22E">search</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">/date=</span><span style="color:#AE81FF">[0-9]</span><span style="color:#F92672">{4}</span><span style="color:#E6DB74">-</span><span style="color:#AE81FF">[0-9]</span><span style="color:#F92672">{2}</span><span style="color:#E6DB74">-</span><span style="color:#AE81FF">[0-9]</span><span style="color:#F92672">{2}</span><span style="color:#E6DB74">/</span><span style="color:#F8F8F2">);</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">var</span><span style="color:#F8F8F2"> page_file </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> window.location.href.</span><span style="color:#A6E22E">substring</span><span style="color:#F8F8F2">(page_date_idx</span><span style="color:#F92672">+</span><span style="color:#AE81FF">5</span><span style="color:#F8F8F2">,page_date_idx</span><span style="color:#F92672">+</span><span style="color:#AE81FF">15</span><span style="color:#F8F8F2">);</span></span></code></pre></div></div> <p data-svelte-h="svelte-xa8zuv">This is of course assuming that the pseudo get method is in a fixed format.
+Then we could just past this string onto to the <code>setAttribute()</code> method. So if
+we include a small error prevention cycle, our <code>html</code> body would look something
+like:</p> <div class="code-block-container" data-svelte-h="svelte-amp1dg"><div class="code-block-header"><span class="code-block-lang">[html]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F92672">div</span><span style="color:#A6E22E"> class</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;reveal&quot;</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">   &lt;</span><span style="color:#F92672">div</span><span style="color:#A6E22E"> class</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;slides&quot;</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">      &lt;</span><span style="color:#F92672">section</span><span style="color:#A6E22E"> id</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;__slide_main__&quot;</span></span>
+<span class="line"><span style="color:#A6E22E">         data-markdown</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;default.md&quot;</span></span>
+<span class="line"><span style="color:#A6E22E">         data-separator</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;^===$&quot;</span></span>
+<span class="line"><span style="color:#A6E22E">         data-separator-vertical</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;^---$&quot;</span><span style="color:#F8F8F2">&gt;   </span><span style="color:#88846F">&lt;!-- Put your own seperators here --&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">      &lt;/</span><span style="color:#F92672">section</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">   &lt;/</span><span style="color:#F92672">div</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;/</span><span style="color:#F92672">div</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F92672">script</span><span style="color:#A6E22E"> type</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;text/javascript&quot;</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">   var</span><span style="color:#F8F8F2"> page_date_idx </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> window.location.href.</span><span style="color:#A6E22E">search</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">/date=</span><span style="color:#AE81FF">[0-9]</span><span style="color:#F92672">{4}</span><span style="color:#E6DB74">-</span><span style="color:#AE81FF">[0-9]</span><span style="color:#F92672">{2}</span><span style="color:#E6DB74">-</span><span style="color:#AE81FF">[0-9]</span><span style="color:#F92672">{2}</span><span style="color:#E6DB74">/</span><span style="color:#F8F8F2">);</span></span>
+<span class="line"><span style="color:#F92672">   if</span><span style="color:#F8F8F2">( page_date_idx </span><span style="color:#F92672">&gt;</span><span style="color:#AE81FF"> 0</span><span style="color:#F8F8F2"> ){</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">      var</span><span style="color:#F8F8F2"> page_date_str  </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> window.location.href.</span><span style="color:#A6E22E">substring</span><span style="color:#F8F8F2">(page_date_idx</span><span style="color:#F92672">+</span><span style="color:#AE81FF">5</span><span style="color:#F8F8F2">,page_date_idx</span><span style="color:#F92672">+</span><span style="color:#AE81FF">15</span><span style="color:#F8F8F2">);</span></span>
+<span class="line"><span style="color:#F8F8F2">      document.</span><span style="color:#A6E22E">getElementById</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;__slide_main__&quot;</span><span style="color:#F8F8F2">).</span><span style="color:#A6E22E">setAttribute</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;data-markdown&quot;</span><span style="color:#F8F8F2">, url_base </span><span style="color:#F92672">+</span><span style="color:#F8F8F2"> page_date_str</span><span style="color:#F92672">+</span><span style="color:#E6DB74">&quot;.md&quot;</span><span style="color:#F8F8F2"> );</span></span>
+<span class="line"><span style="color:#F8F8F2">   } </span><span style="color:#F92672">else</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">      document.</span><span style="color:#A6E22E">getElementById</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;__slide_main__&quot;</span><span style="color:#F8F8F2">).</span><span style="color:#A6E22E">setAttribute</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;data-markdown&quot;</span><span style="color:#F8F8F2">, url_base </span><span style="color:#F92672">+</span><span style="color:#E6DB74"> &quot;default.md&quot;</span><span style="color:#F8F8F2"> );</span></span>
+<span class="line"><span style="color:#F8F8F2">   }</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;/</span><span style="color:#F92672">script</span><span style="color:#F8F8F2">&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-1wrrn2g">Note that the name of the <code>id</code> is not arbitrary! The Markdown plugin of
+reveal.js added its own <code>id</code> tags to the generated elements, so if you don’t have
+special characters in the <code>id</code> here, your navigation sequence might get messed
+up.</p> <h2 id="tidying-up" data-svelte-h="svelte-12ke2rz"><a aria-hidden="true" tabindex="-1" href="#tidying-up"><span class="icon icon-link"></span></a>Tidying up</h2> <p data-svelte-h="svelte-on1jo2">Now, of course, we could start building the interface to make user experience
+event better, like a side-navigation bar to list all the available slides:</p> <div class="code-block-container" data-svelte-h="svelte-18f7vmo"><div class="code-block-header"><span class="code-block-lang">[html]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">&lt;</span><span style="color:#F92672">div</span><span style="color:#A6E22E"> class</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;side_bar&quot;</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">   &lt;</span><span style="color:#F92672">h3</span><span style="color:#F8F8F2">&gt;Available slides&lt;/</span><span style="color:#F92672">h3</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">   &lt;</span><span style="color:#F92672">ul</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">      &lt;</span><span style="color:#F92672">li</span><span style="color:#F8F8F2">&gt;&lt;</span><span style="color:#F92672">a</span><span style="color:#A6E22E"> href</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;/base/url/index.html?date=2014-04-01&quot;</span><span style="color:#F8F8F2">&gt;Slides for 2014-04-01&lt;/</span><span style="color:#F92672">a</span><span style="color:#F8F8F2">&gt;&lt;/</span><span style="color:#F92672">li</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">      &lt;</span><span style="color:#F92672">li</span><span style="color:#F8F8F2">&gt;&lt;</span><span style="color:#F92672">a</span><span style="color:#A6E22E"> href</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;/base/url/index.html?date=2016-04-22&quot;</span><span style="color:#F8F8F2">&gt;Slides for 2014-04-22&lt;/</span><span style="color:#F92672">a</span><span style="color:#F8F8F2">&gt;&lt;/</span><span style="color:#F92672">li</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">      ...</span></span>
+<span class="line"><span style="color:#F8F8F2">      &lt;</span><span style="color:#F92672">li</span><span style="color:#F8F8F2">&gt;&lt;</span><span style="color:#F92672">a</span><span style="color:#A6E22E"> href</span><span style="color:#F8F8F2">=</span><span style="color:#E6DB74">&quot;/base/url/index.html?date=2016-04-22&quot;</span><span style="color:#F8F8F2">&gt;Slides for 2014-04-22&lt;/</span><span style="color:#F92672">a</span><span style="color:#F8F8F2">&gt;&lt;/</span><span style="color:#F92672">li</span><span style="color:#F8F8F2">&gt;   </span></span>
+<span class="line"><span style="color:#F8F8F2">   &lt;/</span><span style="color:#F92672">ul</span><span style="color:#F8F8F2">&gt;</span></span>
+<span class="line"><span style="color:#F8F8F2">&lt;/</span><span style="color:#F92672">div</span><span style="color:#F8F8F2">&gt;</span></span></code></pre></div></div> <p data-svelte-h="svelte-10s2dxm">and add CSS animations to pretty everything up. As to the automatic generation
+of this list, there is the problem that JavaScript is client-sides, and isn’t
+always allowed to access the file system on the server
+side<a href="http://stackoverflow.com/questions/20822273/best-way-to-get-folder-and-file-list-in-javascript" rel="nofollow">1</a>,
+and I’m still checking with our group server to see what solution I might be
+able to use.</p> <p data-svelte-h="svelte-d90rod">Since the slide I used for testing this framework contains some work sensitive
+content, I still haven’t working version to GitHub.</p> <p data-svelte-h="svelte-1tco8ib">All in all, this is the first mini-project I have been done in JavaScript. I
+must say that anything that is graphics related in coding looks very
+gratifying, even is the results are still rather patchy :)</p></article> <footer class="content-footer svelte-9cibcw"><span class="svelte-9cibcw" data-svelte-h="svelte-fsa5fj">Tags</span><br> <span class="svelte-9cibcw"><a href="../../tags/#recipe">recipe</a></span><span class="svelte-9cibcw"><a href="../../tags/#reaveljs">reaveljs</a></span><span class="svelte-9cibcw"><a href="../../tags/#javascript">javascript</a></span></footer></main> <footer class="svelte-18h8dy1"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1v2tev3 = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
+						import("../../_app/immutable/entry/app.CByeTwfu.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

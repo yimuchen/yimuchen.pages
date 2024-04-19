@@ -76,7 +76,7 @@
 
 <style>
   #showButton {
-    position: absolute;
+    position: fixed;
     top: 30px;
     left: 30px;
     font-size: 2em;
@@ -95,9 +95,9 @@
   }
 
   nav {
+    position: fixed;
     width: 200px;
     display: flexbox;
-    position: absolute;
     top: 30px;
     left: 30px;
     padding: 2em;

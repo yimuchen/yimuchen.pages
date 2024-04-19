@@ -4,9 +4,9 @@ import rehypeSlug from "rehype-slug"; // Adding header links
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import toc from "@jsdevtools/rehype-toc"; // Adding Table-of-contents
 import { highlighter } from "./src/lib/highlighting.js"; // For custom code rendering
-import rehypeKatex from "rehype-katex-svelte"; // For math support
 import remarkMath from "remark-math";
-
+import rehypeMathjax from "rehype-mathjax";
+import mathjaxConfig from "./mathjax.config.js";
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   kit: {
@@ -20,12 +20,19 @@ const config = {
     mdsvex({
       extensions: [".md"],
       remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex, rehypeSlug, rehypeAutolinkHeadings, toc],
+      rehypePlugins: [
+        rehypeSlug, //
+        rehypeAutolinkHeadings,
+        toc,
+        [rehypeMathjax, mathjaxConfig],
+      ],
       highlight: {
         highlighter: highlighter,
       },
     }),
   ],
 };
+
+console.log(mathjaxConfig);
 
 export default config;

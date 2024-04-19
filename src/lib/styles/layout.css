@@ -14,19 +14,34 @@ body {
   line-height: 1.6em;
 }
 
+.content-container figure {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.content-container figure.half {
+  justify-content: space-between;
+}
+
 .content-container figure img {
   max-width: 100%;
 }
 
+.content-container figure.half img {
+  max-width: 48%;
+}
+
 .content-container figure figcaption {
   font-size: 0.8em;
-  text-align: center
+  text-align: center;
 }
 
 .toc {
   position: fixed;
   right: 0px;
-  top: 50%;
+  margin-top: auto;
+  margin-bottom: auto;
   padding-right: 2em;
   padding-left: 2em;
   padding-top: 1em;
@@ -97,7 +112,7 @@ body {
 }
 
 .code-block-lang {
-  color: #AAA;
+  color: #aaa;
   font-style: italic;
 }
 

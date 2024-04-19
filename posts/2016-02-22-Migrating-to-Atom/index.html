@@ -4,24 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
-		<link href="../../_app/immutable/assets/0.CLrsjNI6.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/0.B5G_uDcr.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/5.BUqECbpI.css" rel="stylesheet">
-		<link rel="modulepreload" href="../../_app/immutable/entry/start.C7tDHa_o.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BEhjRFRK.js">
+		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.DMKh2-Gz.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.Bs6jVuSw.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D8jTWijz.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.rZpEJ7bn.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DlzCygjb.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.CByeTwfu.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.DgIut1lt.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.Kk82hatB.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CNPTuR7J.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CdcBZXXK.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DqzQQhkA.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/5.BC6ySWZw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.MdRYwpiI.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.B52s3fD6.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.Dmp5BVCV.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.Dn3urNUG.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Migrating to Atom</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
   </head>
   <body>
-    <div>  <button id="showButton" class="svelte-1mxhfet"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Migrating to Atom</h1> <p>2016.Feb.22</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-1lo23ch"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-ideal-black-box-model">The Ideal Black Box Model</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#designing-for-the-user">Designing for the user</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#opening-the-black-box">Opening the black box</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-appeal-of-atom">The appeal of Atom</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#difficulties-and-closing-words">Difficulties and closing words</a></li></ol></nav> <p data-svelte-h="svelte-1rdnbrb">Recently I stumbled across the editor <a href="https://atom.io/" rel="nofollow">Atom</a>, and it was
+    <div>  <button id="showButton" class="svelte-1h5zt4j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-9cibcw"><h1 class="svelte-9cibcw">Migrating to Atom</h1> <p>2016.Feb.22</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-1lo23ch"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-ideal-black-box-model">The Ideal Black Box Model</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#designing-for-the-user">Designing for the user</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#opening-the-black-box">Opening the black box</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-appeal-of-atom">The appeal of Atom</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#difficulties-and-closing-words">Difficulties and closing words</a></li></ol></nav> <p data-svelte-h="svelte-1rdnbrb">Recently I stumbled across the editor <a href="https://atom.io/" rel="nofollow">Atom</a>, and it was
 amazing! I am often accused of being a “command-line guy”, and I disagree, I
 love the graphical interface, using the mouse for certain tasks, and yet enjoy
 using <a href="http://www.vim.org/" rel="nofollow">vim</a> and the command line interface all the same.
@@ -116,7 +117,7 @@ emacs) is doing the same for text editing.</p></article> <footer class="content-
 			
 			<script>
 				{
-					__sveltekit_1v2tev3 = {
+					__sveltekit_1wympxs = {
 						base: new URL("../..", location).pathname.slice(0, -1),
 						assets: "/yimuchen.pages"
 					};
@@ -126,8 +127,8 @@ emacs) is doing the same for text editing.</p></article> <footer class="content-
 					const data = [null,null];
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.C7tDHa_o.js"),
-						import("../../_app/immutable/entry/app.CByeTwfu.js")
+						import("../../_app/immutable/entry/start.DMKh2-Gz.js"),
+						import("../../_app/immutable/entry/app.Kk82hatB.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

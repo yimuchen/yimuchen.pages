@@ -20,6 +20,7 @@
   --theme-header-txt-color: #c60;
   --theme-dark-shadow-color: #aaa;
   --theme-light-shadow-color: #fff;
+  --theme-transition-time: 0.2s
 }
 
 body {
@@ -27,7 +28,7 @@ body {
   background-color: var(--theme-body-color);
 
   /* This transition property will be propagated to all elements */
-  transition: all 0.2s ease;
+  transition: all var(--theme-transition-time) ease;
 }
 
 a {

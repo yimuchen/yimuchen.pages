@@ -88,11 +88,15 @@
     border-radius: 5px;
     text-align: center;
     display: inline;
+    z-index: 10000;
+
 
     /** color shifts */
     color: var(--theme-text-color);
     background-color: var(--theme-container-bkg-color);
+    box-shadow: 0px 0px 5px 5px var(--theme-light-shadow-color);
   }
+
 
   nav {
     position: fixed;
@@ -105,6 +109,7 @@
     border-top-left-radius: 5px;
     box-shadow: 0 0 40px var(--theme-light-shadow-color);
     text-align: center;
+    z-index: 100000;
 
     /** color shifts */
     color: var(--theme-text-color);
@@ -157,8 +162,7 @@
     right: 0;
     bottom: 0;
     background-color: #222;
-    -webkit-transition: 0.1s;
-    transition: 0.1s;
+    transition: var(--theme-transition-time);
     border-radius: 0.7em;
   }
 
@@ -169,8 +173,7 @@
     width: 0.6em;
     left: 0.3em;
     background-color: white;
-    -webkit-transition: 0.1s;
-    transition: 0.1s;
+    transition: var(--theme-transition-time);
     border-radius: 50%;
   }
 

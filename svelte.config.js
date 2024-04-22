@@ -33,6 +33,5 @@ const config = {
   ],
 };
 
-console.log(mathjaxConfig);
 
 export default config;

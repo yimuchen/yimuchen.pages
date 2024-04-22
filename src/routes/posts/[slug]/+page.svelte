@@ -1,13 +1,24 @@
 <script>
   // Styling files
   import CopyCodeButton from "$lib/components/CodeCopyButton.svelte";
+  import Sidebar from "$lib/components/Sidebar.svelte";
   import { date_str } from "$lib/posts.js";
   import { base } from "$app/paths";
+  import { onMount } from "svelte";
   export let data;
 
   const banner_style = data.banner
     ? `background-image: url("${base}/image/banner/${data.banner}");`
     : ``;
+
+  /* Extract the TOC contents an add it to the new side-bar container */
+  onMount(() => {
+    const tocs = document.getElementsByClassName("toc");
+    const sidebar = document.getElementById("side-bar-list");
+    for (const toc of tocs) {
+      sidebar.innerHTML += toc.innerHTML;
+    }
+  });
 </script>
 
 <svelte:head>
@@ -26,13 +37,15 @@
 </article>
 
 {#if data.tags}
-  <footer class="content-footer">
-    <span>Tags</span><br />
+  <footer>
+    <span class="foot-header">Tags</span><br />
     {#each data.tags as tag}
       <span><a href="{base}/tags/#{tag}">{tag}</a></span>
     {/each}
   </footer>
 {/if}
+
+<Sidebar />
 
 <style>
   header {
@@ -61,14 +74,21 @@
     margin-top: 1.6em;
     margin-bottom: 1.5em;
     border-radius: 15px;
+    display: flex;
+    flex-wrap: wrap;
 
     /** color-styling */
     background-color: var(--theme-container-bkg-color);
   }
 
   footer span {
-    padding: 2em;
+    padding-left: 2em;
+    padding-right: 2em;
     text-transform: capitalize;
     font-variant: small-caps;
+  }
+
+  footer .foot-header {
+    width: 100%;
   }
 </style>

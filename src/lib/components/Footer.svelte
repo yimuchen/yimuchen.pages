@@ -11,7 +11,8 @@
 <style>
   footer {
     width: 100%;
-    padding: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
     margin-top: 2em;
     bottom: 0;
     text-align: center;

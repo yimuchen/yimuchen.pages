@@ -75,7 +75,8 @@
     margin-bottom: 1.5em;
     border-radius: 15px;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
+    justify-content: center;
 
     /** color-styling */
     background-color: var(--theme-container-bkg-color);

@@ -85,9 +85,6 @@ of this blog.
   </tr>
 </table>
 
-<table>
-</table>
-
 <h2>Results</h2>
 <div id="results"></div>
 <div id="debug"></div>
@@ -95,10 +92,6 @@ of this blog.
 <script>
 /*The only global variable that we will keep is the full list of resistors */
 var resistor_list = [];
-var solution_list = [];
-var target = 5;
-var tolerance = 0.05;
-var total_solutions = 0;
 
 function abs(x) {
   if (x > 0) { return x; }
@@ -116,9 +109,9 @@ function sum(input) {
 }
 
 function invsum(input) {
-  var ans = 0;
-  input.forEach((ele)=> ans += 1/ele);
-  return 1/ans;
+    var ans = 0;
+      input.forEach((ele)=> ans += 1/ele);
+      return 1/ans;
 }
 
 
@@ -146,7 +139,7 @@ function resistance_from_string(input) {
     if (multipler_postfix.includes(mult)) {
         input = input.substring(0, input.length - 1)
     }
-    mult = mult == 'p' ? 1e-12 :
+     mult = mult == 'p' ? 1e-12 :
            mult == 'n' ? 1e-9 :
            mult == 'u' ? 1e-6 :
            mult == 'm' ? 1e-3 :
@@ -379,9 +372,9 @@ went with :/
 td {
     padding-left: 0.5em;
     padding-right: 0.5em;
-    }
+}
 th {
     padding-left: 0.5em;
     padding-right: 0.5em;
-    }
+}
 </style>

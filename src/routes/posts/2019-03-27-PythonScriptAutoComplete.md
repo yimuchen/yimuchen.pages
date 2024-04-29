@@ -64,13 +64,15 @@ the new import and package uses.
 #!/usr/bin/env python
 # PYTHON_ARGCOMPLETE_OK
 import argcomplete, argparse
+
 parser = argparse.ArgumentParser()
-...
 argcomplete.autocomplete(parser)
 args = parser.parse_args()
 
 # For completing files with specific patterns
-parser.add_argument( "files", nargs='+').completer = argcomplete.completers.FileCompleter( "*.pdf *.ps" )
+parser.add_argument("files", nargs="+").completer = (
+    argcomplete.completers.FileCompleter("*.pdf *.ps")
+)
 # No completers is also fine!
 parser.add_argument("--myflag1")
 parser.add_argument("--myflag2")

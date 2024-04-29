@@ -3,7 +3,7 @@
 New location for my GitHub pages blog, now powered by [Svelte][svelte]. This is
 in light of better structure of JavaScript/frontend projects after my
 experience with the GUI program (though that used React). I also wanted to
-clean up some of the more embarrasing entries that I had on my old blog entry,
+clean up some of the more embarrassing entries that I had on my old blog entry,
 as well as place this as an equal footing to other project pages.
 
 This also requires that the `deploy` be explicitly called for deployment rather

@@ -25,16 +25,16 @@ My old writing contained quite a bit of unrelated rambling, so to condense it
 down the following points:
 
 - **Graphical feedback**: from the smaller things like icons for indications of
-  file type when navigating file systems; odd items like a minimap for
+  file type when navigating file systems; odd items like a mini map for
   indicating the overall file layout; preview to graphical output elements,
   like plots and latex formulas.
 
   While some of these items are partially solved with newer technologies (such
-  as the first item with [nerd fonts][nerd-fonts]; [sixel][sixel] for graphical
+  as the first item with [nerd fonts][nerd-fonts]; [`sixel`][sixel] for graphical
   results display), the requirement for constant feed-back actually points to a
   different issue in editing that I did not properly identify: can my editor
   help me make less mistakes, and indicate when I might be doing something
-  wrong? The tools that has been developed since then also means that new
+  wrong? The tools that have been developed since then also means that new
   editing tools make a lot of the concerns that I have be a moot point.
 
 - **Obtuse-ness**: At the time, I was complaining that keystrokes in vim was
@@ -55,12 +55,12 @@ down the following points:
   learn the editor add rather heavily to the already steep learning curve.
 
   Another aspect of obtuseness that I did not explicitly say, was also that
-  configuring vim via [vimscript][vimscript] did (at least at the time), feel a
-  lot less intuitive than writing a JSON file that feels easier to organize and
-  track for configuration. This is one of the reasons that I opted to use
+  configuring vim via [`vimscript`][vimscript] did (at least at the time), feel
+  a lot less intuitive than writing a JSON file that feels easier to organize
+  and track for configuration. This is one of the reasons that I opted to use
   [neovim][neovim] rather than [vim][vim], with understanding how to do
-  configurations with a general purpose language ([lua][lua]) makes everything
-  simpler to learn.
+  configurations with a general purpose language ([`lua`][lua]) makes
+  everything simpler to learn.
 
 How that I have re-discussed the pain points that pushed me away from vim eight
 years ago, lets discussion the new points that pulled me back to vim after all
@@ -130,7 +130,7 @@ by no means a "new" idea, but the maturity of a fuzzy finding plugin such as
 [telescope][telescope], and its integration with neovim itself and its plugin
 functionalities means that there is now just a few sets of keystrokes that you
 need to set up to generically find items when code editing. You have actually
-seen telescope in action in the demonstation of the LSP functionalities. But
+seen telescope in action in the demonstration of the LSP functionalities. But
 here are some additional niceties that was not demonstrated:
 
 - Find file by name (regardless of nested directory)
@@ -139,10 +139,10 @@ here are some additional niceties that was not demonstrated:
 - Find in current key maps
 
 <figure>
-  <img src="../../image/posts/20240412/fzf_opt.GIF"/>
-   <figcaption>
-   Some common search navigations one can achieve with a good fuzzy finder.
-   </figcaption>
+  <img src="../../image/posts/20240412/fzf_opt.GIF"/> 
+  <figcaption>
+  Some common search navigations one can achieve with a good fuzzy finder.   
+  </figcaption>
 </figure>
 
 The maturity of such plugins arguably changed my workflow just as much as LSPs,
@@ -163,16 +163,16 @@ and strange solution to a problematic workflow.
 Of course, being an open source project, there are of course many ways to add
 plenty of custom workflow improvements (and plenty of eye candy :))
 
-- [statuslines][lualine]/[breadcrumbs][bbq]. The addition of these 2 were
+- [`statuslines`][lualine]/[`breadcrumbs`][bbq]. The addition of these 2 were
   actually utility inspired, when I had to stop talking during a screen share
   sessions, as to the collaborator having to constantly ask "which
   file/function are we on?" during the jumping around we can now do with LSP
   navigation. You can see these items in action in all the demonstration images
   above.
 
-- [oil][oil]: Creating/renaming/removing text files as if it were a text
+- [`oil`][oil]: Creating/renaming/removing text files as if it were a text
   buffer. Since telescope mainly works with existing files, oils was a nice
-  addtion for directory tree navigation and manipulation.
+  addition for directory tree navigation and manipulation.
 
 <figure>
   <img src="../../image/posts/20240412/oil_opt.GIF"/>
@@ -181,7 +181,7 @@ plenty of custom workflow improvements (and plenty of eye candy :))
    </figcaption>
 </figure>
 
-- [startup][startup]: To tell people "I use vim BTW"
+- [`startup`][startup]: To tell people "I use vim BTW"
 
 <figure>
   <img src="../../image/posts/20240412/IusevimBTW.png"/> 

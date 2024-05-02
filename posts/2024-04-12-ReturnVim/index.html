@@ -8,19 +8,19 @@
 		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
-		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.B0BqpaF0.css" rel="stylesheet">
-		<link rel="modulepreload" href="../../_app/immutable/entry/start._uV4Al5i.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BysjsoLb.js">
+		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.Dm820pXR.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BqO3rIaC.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CZQxLsKm.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.DsPJVXFi.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CjcAIcQG.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CPmBryS9.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.BWiPcvWN.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/0.BWrMIX22.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.D8sHrsHZ.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DkfvVG74.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/5.Azt8P7kF.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.b-uQLw-F.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Returning to (Neo)Vim</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
   </head>
@@ -32,15 +32,15 @@ reconfiguring the many dot files to once again make the
 round of ricing (yes, it took 4 months), I’ve decided to revisit some of the
 issues I had when with vim at the time, and see what has changed my influence
 to change yet again.</p> <h2 id="the-cases-i-made-for-an-alternate-editor" data-svelte-h="svelte-teluj1"><a aria-hidden="true" tabindex="-1" href="#the-cases-i-made-for-an-alternate-editor"><span class="icon icon-link"></span></a>The cases I made for an alternate editor</h2> <p data-svelte-h="svelte-eksc8d">My old writing contained quite a bit of unrelated rambling, so to condense it
-down the following points:</p> <ul data-svelte-h="svelte-ytgjgp"><li><p><strong>Graphical feedback</strong>: from the smaller things like icons for indications of
-file type when navigating file systems; odd items like a minimap for
+down the following points:</p> <ul data-svelte-h="svelte-6rkxiy"><li><p><strong>Graphical feedback</strong>: from the smaller things like icons for indications of
+file type when navigating file systems; odd items like a mini map for
 indicating the overall file layout; preview to graphical output elements,
 like plots and latex formulas.</p> <p>While some of these items are partially solved with newer technologies (such
-as the first item with <a href="https://www.nerdfonts.com/" rel="nofollow">nerd fonts</a>; <a href="https://saitoha.github.io/libsixel/" rel="nofollow">sixel</a> for graphical
+as the first item with <a href="https://www.nerdfonts.com/" rel="nofollow">nerd fonts</a>; <a href="https://saitoha.github.io/libsixel/" rel="nofollow"><code>sixel</code></a> for graphical
 results display), the requirement for constant feed-back actually points to a
 different issue in editing that I did not properly identify: can my editor
 help me make less mistakes, and indicate when I might be doing something
-wrong? The tools that has been developed since then also means that new
+wrong? The tools that have been developed since then also means that new
 editing tools make a lot of the concerns that I have be a moot point.</p></li> <li><p><strong>Obtuse-ness</strong>: At the time, I was complaining that keystrokes in vim was
 “too different” from other programs. What I realized over time is that
 problem with keystrokes is less to do with how obtuse the keystrokes are, but
@@ -57,12 +57,12 @@ whether there is an easy way to discover the mapping of additional vim
 motions other than <a href="https://en.wikipedia.org/wiki/RTFM" rel="nofollow">RTFM</a>. While reading the manual should be the best
 path to learn, having to constantly hop in-and-out of the editor just to
 learn the editor add rather heavily to the already steep learning curve.</p> <p>Another aspect of obtuseness that I did not explicitly say, was also that
-configuring vim via <a href="https://learnvimscriptthehardway.stevelosh.com/" rel="nofollow">vimscript</a> did (at least at the time), feel a
-lot less intuitive than writing a JSON file that feels easier to organize and
-track for configuration. This is one of the reasons that I opted to use
+configuring vim via <a href="https://learnvimscriptthehardway.stevelosh.com/" rel="nofollow"><code>vimscript</code></a> did (at least at the time), feel
+a lot less intuitive than writing a JSON file that feels easier to organize
+and track for configuration. This is one of the reasons that I opted to use
 <a href="https://neovim.io/" rel="nofollow">neovim</a> rather than <a href="https://www.vim.org/" rel="nofollow">vim</a>, with understanding how to do
-configurations with a general purpose language (<a href="https://www.lua.org/" rel="nofollow">lua</a>) makes everything
-simpler to learn.</p></li></ul> <p data-svelte-h="svelte-11ufsda">How that I have re-discussed the pain points that pushed me away from vim eight
+configurations with a general purpose language (<a href="https://www.lua.org/" rel="nofollow"><code>lua</code></a>) makes
+everything simpler to learn.</p></li></ul> <p data-svelte-h="svelte-11ufsda">How that I have re-discussed the pain points that pushed me away from vim eight
 years ago, lets discussion the new points that pulled me back to vim after all
 these years.</p> <h2 id="the-great-features-of-neovim" data-svelte-h="svelte-1q59euo"><a aria-hidden="true" tabindex="-1" href="#the-great-features-of-neovim"><span class="icon icon-link"></span></a>The great features of neovim</h2> <p data-svelte-h="svelte-1ojkukz">The pain points that I discussed previously actually applies to many of the
 general workflow: how can my editor assist in text editing, pointing out when I
@@ -84,15 +84,15 @@ working unless I had the file containing the function in question opened in
 another tab. While <a href="https://github.com/VonHeikemen/lsp-zero.nvim" rel="nofollow">configuring LSPs</a> for neovim is not trivial, I did
 find it cohesive, and there are already complete resources out there for
 settings this. (Shout out to <a href="https://www.youtube.com/watch?v=w7i4amO_zaE&t=47s" rel="nofollow">this</a> ThePrimeagen video that convinced
-me to jump back into the vim world).</p> <h3 id="fuzzy-finder" data-svelte-h="svelte-wbyvse"><a aria-hidden="true" tabindex="-1" href="#fuzzy-finder"><span class="icon icon-link"></span></a>Fuzzy finder</h3> <p data-svelte-h="svelte-ypc88d">The secondary function is related to navigation: how do I look for a some code
+me to jump back into the vim world).</p> <h3 id="fuzzy-finder" data-svelte-h="svelte-wbyvse"><a aria-hidden="true" tabindex="-1" href="#fuzzy-finder"><span class="icon icon-link"></span></a>Fuzzy finder</h3> <p data-svelte-h="svelte-1tx4287">The secondary function is related to navigation: how do I look for a some code
 snippet, a particular file, some editor functionality from within the editor?
 What if I only remember some part of what I wanted to look up? Fuzzy finding is
 by no means a “new” idea, but the maturity of a fuzzy finding plugin such as
 <a href="https://github.com/nvim-telescope/telescope.nvim" rel="nofollow">telescope</a>, and its integration with neovim itself and its plugin
 functionalities means that there is now just a few sets of keystrokes that you
 need to set up to generically find items when code editing. You have actually
-seen telescope in action in the demonstation of the LSP functionalities. But
-here are some additional niceties that was not demonstrated:</p> <ul data-svelte-h="svelte-1sjzaah"><li>Find file by name (regardless of nested directory)</li> <li>Find file by grep pattern</li> <li>Find neovim lua API</li> <li>Find in current key maps</li></ul> <figure data-svelte-h="svelte-qifnwj"><img src="../../image/posts/20240412/fzf_opt.GIF"> <figcaption>Some common search navigations one can achieve with a good fuzzy finder.</figcaption></figure> <p data-svelte-h="svelte-1ctcv1m">The maturity of such plugins arguably changed my workflow just as much as LSPs,
+seen telescope in action in the demonstration of the LSP functionalities. But
+here are some additional niceties that was not demonstrated:</p> <ul data-svelte-h="svelte-1sjzaah"><li>Find file by name (regardless of nested directory)</li> <li>Find file by grep pattern</li> <li>Find neovim lua API</li> <li>Find in current key maps</li></ul> <figure data-svelte-h="svelte-16qdvfj"><img src="../../image/posts/20240412/fzf_opt.GIF"> <figcaption>Some common search navigations one can achieve with a good fuzzy finder.</figcaption></figure> <p data-svelte-h="svelte-1ctcv1m">The maturity of such plugins arguably changed my workflow just as much as LSPs,
 as jumping between what needs to be edited was something that disrupted my
 though process quite a bit. While fuzzy searches exist for the graphical
 editors, each item typically needs to open up something additional start the
@@ -102,14 +102,14 @@ immediately with a similar interface. Using this, my old requirements of
 keeping a file tree open at all times, having a file layout minimap, and having
 to have a separate “project manager” functionality in the editor now looks like
 and strange solution to a problematic workflow.</p> <hr> <p data-svelte-h="svelte-1micujr">Of course, being an open source project, there are of course many ways to add
-plenty of custom workflow improvements (and plenty of eye candy :))</p> <ul data-svelte-h="svelte-pexzzw"><li><p><a href="https://github.com/nvim-lualine/lualine.nvim" rel="nofollow">statuslines</a>/<a href="https://github.com/utilyre/barbecue.nvim?tab=readme-ov-file" rel="nofollow">breadcrumbs</a>. The addition of these 2 were
+plenty of custom workflow improvements (and plenty of eye candy :))</p> <ul data-svelte-h="svelte-15jyh4e"><li><p><a href="https://github.com/nvim-lualine/lualine.nvim" rel="nofollow"><code>statuslines</code></a>/<a href="https://github.com/utilyre/barbecue.nvim?tab=readme-ov-file" rel="nofollow"><code>breadcrumbs</code></a>. The addition of these 2 were
 actually utility inspired, when I had to stop talking during a screen share
 sessions, as to the collaborator having to constantly ask “which
 file/function are we on?” during the jumping around we can now do with LSP
 navigation. You can see these items in action in all the demonstration images
-above.</p></li> <li><p><a href="https://github.com/stevearc/oil.nvim/" rel="nofollow">oil</a>: Creating/renaming/removing text files as if it were a text
+above.</p></li> <li><p><a href="https://github.com/stevearc/oil.nvim/" rel="nofollow"><code>oil</code></a>: Creating/renaming/removing text files as if it were a text
 buffer. Since telescope mainly works with existing files, oils was a nice
-addtion for directory tree navigation and manipulation.</p></li></ul> <figure data-svelte-h="svelte-35rqpu"><img src="../../image/posts/20240412/oil_opt.GIF"> <figcaption>Editing directory structure like a text buffer is kinda cool!</figcaption></figure> <ul data-svelte-h="svelte-9rnk6q"><li><a href="https://github.com/startup-nvim/startup.nvim/tree/master" rel="nofollow">startup</a>: To tell people “I use vim BTW”</li></ul> <figure data-svelte-h="svelte-ugzfv"><img src="../../image/posts/20240412/IusevimBTW.png"> <figcaption>Did I remember to say &quot;I use vim&quot; BTW?</figcaption></figure> <hr> <p data-svelte-h="svelte-jhs65y">With neovim working with lua, adding custom functionality is rather fun to
+addition for directory tree navigation and manipulation.</p></li></ul> <figure data-svelte-h="svelte-35rqpu"><img src="../../image/posts/20240412/oil_opt.GIF"> <figcaption>Editing directory structure like a text buffer is kinda cool!</figcaption></figure> <ul data-svelte-h="svelte-1fasoth"><li><a href="https://github.com/startup-nvim/startup.nvim/tree/master" rel="nofollow"><code>startup</code></a>: To tell people “I use vim BTW”</li></ul> <figure data-svelte-h="svelte-ugzfv"><img src="../../image/posts/20240412/IusevimBTW.png"> <figcaption>Did I remember to say &quot;I use vim&quot; BTW?</figcaption></figure> <hr> <p data-svelte-h="svelte-jhs65y">With neovim working with lua, adding custom functionality is rather fun to
 learn once you get over the funny amalgamation of list and maps that is <a href="https://www.lua.org/pil/2.5.html" rel="nofollow">lua
 tables</a> and the very funny <a href="https://www.lua.org/pil/11.1.html" rel="nofollow">start-by-1 indexing</a> syntax. I
 have already added 2 functionality (not quite to the quality of an actual plugin)</p> <ul data-svelte-h="svelte-10dnb6r"><li><p><a href="https://github.com/yimuchen/dotfiles/blob/master/nvim/after/plugin/rsync.lua" rel="nofollow"><code>rsync</code> on save</a>: when working with remote servers, I like making all
@@ -148,7 +148,7 @@ understand neovim configurations:
 			
 			<script>
 				{
-					__sveltekit_1901zh4 = {
+					__sveltekit_12ygjw2 = {
 						base: new URL("../..", location).pathname.slice(0, -1),
 						assets: "/yimuchen.pages"
 					};
@@ -158,8 +158,8 @@ understand neovim configurations:
 					const data = [null,null];
 
 					Promise.all([
-						import("../../_app/immutable/entry/start._uV4Al5i.js"),
-						import("../../_app/immutable/entry/app.DsPJVXFi.js")
+						import("../../_app/immutable/entry/start.Dm820pXR.js"),
+						import("../../_app/immutable/entry/app.CPmBryS9.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

@@ -8,19 +8,19 @@
 		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
-		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.B0BqpaF0.css" rel="stylesheet">
-		<link rel="modulepreload" href="../../_app/immutable/entry/start._uV4Al5i.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BysjsoLb.js">
+		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.Dm820pXR.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BqO3rIaC.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CZQxLsKm.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.DsPJVXFi.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CjcAIcQG.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CPmBryS9.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.BWiPcvWN.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/0.BWrMIX22.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.D8sHrsHZ.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DkfvVG74.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/5.Azt8P7kF.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.b-uQLw-F.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>電阻計算機 (Resistance calculator)</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
   </head>
@@ -37,8 +37,9 @@ a very large amount of memory. To help the algorithm end early, try using a
 smaller tolerance or lower the maximum number of components allowed.</p> <p data-svelte-h="svelte-zcnrfa">Since I this a tool primarily for my own use. I have loaded in some of the
 components found in the electronics lab of the UMD CMS group. All the code can
 be found on the <a href="https://github.com/yimuchen/yimuchen.pages" rel="nofollow">GitHub repository</a>
-of this blog.</p> <table><colgroup data-svelte-h="svelte-1vshfxc"><col style="width:30%"> <col style="max-width:50%;"></colgroup> <tr><td class="svelte-mcl7a9" data-svelte-h="svelte-11lol58"><h3>Resistor values</h3></td> <td class="svelte-mcl7a9"><div id="resistors" style="display: table;"></div><br> <button data-svelte-h="svelte-nmuxex">Clear</button></td></tr> <tr><td class="svelte-mcl7a9" data-svelte-h="svelte-ifuysb"><b>Set custom values</b> <p style="font-size: 0.8em;">Add a list of impedance values, separated by spaces. The short hands like 100K, 15.6M
-        can be used. The multipliers &#39;p&#39;, &#39;n&#39;, &#39;u&#39;, &#39;m&#39; &#39;k/K&#39;, &#39;M&#39;, &#39;G&#39; may be used.</p></td> <td class="svelte-mcl7a9"><input type="text" id="resistance-input" style="width:100%;"> <button data-svelte-h="svelte-1k8n1c9">Add to calculator</button><br></td></tr> <tr><td class="svelte-mcl7a9" data-svelte-h="svelte-lkgwge"><b>Load preset values</b></td> <td class="svelte-mcl7a9"><button data-svelte-h="svelte-jvg1i6">Set to E12 collection</button> <button data-svelte-h="svelte-vej2ru">Set to E24 collection</button> <button data-svelte-h="svelte-1njp22a">Set to UMD 0603 Resistor</button></td></tr> <tr style="border-top: thick;" data-svelte-h="svelte-2eb7a3"><td class="svelte-mcl7a9"><b>Target value</b></td> <td class="svelte-mcl7a9"><input type="text" id="target"></td></tr> <tr data-svelte-h="svelte-j1v7mz"><td class="svelte-mcl7a9"><b>Max. components</b></td> <td class="svelte-mcl7a9"><input type="text" id="num" value="3"></td></tr> <tr data-svelte-h="svelte-17s5ap"><td class="svelte-mcl7a9"><b>Tolerance</b></td> <td class="svelte-mcl7a9"><input type="text" id="tolerance" value="0.05"></td></tr> <tr data-svelte-h="svelte-1cqz2td"><td class="svelte-mcl7a9"><b>Calculation type</b></td> <td class="svelte-mcl7a9"><input type="radio" name="sum_type" id="sum">R-Series/C-Parallel<br> <input type="radio" name="sum_type" id="invsum" checked>R-Parallel/C-Series</td></tr> <tr><td class="svelte-mcl7a9"></td> <td class="svelte-mcl7a9"><button data-svelte-h="svelte-1hk6p0g">Calculate</button></td></tr></table> <table data-svelte-h="svelte-6qntp6"></table> <h2 data-svelte-h="svelte-s6ksa4">Results</h2> <div id="results"></div> <div id="debug"></div> <hr> <h2 id="about-the-algorithm" data-svelte-h="svelte-1kzhkld"><a aria-hidden="true" tabindex="-1" href="#about-the-algorithm"><span class="icon icon-link"></span></a>About the algorithm</h2> <p data-svelte-h="svelte-149oj89">The algorithm is basically brute forcing all possible combinations with an
+of this blog.</p> <table><colgroup data-svelte-h="svelte-79595x"><col style="width: 30%"> <col style="max-width: 50%"></colgroup> <tr><td class="svelte-17u1y7x" data-svelte-h="svelte-jnfzrg"><h3>Resistor values</h3></td> <td class="svelte-17u1y7x"><div id="resistors" style="display: table"></div> <br> <button data-svelte-h="svelte-2wc31d">Clear</button></td></tr> <tr><td class="svelte-17u1y7x" data-svelte-h="svelte-1nyj84w"><b>Set custom values</b> <p style="font-size: 0.8em">Add a list of impedance values, separated by spaces. The short hands
+        like 100K, 15.6M can be used. The multipliers &#39;p&#39;, &#39;n&#39;, &#39;u&#39;, &#39;m&#39; &#39;k/K&#39;,
+        &#39;M&#39;, &#39;G&#39; may be used.</p></td> <td class="svelte-17u1y7x"><input type="text" id="resistance-input" style="width: 100%"> <button data-svelte-h="svelte-1o4xrhn">Add to calculator</button><br></td></tr> <tr><td class="svelte-17u1y7x" data-svelte-h="svelte-lkgwge"><b>Load preset values</b></td> <td class="svelte-17u1y7x"><button data-svelte-h="svelte-13od4ec">Set to E12 collection</button> <button data-svelte-h="svelte-poolhq">Set to E24 collection</button> <button data-svelte-h="svelte-1rr50zb">Set to UMD 0603 Resistor</button></td></tr> <tr style="border-top: thick" data-svelte-h="svelte-1ios1o6"><td class="svelte-17u1y7x"><b>Target value</b></td> <td class="svelte-17u1y7x"><input type="text" id="target"></td></tr> <tr data-svelte-h="svelte-1d9yz0l"><td class="svelte-17u1y7x"><b>Max. components</b></td> <td class="svelte-17u1y7x"><input type="text" id="num" value="3"></td></tr> <tr data-svelte-h="svelte-kokd5h"><td class="svelte-17u1y7x"><b>Tolerance</b></td> <td class="svelte-17u1y7x"><input type="text" id="tolerance" value="0.05"></td></tr> <tr data-svelte-h="svelte-1vmat4j"><td class="svelte-17u1y7x"><b>Calculation type</b></td> <td class="svelte-17u1y7x"><input type="radio" name="sum_type" id="sum">R-Series/C-Parallel<br> <input type="radio" name="sum_type" id="invsum" checked>R-Parallel/C-Series</td></tr> <tr><td class="svelte-17u1y7x"></td> <td class="svelte-17u1y7x"><button data-svelte-h="svelte-14dtos0">Calculate</button></td></tr></table> <h2 data-svelte-h="svelte-s6ksa4">Results</h2> <div id="results"></div> <div id="debug"></div> <hr> <h2 id="about-the-algorithm" data-svelte-h="svelte-1kzhkld"><a aria-hidden="true" tabindex="-1" href="#about-the-algorithm"><span class="icon icon-link"></span></a>About the algorithm</h2> <p data-svelte-h="svelte-149oj89">The algorithm is basically brute forcing all possible combinations with an
 early exist for when combination moves above/below the tolerance, since if
 calculating resistance series, the total resistance can only go up, and there
 is no point in trying more if already past the tolerance threshold (vice versa
@@ -48,7 +49,7 @@ went with :/</p></article> <footer class="svelte-a9w2ls"><span class="foot-heade
 			
 			<script>
 				{
-					__sveltekit_1901zh4 = {
+					__sveltekit_12ygjw2 = {
 						base: new URL("../..", location).pathname.slice(0, -1),
 						assets: "/yimuchen.pages"
 					};
@@ -58,8 +59,8 @@ went with :/</p></article> <footer class="svelte-a9w2ls"><span class="foot-heade
 					const data = [null,null];
 
 					Promise.all([
-						import("../../_app/immutable/entry/start._uV4Al5i.js"),
-						import("../../_app/immutable/entry/app.DsPJVXFi.js")
+						import("../../_app/immutable/entry/start.Dm820pXR.js"),
+						import("../../_app/immutable/entry/app.CPmBryS9.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

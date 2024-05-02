@@ -8,19 +8,19 @@
 		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
-		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.B0BqpaF0.css" rel="stylesheet">
-		<link rel="modulepreload" href="../../_app/immutable/entry/start._uV4Al5i.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BysjsoLb.js">
+		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.Dm820pXR.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BqO3rIaC.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CZQxLsKm.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.DsPJVXFi.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CjcAIcQG.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CPmBryS9.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.BWiPcvWN.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/0.BWrMIX22.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.D8sHrsHZ.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DkfvVG74.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/5.Azt8P7kF.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.b-uQLw-F.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Python script Tab completion in CLI</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
   </head>
@@ -54,19 +54,21 @@ wondering if this sort of behavior can also be implemented into my custom python
 scripts. Turns out one can! With very minimal adjustments to the code if you are
 already using <code>argparse</code>!</p> <p data-svelte-h="svelte-1s66ukn">The package is called <a href="https://argcomplete.readthedocs.io/en/latest/" rel="nofollow"><code>argcomplete</code></a>, and for the auto completion
 to work, one only needs to add:</p> <ol data-svelte-h="svelte-1644co7"><li>One magic comment line after the shebang.</li> <li>One function call after options declaration.</li> <li>One global completion function file for <code>~/.bashrc</code></li> <li>One register function in <code>~/.bashrc</code></li></ol> <p data-svelte-h="svelte-chopa7">Let’s see the modifications to the python script. First the magic comments and
-the new import and package uses.</p> <div class="code-block-container" data-svelte-h="svelte-fcvknd"><div class="code-block-header"><span class="code-block-lang">[python]</span></div> <div class="code-block code-block-numbered numbered-start-0 code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line" data-line="1"><span style="color:#88846F">#!/usr/bin/env python</span></span>
+the new import and package uses.</p> <div class="code-block-container" data-svelte-h="svelte-myuusn"><div class="code-block-header"><span class="code-block-lang">[python]</span></div> <div class="code-block code-block-numbered numbered-start-0 code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line" data-line="1"><span style="color:#88846F">#!/usr/bin/env python</span></span>
 <span class="line" data-line="2"><span style="color:#88846F"># PYTHON_ARGCOMPLETE_OK</span></span>
 <span class="line" data-line="3"><span style="color:#F92672">import</span><span style="color:#F8F8F2"> argcomplete, argparse</span></span>
-<span class="line" data-line="4"><span style="color:#F8F8F2">parser </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> argparse.ArgumentParser()</span></span>
-<span class="line" data-line="5"><span style="color:#AE81FF">...</span></span>
+<span class="line" data-line="4"></span>
+<span class="line" data-line="5"><span style="color:#F8F8F2">parser </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> argparse.ArgumentParser()</span></span>
 <span class="line" data-line="6"><span style="color:#F8F8F2">argcomplete.autocomplete(parser)</span></span>
 <span class="line" data-line="7"><span style="color:#F8F8F2">args </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> parser.parse_args()</span></span>
 <span class="line" data-line="8"></span>
 <span class="line" data-line="9"><span style="color:#88846F"># For completing files with specific patterns</span></span>
-<span class="line" data-line="10"><span style="color:#F8F8F2">parser.add_argument( </span><span style="color:#E6DB74">&quot;files&quot;</span><span style="color:#F8F8F2">, </span><span style="color:#FD971F;font-style:italic">nargs</span><span style="color:#F92672">=</span><span style="color:#E6DB74">&#39;+&#39;</span><span style="color:#F8F8F2">).completer </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> argcomplete.completers.FileCompleter( </span><span style="color:#E6DB74">&quot;*.pdf *.ps&quot;</span><span style="color:#F8F8F2"> )</span></span>
-<span class="line" data-line="11"><span style="color:#88846F"># No completers is also fine!</span></span>
-<span class="line" data-line="12"><span style="color:#F8F8F2">parser.add_argument(</span><span style="color:#E6DB74">&quot;--myflag1&quot;</span><span style="color:#F8F8F2">)</span></span>
-<span class="line" data-line="13"><span style="color:#F8F8F2">parser.add_argument(</span><span style="color:#E6DB74">&quot;--myflag2&quot;</span><span style="color:#F8F8F2">)</span></span></code></pre></div></div> <p data-svelte-h="svelte-1gnn1qk">Now for the <code>bash</code>/<code>zsh</code> configurations. You will need to get a copy of the
+<span class="line" data-line="10"><span style="color:#F8F8F2">parser.add_argument(</span><span style="color:#E6DB74">&quot;files&quot;</span><span style="color:#F8F8F2">, </span><span style="color:#FD971F;font-style:italic">nargs</span><span style="color:#F92672">=</span><span style="color:#E6DB74">&quot;+&quot;</span><span style="color:#F8F8F2">).completer </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> (</span></span>
+<span class="line" data-line="11"><span style="color:#F8F8F2">    argcomplete.completers.FileCompleter(</span><span style="color:#E6DB74">&quot;*.pdf *.ps&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line" data-line="12"><span style="color:#F8F8F2">)</span></span>
+<span class="line" data-line="13"><span style="color:#88846F"># No completers is also fine!</span></span>
+<span class="line" data-line="14"><span style="color:#F8F8F2">parser.add_argument(</span><span style="color:#E6DB74">&quot;--myflag1&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line" data-line="15"><span style="color:#F8F8F2">parser.add_argument(</span><span style="color:#E6DB74">&quot;--myflag2&quot;</span><span style="color:#F8F8F2">)</span></span></code></pre></div></div> <p data-svelte-h="svelte-1gnn1qk">Now for the <code>bash</code>/<code>zsh</code> configurations. You will need to get a copy of the
 bash completion function from the <code>argcomplete</code> repository,</p> <div class="code-block-container" data-svelte-h="svelte-v9wqfv"><div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>wget https://raw.githubusercontent.com/kislyuk/argcomplete/master/argcomplete/bash_completion.d/python-argcomplete.sh</span></span></code></pre></div></div> <p data-svelte-h="svelte-11w05vu">Then you will need to source this file in your global <code>~/.bashrc</code> file. For
 python script you want to include auto complete, you will also need to register
 the script using the provide function.</p> <div class="code-block-container" data-svelte-h="svelte-fusw9q"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF">source</span><span style="color:#E6DB74"> python-argcomplete.sh</span></span>
@@ -88,7 +90,7 @@ custom python script you write.</p></article> <footer class="svelte-a9w2ls"><spa
 			
 			<script>
 				{
-					__sveltekit_1901zh4 = {
+					__sveltekit_12ygjw2 = {
 						base: new URL("../..", location).pathname.slice(0, -1),
 						assets: "/yimuchen.pages"
 					};
@@ -98,8 +100,8 @@ custom python script you write.</p></article> <footer class="svelte-a9w2ls"><spa
 					const data = [null,null];
 
 					Promise.all([
-						import("../../_app/immutable/entry/start._uV4Al5i.js"),
-						import("../../_app/immutable/entry/app.DsPJVXFi.js")
+						import("../../_app/immutable/entry/start.Dm820pXR.js"),
+						import("../../_app/immutable/entry/app.CPmBryS9.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

@@ -305,10 +305,16 @@ Host remotehost*
 
 Host remotehost-nixshell
     RequestTTY yes
-    RemoteCommand <path>/to/nixstatic sheel nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh
+    RemoteCommand <path>/to/nixstatic shell nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh
 ```
 
 Notice that the `RequestTTY` is required for the shell prompt.
+
+> While I did try and see of spin up this interactive shell using the
+> interactive paradigm, this doesn't work as `nixstatic shell` does not work
+> with flake files with a non-standard install. Unfortunately, this does mean
+> that the nix may attempt to pull the most up-to-date package from the defined
+> nix-channel whenever you log in (which may take a long time)
 
 ## Some limitations
 

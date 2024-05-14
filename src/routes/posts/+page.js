@@ -8,15 +8,17 @@ export const load = async ({ fetch }) => {
   // Grouping by year ussing associative array
   var grouping = {};
   for (const p of posts) {
-    const date = new Date(p.meta.date)
-    const year = date.getFullYear()
+    const date = new Date(p.meta.date);
+    const year = date.getFullYear();
     if (!(year in grouping)) {
       grouping[year] = [];
     }
     grouping[year].push(p);
   }
   for (const year in grouping) {
-    grouping[year].sort((lhs, rhs) => { return lhs.meta.date < rhs.meta.date; })
+    grouping[year].sort((lhs, rhs) => {
+      return lhs.meta.date < rhs.meta.date;
+    });
   }
 
   return grouping;

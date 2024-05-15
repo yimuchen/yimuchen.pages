@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.COE_kSqZ.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.CfNWxFgY.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.ChXo_7W6.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CWVLUeLs.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CG8mIXgs.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.BWiPcvWN.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.Dzi52tLC.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DkfvVG74.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.CwydSqbh.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Python data analysis with Nix and neovim</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">Python data analysis with Nix and neovim</h1> <p>2024.May.15</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-1rsze6r"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#setting-up-the-editor">Setting up the editor</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#setting-up-a-python-environment-hybrid-style">Setting up a python environment (hybrid style)</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#interactive-development-with-moltennvim">Interactive development with molten.nvim</a></li></ol></nav> <p data-svelte-h="svelte-dbulzm">Python was one of the first programming languages to first encounter the
+<a href="https://xkcd.com/1987/" rel="nofollow">yet-another-package-manager woe</a>, with <a href="https://github.com/pyenv/pyenv" rel="nofollow">a</a> <a href="https://pypi.org/project/pip/" rel="nofollow">huge</a> <a href="https://conda.io/projects/conda/en/latest/index.html" rel="nofollow">myriad</a> of package/environmental managers that may or may not work
+nicely together. As I work to slowly <a href="https://nixos.org/" rel="nofollow">nix</a>-ify my workflow, this introduces
+another package manager into the workflow, so this post servers as a nicer jump
+off point for setting up an environment.</p> <h2 id="setting-up-the-editor" data-svelte-h="svelte-w84zj5"><a aria-hidden="true" tabindex="-1" href="#setting-up-the-editor"><span class="icon icon-link"></span></a>Setting up the editor</h2> <p data-svelte-h="svelte-1suobns">Here I am setting up the <a href="https://neovim.io/" rel="nofollow">neovim</a> in nix <a href="https://nix-community.github.io/home-manager/" rel="nofollow">home-manager</a>.
+To enable plugins that require python, you will need to enable python. This can
+be done in home manager configuration like:</p> <div class="code-block-container" data-svelte-h="svelte-11nyt8e"><div class="code-block-header">Snippet in home manager configuration <span class="code-block-lang">[nix]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">{ </span><span style="color:#FD971F;font-style:italic">pkgs</span><span style="color:#F92672">,</span><span style="color:#FD971F;font-style:italic"> config</span><span style="color:#F92672">,</span><span style="color:#F92672"> ... </span><span style="color:#F8F8F2">}: {</span></span>
+<span class="line"><span style="color:#A6E22E">  programs</span><span style="color:#F8F8F2">.</span><span style="color:#A6E22E">neovim</span><span style="color:#F92672"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#A6E22E">    enable</span><span style="color:#F92672"> =</span><span style="color:#AE81FF"> true</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#A6E22E">    extraPython3Packages</span><span style="color:#F92672"> =</span><span style="color:#FD971F;font-style:italic"> ps</span><span style="color:#F8F8F2">:</span></span>
+<span class="line"><span style="color:#F8F8F2">      [</span></span>
+<span class="line"><span style="color:#FD971F;font-style:italic">        ps</span><span style="color:#F92672">.</span><span style="color:#FD971F;font-style:italic">pynvim</span><span style="color:#88846F"> # Minimal python package required for python plugins</span></span>
+<span class="line"><span style="color:#F8F8F2">      ];</span></span>
+<span class="line"><span style="color:#F8F8F2">  };</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1iy39l0">You can always which python is used for <code>neovim</code> plugins by running
+<code>:checkhealth provider</code>:</p> <div class="code-block-container" data-svelte-h="svelte-fz28u"><div class="code-block-header"><span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>...</span></span>
+<span class="line"><span>Python 3 provider (optional) ~</span></span>
+<span class="line"><span>- Using: g:python3_host_prog = &quot;/nix/store/bbqkcbw8d6lfcjwg1zibb61q10zdg3ww-neovim-0.9.5/bin/nvim-python3&quot;</span></span>
+<span class="line"><span>- Executable: /nix/store/bbqkcbw8d6lfcjwg1zibb61q10zdg3ww-neovim-0.9.5/bin/nvim-python3</span></span>
+<span class="line"><span>- Python version: 3.11.9</span></span>
+<span class="line"><span>- pynvim version: 0.5.0</span></span>
+<span class="line"><span>- OK Latest pynvim is installed.</span></span>
+<span class="line"><span>...</span></span></code></pre></div></div> <p data-svelte-h="svelte-6lvyyo">Notice that this is difference from the python that used to execute the python
+environment; if you check <code>!which python</code> in neovim, that is the program that
+will be used for initialize the language server protocols for context-aware
+editing. So what you would want to do for python editing is then:</p> <ul data-svelte-h="svelte-jwjqs2"><li>Setup and activate the python virtual environment</li> <li>Ensure that the python LSPs installed in the python virtual environment</li> <li>Start neovim within that environment</li></ul> <p data-svelte-h="svelte-rcrh0z">This should give you the full benefits of the editing python files with the
+full context of all packages installed in your python environment.</p> <h2 id="setting-up-a-python-environment-hybrid-style" data-svelte-h="svelte-n3673z"><a aria-hidden="true" tabindex="-1" href="#setting-up-a-python-environment-hybrid-style"><span class="icon icon-link"></span></a>Setting up a python environment (hybrid style)</h2> <p data-svelte-h="svelte-1gnwwc1">Python has something that is very close to a declarative environment with the
+use of <a href="https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment" rel="nofollow">conda environments</a>. This, however does not quite fit with
+the nix paradigm, as both nix and conda expects certain libraries to be set up
+in a certain path that are incompatible. If the point is to fully nix-ify the
+development process, we would of-course try to all-in on using nix to set up
+the python environment. However, as nix is not so widely available, being able
+to keep the conda setup files to share with other collaborators is still the
+preferable path to go.</p> <p data-svelte-h="svelte-ngjxmj">The way I set up the conda-like environment in a nix environment is largely
+based off the solution found <a href="https://wiki.nixos.org/wiki/Python#Using_micromamba" rel="nofollow">here</a> would be to use
+<a href="https://mamba.readthedocs.io/en/latest/index.html" rel="nofollow">mircomamba</a>: another python package manager that is largely
+compatible with conda, while playing slightly nicer with nix.</p> <p data-svelte-h="svelte-8g7ljk">Imperatively, the commands used to can create the environment very similar to
+how one would set up a vanilla conda environment, with the only exceptional
+difference being the “magic” integration shell hook command.</p> <div class="code-block-container" data-svelte-h="svelte-1ko726e"><div class="code-block-header">micromamba <span class="code-block-lang">[bash]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F"># Integration magic</span></span>
+<span class="line"><span style="color:#66D9EF">eval</span><span style="color:#E6DB74"> &quot;$(</span><span style="color:#A6E22E">micromamba</span><span style="color:#E6DB74"> shell hook </span><span style="color:#AE81FF">-s</span><span style="color:#E6DB74"> zsh)&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Place this somewhere in the shell configuration</span></span>
+<span class="line"><span style="color:#F92672">export</span><span style="color:#F8F8F2"> MAMBA_ROOT_PREFIX</span><span style="color:#F92672">=</span><span style="color:#F8F8F2">$HOME/.mamba</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Creating the environment based on the given yaml file</span></span>
+<span class="line"><span style="color:#A6E22E">micromamba</span><span style="color:#E6DB74"> create</span><span style="color:#AE81FF"> -f</span><span style="color:#E6DB74"> environment.yaml</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># Activating the environment (env_name defined in environment.yaml)</span></span>
+<span class="line"><span style="color:#A6E22E">micromamba</span><span style="color:#E6DB74"> activate</span><span style="color:#E6DB74"> env_name</span></span></code></pre></div></div> <p data-svelte-h="svelte-1x214mn">The only annoying part now is that you need to set up the run an extra
+integration magic every time before activating the environment, (so two
+commands instead of the simple activate command). With the power of nix though,
+you can define the set-up process to be declarative using the <code>flake.nix</code> file!</p> <div class="code-block-container" data-svelte-h="svelte-u0eitm"><div class="code-block-header">flack.nix for setting up python environment <span class="code-block-lang">[nix]</span></div> <div class="code-block code-block-numbered numbered-start-0 code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line" data-line="1"><span style="color:#F8F8F2">{</span></span>
+<span class="line" data-line="2"><span style="color:#A6E22E">  description</span><span style="color:#F92672"> =</span><span style="color:#E6DB74"> &quot;Develop environment for python with microconda&quot;</span><span style="color:#F8F8F2">;</span></span>
+<span class="line" data-line="3"><span style="color:#A6E22E">  inputs</span><span style="color:#F92672"> =</span><span style="color:#F8F8F2"> { </span><span style="color:#A6E22E">nixpkgs</span><span style="color:#F8F8F2">.</span><span style="color:#A6E22E">url</span><span style="color:#F92672"> =</span><span style="color:#E6DB74"> &quot;github:nixos/nixpkgs/nixos-unstable&quot;</span><span style="color:#F8F8F2">; };</span></span>
+<span class="line" data-line="4"></span>
+<span class="line" data-line="5"><span style="color:#A6E22E">  outputs</span><span style="color:#F92672"> =</span><span style="color:#F8F8F2"> { </span><span style="color:#FD971F;font-style:italic">self</span><span style="color:#F92672">,</span><span style="color:#FD971F;font-style:italic"> nixpkgs</span><span style="color:#F92672">,</span><span style="color:#F92672"> ... </span><span style="color:#F8F8F2">}:</span></span>
+<span class="line" data-line="6"><span style="color:#F92672">    let</span></span>
+<span class="line" data-line="7"><span style="color:#A6E22E">      system</span><span style="color:#F92672"> =</span><span style="color:#E6DB74"> &quot;x86_64-linux&quot;</span><span style="color:#F8F8F2">;</span></span>
+<span class="line" data-line="8"><span style="color:#A6E22E">      pkgs</span><span style="color:#F92672"> =</span><span style="color:#FD971F;font-style:italic"> nixpkgs</span><span style="color:#F92672">.</span><span style="color:#FD971F;font-style:italic">legacyPackages</span><span style="color:#F92672">.${</span><span style="color:#FD971F;font-style:italic">system</span><span style="color:#F92672">}</span><span style="color:#F8F8F2">;</span></span>
+<span class="line" data-line="9"><span style="color:#F92672">    in</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line" data-line="10"><span style="color:#A6E22E">      devShells</span><span style="color:#F8F8F2">.</span><span style="color:#F92672">${</span><span style="color:#FD971F;font-style:italic">system</span><span style="color:#F92672">}</span><span style="color:#F8F8F2">.</span><span style="color:#A6E22E">default</span><span style="color:#F92672"> =</span><span style="color:#FD971F;font-style:italic"> pkgs</span><span style="color:#F92672">.</span><span style="color:#FD971F;font-style:italic">mkShell</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line" data-line="11"><span style="color:#A6E22E">        packages</span><span style="color:#F92672"> =</span><span style="color:#F8F8F2"> [</span></span>
+<span class="line" data-line="12"><span style="color:#FD971F;font-style:italic">          pkgs</span><span style="color:#F92672">.</span><span style="color:#FD971F;font-style:italic">micromamba</span><span style="color:#88846F"> # For setting up the development environments</span></span>
+<span class="line" data-line="13"><span style="color:#FD971F;font-style:italic">          pkgs</span><span style="color:#F92672">.</span><span style="color:#FD971F;font-style:italic">yq-go</span><span style="color:#88846F"> # For getting the information from the environment yaml</span></span>
+<span class="line" data-line="14"><span style="color:#F8F8F2">        ];</span></span>
+<span class="line" data-line="15"></span>
+<span class="line" data-line="16"><span style="color:#A6E22E">        shellHook</span><span style="color:#F92672"> =</span><span style="color:#E6DB74"> &#39;&#39;</span></span>
+<span class="line" data-line="17"><span style="color:#E6DB74">          set -e</span></span>
+<span class="line" data-line="18"><span style="color:#E6DB74">          eval &quot;$(micromamba shell hook -s zsh)&quot; # Setting the various items off</span></span>
+<span class="line" data-line="19"><span style="color:#E6DB74">          # Create the environment if the directory doesn&#39;t already exist</span></span>
+<span class="line" data-line="20"><span style="color:#E6DB74">          ENV_NAME=$(yq &quot;.name&quot; environment.yaml)</span></span>
+<span class="line" data-line="21"><span style="color:#E6DB74">          if [[ ! -d $MAMBA_ROOT_PREFIX/envs/$ENV_NAME ]]; then</span></span>
+<span class="line" data-line="22"><span style="color:#E6DB74">            micromamba create -f environment.yaml -y &gt; /dev/null</span></span>
+<span class="line" data-line="23"><span style="color:#E6DB74">          fi</span></span>
+<span class="line" data-line="24"><span style="color:#E6DB74">          # Always attempt to update the environment</span></span>
+<span class="line" data-line="25"><span style="color:#E6DB74">          micromamba activate $ENV_NAME</span></span>
+<span class="line highlight" data-line="26"><span style="color:#E6DB74">          micromamba install --name $ENV_NAME -f environment.yaml -y &gt; /dev/null</span></span>
+<span class="line highlight" data-line="27"><span style="color:#E6DB74">          if [[ -f $PWD/dev_environment.yaml ]] ; then</span></span>
+<span class="line highlight" data-line="28"><span style="color:#E6DB74">            micromamba install --name $ENV_NAME -f dev_environment.yaml -y &gt; /dev/null</span></span>
+<span class="line highlight" data-line="29"><span style="color:#E6DB74">          fi</span></span>
+<span class="line" data-line="30"><span style="color:#E6DB74">        &#39;&#39;</span><span style="color:#F8F8F2">;</span></span>
+<span class="line" data-line="31"><span style="color:#F8F8F2">      };</span></span>
+<span class="line" data-line="32"><span style="color:#88846F">      # We need to treat this as a package,</span></span>
+<span class="line" data-line="33"><span style="color:#A6E22E">      defaultPackage</span><span style="color:#F8F8F2">.</span><span style="color:#A6E22E">x86_64-linux</span><span style="color:#F92672"> =</span><span style="color:#FD971F;font-style:italic"> pkgs</span><span style="color:#F92672">.</span><span style="color:#FD971F;font-style:italic">micromamba</span><span style="color:#F8F8F2">;</span></span>
+<span class="line" data-line="34"><span style="color:#F8F8F2">    };</span></span>
+<span class="line" data-line="35"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1xd1c9x">With this flake file, you can simply run the command <code>nix develop .</code> to enter
+the session with the python environment setup! Other niceties of this includes
+that:</p> <ul data-svelte-h="svelte-16bgy1c"><li>The conda packages are automatically checked each time you enter the
+environment. (line 26)</li> <li>A separate developer related packages that might not make sense for people
+other than those using you set up (like you LSP of choice), can be listed in
+a separate <code>dev_environment.yaml</code></li> <li>Eventually you can have alternate set up routines with a different
+<code>devShells.${system}.[shell-name]</code> entry. Such as <code>devShells.${system}.nix</code>
+when you eventually want to try a full nix-based setup. (Which you can
+initiate with the command <code>nix develop &#39;.#nix&#39;</code> or similar)</li></ul> <h2 id="interactive-development-with-moltennvim" data-svelte-h="svelte-1ixml57"><a aria-hidden="true" tabindex="-1" href="#interactive-development-with-moltennvim"><span class="icon icon-link"></span></a>Interactive development with <code>molten.nvim</code></h2> <p data-svelte-h="svelte-1fqnpvt">For data analysis, code writtng is often incremental, with you needing to swap
+between plotting, checking the results and updating the algorithm employed very
+frequently. The <a href="https://github.com/benlubas/molten-nvim" rel="nofollow">molten.nvim</a> plugin is very useful to allow for
+ipython REPL interaction within the editor itself. The instructions on the
+molten <a href="https://github.com/benlubas/molten-nvim/blob/main/docs/NixOS.md" rel="nofollow">documentations</a>, is a little overblown, in the sense that
+as long as just have nix handle the python/lua external dependencies, and you
+can still use your favorite native package manager to handle the neovim plugins.</p> <p data-svelte-h="svelte-xqw8bt">The only problem that I found was problematic was that the plugin was not
+finding any kernels to use on initialization. While in the virtual environment,
+you can check that virtual environment are available using the command:</p> <div class="code-block-container" data-svelte-h="svelte-yb2asj"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F92672">&gt;</span><span style="color:#F8F8F2"> jupyter-kernelspec list</span></span>
+<span class="line"><span style="color:#A6E22E">Available</span><span style="color:#E6DB74"> kernels:</span></span>
+<span class="line"><span style="color:#A6E22E">  python3</span><span style="color:#E6DB74">        /home/user/.mamba/envs/env_name/share/jupyter/kernels/python3</span></span></code></pre></div></div> <p data-svelte-h="svelte-1tgsccl">Molten does not yet know where to look for these kernels. What you can do to
+remedy this is to add an extra line in your nix-flakes shell hook instruction
+to manually generate an entry in a more standard path:</p> <div class="code-block-container" data-svelte-h="svelte-o7sfjb"><div class="code-block-header">Append as final line in the shell hook in flake.nix <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">python</span><span style="color:#AE81FF"> -m</span><span style="color:#E6DB74"> ipykernel</span><span style="color:#E6DB74"> install</span><span style="color:#AE81FF"> --user</span><span style="color:#AE81FF"> --name</span><span style="color:#F8F8F2"> $ENV_NAME</span></span></code></pre></div></div> <p data-svelte-h="svelte-1p6t3fs">Then your desired kernel should show up nominally!</p> <p data-svelte-h="svelte-1kz3yvq">To further improve the experience, you can also have neovim to automatically
+detect if a <code>micromamba</code> (or <code>conda</code>) is present, then initialize molten accordingly:</p> <div class="code-block-container" data-svelte-h="svelte-17034e7"><div class="code-block-header"><span class="code-block-lang">[lua]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">vim.keymap.</span><span style="color:#66D9EF">set</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&#39;n&#39;</span><span style="color:#F8F8F2">, </span><span style="color:#E6DB74">&#39;&lt;leader&gt;mi&#39;</span><span style="color:#F8F8F2">, </span><span style="color:#F92672">function</span><span style="color:#F8F8F2">()</span></span>
+<span class="line"><span style="color:#F92672">  local</span><span style="color:#F8F8F2"> conda_env </span><span style="color:#F92672">=</span><span style="color:#66D9EF"> os.getenv</span><span style="color:#E6DB74"> &#39;CONDA_DEFAULT_ENV&#39;</span></span>
+<span class="line"><span style="color:#F92672">  if</span><span style="color:#F8F8F2"> conda_env </span><span style="color:#F92672">==</span><span style="color:#AE81FF"> nil</span><span style="color:#F92672"> then</span></span>
+<span class="line"><span style="color:#F8F8F2">    vim.</span><span style="color:#66D9EF">cmd</span><span style="color:#E6DB74"> &#39;MoltenInit&#39;</span></span>
+<span class="line"><span style="color:#F92672">    return</span></span>
+<span class="line"><span style="color:#F92672">  else</span></span>
+<span class="line"><span style="color:#F8F8F2">    vim.</span><span style="color:#66D9EF">cmd</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&#39;MoltenInit &#39; </span><span style="color:#F92672">..</span><span style="color:#F8F8F2"> conda_env)</span></span>
+<span class="line"><span style="color:#F92672">  end</span></span>
+<span class="line"><span style="color:#F92672">end</span><span style="color:#F8F8F2">, { silent </span><span style="color:#F92672">=</span><span style="color:#AE81FF"> true</span><span style="color:#F8F8F2">, desc </span><span style="color:#F92672">=</span><span style="color:#E6DB74"> &#39;[M]olten [I]nitialize&#39; </span><span style="color:#F8F8F2">})</span></span></code></pre></div></div> <hr> <p data-svelte-h="svelte-135lmdh">With all of the above, hopefully this can improve you experience with python
+development!</p></article> <footer class="svelte-a9w2ls"><span class="foot-header svelte-a9w2ls" data-svelte-h="svelte-1vhgsge">Tags</span><br> <span class="svelte-a9w2ls"><a href="../../tags/#vim">vim</a></span><span class="svelte-a9w2ls"><a href="../../tags/#computing">computing</a></span><span class="svelte-a9w2ls"><a href="../../tags/#tips">tips</a></span><span class="svelte-a9w2ls"><a href="../../tags/#nix">nix</a></span></footer> <div class="side-bar svelte-ype9gw"><button class="svelte-ype9gw"><div id="side-toggler-hide"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path><!-- HTML_TAG_END --></svg></div> <div id="side-toggler-show"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path><!-- HTML_TAG_END --></svg></div></button> <div class="side-bar-button"></div> <div class="side-bar-slider"><div class="side-bar-content svelte-ype9gw"><h2 class="side-bar-header svelte-ype9gw" data-svelte-h="svelte-r83smw">Outline</h2> <div id="side-bar-list"></div></div></div> </div></main> <footer class="svelte-ze0gu2"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_4f47hs = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.CfNWxFgY.js"),
+						import("../../_app/immutable/entry/app.CG8mIXgs.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

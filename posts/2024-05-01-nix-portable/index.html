@@ -9,18 +9,18 @@
 		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
-		<link rel="modulepreload" href="../../_app/immutable/entry/start.Dm820pXR.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BqO3rIaC.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.CfNWxFgY.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.ChXo_7W6.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CjcAIcQG.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.CPmBryS9.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CWVLUeLs.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CG8mIXgs.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.BWiPcvWN.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/0.D8sHrsHZ.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.Dzi52tLC.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DkfvVG74.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/5.b-uQLw-F.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.CwydSqbh.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Nix as a local package manager</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
   </head>
@@ -184,13 +184,17 @@ the <code>home-manager switch</code> command after you have finished updating yo
 Notice that if anything fail, this will not affect you current environment (the
 reliability mantra of nix in full effect!)</p> <p data-svelte-h="svelte-1qk3yj5">To automate the process of spinning up a nix shell with home-manager packages
 when you log into the remote machine with a special tag, we can add an entry to
-your local <code>ssh</code> configuration as something like:</p> <div class="code-block-container" data-svelte-h="svelte-j2qvhj"><div class="code-block-header">~/.ssh/config <span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Host remotehost*</span></span>
+your local <code>ssh</code> configuration as something like:</p> <div class="code-block-container" data-svelte-h="svelte-y39jpa"><div class="code-block-header">~/.ssh/config <span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Host remotehost*</span></span>
 <span class="line"><span>    Host remotehost.com</span></span>
 <span class="line"><span>    * Additional ssh settings you might want</span></span>
 <span class="line"><span></span></span>
 <span class="line"><span>Host remotehost-nixshell</span></span>
 <span class="line"><span>    RequestTTY yes</span></span>
-<span class="line"><span>    RemoteCommand &lt;path&gt;/to/nixstatic sheel nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh</span></span></code></pre></div></div> <p data-svelte-h="svelte-1p5n920">Notice that the <code>RequestTTY</code> is required for the shell prompt.</p> <h2 id="some-limitations" data-svelte-h="svelte-19w07d7"><a aria-hidden="true" tabindex="-1" href="#some-limitations"><span class="icon icon-link"></span></a>Some limitations</h2> <p data-svelte-h="svelte-1sqmc6l">While this solution works wonderfully for my cases (I mainly just wanted to be
+<span class="line"><span>    RemoteCommand &lt;path&gt;/to/nixstatic shell nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh</span></span></code></pre></div></div> <p data-svelte-h="svelte-1p5n920">Notice that the <code>RequestTTY</code> is required for the shell prompt.</p> <blockquote data-svelte-h="svelte-1jkbclw"><p>While I did try and see of spin up this interactive shell using the
+interactive paradigm, this doesn’t work as <code>nixstatic shell</code> does not work
+with flake files with a non-standard install. Unfortunately, this does mean
+that the nix may attempt to pull the most up-to-date package from the defined
+nix-channel whenever you log in (which may take a long time)</p></blockquote> <h2 id="some-limitations" data-svelte-h="svelte-19w07d7"><a aria-hidden="true" tabindex="-1" href="#some-limitations"><span class="icon icon-link"></span></a>Some limitations</h2> <p data-svelte-h="svelte-1sqmc6l">While this solution works wonderfully for my cases (I mainly just wanted to be
 able to have an up-to-date version of <code>neovim</code> with the required packages be
 available anywhere I go), there are certain caveats you need to be careful of
 if you want to try this solution for yourself:</p> <ul data-svelte-h="svelte-133e0tp"><li><p>Given how <code>nix</code> aims to ensure package compatibility, the path you use to
@@ -220,7 +224,7 @@ for real.</p></article> <footer class="svelte-a9w2ls"><span class="foot-header s
 			
 			<script>
 				{
-					__sveltekit_12ygjw2 = {
+					__sveltekit_4f47hs = {
 						base: new URL("../..", location).pathname.slice(0, -1),
 						assets: "/yimuchen.pages"
 					};
@@ -230,8 +234,8 @@ for real.</p></article> <footer class="svelte-a9w2ls"><span class="foot-header s
 					const data = [null,null];
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.Dm820pXR.js"),
-						import("../../_app/immutable/entry/app.CPmBryS9.js")
+						import("../../_app/immutable/entry/start.CfNWxFgY.js"),
+						import("../../_app/immutable/entry/app.CG8mIXgs.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

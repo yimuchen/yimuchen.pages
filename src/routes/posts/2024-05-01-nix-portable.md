@@ -119,44 +119,51 @@ access the `nix.org` domains! So below are the instructions for setting up
 ### nix running without root
 
 First we need to get a "static" version of the `nix` package manager
-(self-contained executable without linking to any other library). This was
-actually the hardest step, as this URL is not marketed anywhere on the official
-nix documentation (shout out to [these][p1] [two][p2] blog posts that I found
-during my hunt). You might want to change the version number depending on major
-nix updates as well as the machine that you are using:
+(self-contained executable without linking to any other library). You can
+obtain the "nix-portable" file [here][nport]. You can get a static binary that
+does not need any external dependencies:
 
-[p1]: https://bnikolic.co.uk/blog/nix/2024/01/16/nix-without-root.html
-[p2]: https://zameermanji.com/blog/2023/3/26/using-nix-without-root/
+[nport]: https://github.com/DavHau/nix-portable?tab=readme-ov-file#get-nix-portable
 
 ```bash
-curl -L https://hydra.nixos.org/job/nix/maintenance-2.20/buildStatic.x86_64-linux/latest/download-by-type/file/binary-dist > nixstatic
-chmod +x nixstatic
+curl -L https://github.com/DavHau/nix-portable/releases/latest/download/nix-portable-$(uname -m) > ./nix-portable
+chmod +x ./nix-portable
 ```
 
-By default, `nix` expects everything managed by `nix` related to be placed
-under `/nix/store` directory. Setting up in the root directory is not something
-that we have access to, in this case, so we will need to modify this behavior
-by editing the `~/.config/nix/nix.conf` file:
+The nix-portable package contains mechanisms to automatically handling the path
+re-routing required to make subseqent nix environments "think" that a writable
+`/nix` directory exists, even without root access. The 2 environment variable
+that you can use to change the behavior of nix portable:
+
+```bash
+export NP_LOCATION=/path/to/large/store # This is where you will actually place the file that go into /nix
+export NP_RUNTIME=bwrap # How path re-rounting works (nix by default)
+```
+
+Notice that `NP_LOCATION` will overwrite the `store` that you have listed in
+your user `~/.config/nix/nix.conf`. Before we formally start a nix session, let
+us add a couple of niceties to nix (As of 2024 May, the experimental features
+are required, or you will be typing `--extra-experimental-features` a lot).
 
 ```plaintext title="In File [~/.config/nix/nix.conf]" nocopy
-store = <your/store/path>
 extra-experimental-features = flakes nix-command
 ssl-cert-file = /etc/pki/tls/cert.pem
 ```
 
-(As of 2024 May, the experimental features are required, or you will be typing
-`--extra-experimental-features` a lot). With this you can now spin up an
-interactive shell that contain the actual nix commands:
+With this you can now spin up a new environment that actually contains a
+nominal nix command like:
 
-```bash title="command for activating shell with nix commands"
-./nixstatic shell nixpkgs#nix nixpkgs#git nixpkgs#bashInteractive --command bash
+```bash
+./nix-portable nix shell "nixpkgs#nix" "nixpkgs#bashInteractive" -c bash -l
 ```
 
 You will notice that the first time you do this is very slow, because nix
 automatically detects all the required libraries required download the file
 required into the defined `store` directory to run the nix shell. In this shell
 you should see that the tool kits specified are now updated to the latest
-stable version found in the [NixOS package repository][nix-repo].
+stable version found in the [NixOS package repository][nix-repo]. In future
+runs, you can run `nix shell --offline` to avoid re-downloading/updating
+packages if you don't explicitly want to, as this is checked every time.
 
 [nix-repo]: https://search.nixos.org/packages
 
@@ -200,18 +207,16 @@ configurations following the nix declarative paradigm. What this means for us
 where we don't have a system-level package to manage, is that home manager can
 effectively all the packages we are interested in.
 
-The default distribution of home manager expects a standard nix set up where
-everything is placed under `/nix/store`. This is not our case, so we will need
-to build home manager directly (shout out to [this GitHub comment][og-answer]
-that first showed this solution). Within your nix shell, where you should
-minimally have nix, bash and an updated version of git installed:
-
 [homemanager]: https://nix-community.github.io/home-manager/
-[og-answer]: https://github.com/nix-community/home-manager/issues/3752#issuecomment-1566179742
+
+
+Because channel support is still incomplete with nix-portable, you need to
+install the home-manager channel from source (shout out to [this
+comment][comment]) following the commands:
+
+[comment]: https://github.com/nix-community/home-manager/issues/3752#issuecomment-1566179742
 
 ```bash title="run within nix shell"
-## Set up a nix shell with nix static, must include at least nix and an updated git
-# ./nixstatic shell nixpkgs#nix nixpkgs#git nixpkgs#bashInteractive --command bash
 git clone https://github.com/nix-community/home-manager.git
 cd home-manager
 nix build .
@@ -221,14 +226,15 @@ nix build .
 ## create ~/.config/home-manager/flake.nix
 ```
 
-This will create the files required to declaring your default home environment.
-For a simple configuration we will only need to edit the `home.nix` file for
-now. For detailed instruction of what the configuration means, you should
-consult the official [documentation][hmdoc]. Let's keep in simple in this
-example, and say we just need some extra packages: [`neovim`][neovim],
-[`zsh`][zsh] and an updated version of [`git`][git]. The edits we need to make
-in this case is then just some additional updates to the `home.packages` list
-entry:
+Following this, you should have access to the `home-manager` command, where you
+can then call the `home-manager init` to create the base file you need to
+declare your default home environment. For a simple configuration we will only
+need to edit the `home.nix` file for now. For detailed instruction of what the
+configuration means, you should consult the official [documentation][hmdoc].
+Let's keep in simple in this example, and say we just need some extra packages:
+[`neovim`][neovim], [`zsh`][zsh] and an updated version of [`git`][git]. The
+edits we need to make in this case is then just some additional updates to the
+`home.packages` list entry:
 
 [hmdoc]: https://nix-community.github.io/home-manager/
 [neovim]: https://neovim.io/
@@ -260,16 +266,18 @@ entry:
 Once you are happy with the list of packages, you can run the following items
 within a nix shells
 
-```bash title="run within nix shell"
-cd home-manager
-./results/bin/home-manager switch
+```bash title="run within nix shell" nocopy
+<path>/to/store/results/bin/home-manager switch
 ```
 
 This will install all the programs that you are using to `$HOME/.nix-profile`
 which in turn is actually linked to the where you have set up the full store
-paths (defined in your `~/.config/nix/nix.conf` file). As we are not using
-standard nix install, some path automation is not properly handled, so what you
-also need is to prepare a minimum `bashrc` file that looks something like:
+paths (defined in your `~/.config/nix/nix.conf` file). You only need to run
+`home-manager` from the compile path only for the first time, all other times
+the `home-manager` binary will be appropriately linked into your environment
+path. As we are not using standard nix install, some path automation is not
+properly handled, so what you also need is to prepare a minimum `bashrc` file
+that looks something like:
 
 ```bash title="In file [~/.bashrc-nix.sh]"
 # Required for home manager
@@ -282,7 +290,7 @@ Then you can jump all the way from the default login shell to your home-manager
 defined environment using the following one-liner:
 
 ```bash title="run in default environment"
-./nixstatic shell nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh
+./nix-protable nix shell nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh
 ```
 
 In this environment, you should be able to use all the packages that you have
@@ -305,7 +313,7 @@ Host remotehost*
 
 Host remotehost-nixshell
     RequestTTY yes
-    RemoteCommand <path>/to/nixstatic shell nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh
+    RemoteCommand /path/to/nix-portable shell nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh
 ```
 
 Notice that the `RequestTTY` is required for the shell prompt.

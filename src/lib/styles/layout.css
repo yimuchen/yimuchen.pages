@@ -13,6 +13,10 @@ body {
   border-radius: 15px;
 }
 
+blockquote {
+  font-style: italic;
+}
+
 @media screen and (orientation: portrait) {
   .content-container {
     max-width: 90%;

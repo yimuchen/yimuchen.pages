@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.B7MGzD8S.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.cMESTdA_.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.cRLfCo9H.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CQ2PK9c7.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.DvjIqt2n.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.BWiPcvWN.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.98a3tykM.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DkfvVG74.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.C7568gaw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Python data analysis with neovim and containers</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>  <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">Python data analysis with neovim and containers</h1> <p>2024.Jun.4</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-1xfyykp"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#lsp-as-servers-which-may-not-always-work">LSP as servers (which may not always work)</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#complex-lsp-startup-command">Complex LSP startup command</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#project-specific-configurations">Project specific configurations</a></li></ol></nav> <p data-svelte-h="svelte-1jhya53">Despite my previous article discussing python development with nix shell, the
+truth is that nix-based tools are not commonly available at high-performance
+computing (HPC) center. The most common way of ensuring the desired software
+stack is available for HPC is typically the use of containers (either
+<a href="https://www.docker.com/" rel="nofollow">docker</a>, or more commonly <a href="https://apptainer.org/" rel="nofollow">apptainer/singularity</a>). The
+problem then comes in how can one ensure the apparent program environment of
+your editor matches that in the container, especially as editors are large
+pieces of binary with many dependencies.</p> <p data-svelte-h="svelte-1dos4v8">One solution would be to extend the container image to contain ones favorite
+editor, this can be extremely disk-space intensive, especially when the
+container images are continuously updated, as you will effectively be creating
+a new editor binary every time your image changes. Another solution would be to
+create some virtual environment that perfectly mirrors the image. This again is
+potentially disk-space intensive, especially if your container image contains
+large library blobs like for machine learning. Is there a way to have the best
+of both worlds, where your editor uses your custom-defined, most-up-to-date
+package version, while having the editor understand the programming environment
+specific to the container?</p> <p data-svelte-h="svelte-cu8jcs">For the following discussion, I’m going to assume that we are working with
+containers for Python-based development. Meaning that you will have the
+flexibility to install custom python packages with the use of python’s
+<a href="https://docs.python.org/3/library/venv.html" rel="nofollow">venv</a> module, but the solutions will not require installing any
+non-python packages or modify the python version.</p> <h3 id="lsp-as-servers-which-may-not-always-work" data-svelte-h="svelte-wtyrxt"><a aria-hidden="true" tabindex="-1" href="#lsp-as-servers-which-may-not-always-work"><span class="icon icon-link"></span></a>LSP as servers (which may not always work)</h3> <p data-svelte-h="svelte-10dhbd5">Since the editor understands your programming environment through the language
+<em>server</em> protocol, there is actually no rule saying that the LSP needs to be
+running in the same environment as the editor. While most LSP works by having
+information being passed into and out of the <a href="https://en.wikipedia.org/wiki/Standard_streams" rel="nofollow">standard streams</a>,
+some LSP does support network based streaming.</p> <p data-svelte-h="svelte-r9efyn">For example, you can fire up your container, and start the <a href="https://github.com/python-lsp/python-lsp-server" rel="nofollow">python language
+server</a> like:</p> <div class="code-block-container" data-svelte-h="svelte-3b8q25"><div class="code-block-header">Starting pylsp using TCP <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">pylsp</span><span style="color:#AE81FF"> --tcp</span><span style="color:#AE81FF"> --port=8600</span><span style="color:#88846F"> # Or change to whichever port is free</span></span></code></pre></div></div> <p data-svelte-h="svelte-31jdfq">Then, in the editor configuration, you only need to change how the LSP is
+initialized by your editor. In neovim with the <code>lspconfig</code>, this is as simple
+as setting up <code>pylsp</code> with a custom <code>cmd</code>:</p> <div class="code-block-container" data-svelte-h="svelte-1s051k1"><div class="code-block-header">Configuration for pylsp over TCP <span class="code-block-lang">[lua]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF">require</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;lspconfig&quot;</span><span style="color:#F8F8F2">).pylsp.</span><span style="color:#66D9EF">setup</span><span style="color:#F8F8F2">({</span></span>
+<span class="line"><span style="color:#F8F8F2">	cmd </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> vim.lsp.rpc.</span><span style="color:#66D9EF">connect</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;localhost&quot;</span><span style="color:#F8F8F2">, </span><span style="color:#AE81FF">8600</span><span style="color:#F8F8F2">),</span></span>
+<span class="line"><span style="color:#F8F8F2">})</span></span></code></pre></div></div> <p data-svelte-h="svelte-bry48u">This <a href="https://www.reddit.com/r/neovim/comments/1d2gw1c/remote_lsp/" rel="nofollow">post</a> actually details more information, in case your LSP of
+interest does not support TCP streams out of the box, common unix tools allows
+to seamless route standard streams to a target network port.</p> <div class="code-block-container" data-svelte-h="svelte-1mnn1vq"><div class="code-block-header">Starting pylsp using socat routing <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">socat</span><span style="color:#E6DB74"> TCP-LISTEN:8600,reuseaddr,fork</span><span style="color:#E6DB74"> EXEC:&quot;pyslp&quot;</span></span></code></pre></div></div> <hr> <p data-svelte-h="svelte-d4eodm">The problem with this solution is two-fold. First, is that now the
+initialization of the LSP is now separate from the editor; whereas previously
+the LSP is automatically started when editing a certain file type, now we need
+to explicitly run an external command. Second is that while stream routing
+tools are common, they are not necessarily included in your container image of
+interest. Is there a way to better solve this problem?</p> <h3 id="complex-lsp-startup-command" data-svelte-h="svelte-15bznc7"><a aria-hidden="true" tabindex="-1" href="#complex-lsp-startup-command"><span class="icon icon-link"></span></a>Complex LSP startup command</h3> <p data-svelte-h="svelte-oknvbv">The solution actually lies in the configuration of the editor previously, it
+turns out that you can start LSPs with arbitrarily complicated commands,
+including starting up a docker/singularity instance! If you are already using
+docker, you can check out <a href="https://github.com/lspcontainers/lspcontainers.nvim" rel="nofollow">this plugin</a> here; but for the sake of
+completeness, you can actually define these commands yourself! Using
+singularity as an example, you can add to your configuration file something
+like:</p> <div class="code-block-container" data-svelte-h="svelte-17kdhvh"><div class="code-block-header">configuration for starting pylsp in a docker container image <span class="code-block-lang">[lua]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F92672">local</span><span style="color:#F8F8F2"> project_dir </span><span style="color:#F92672">=</span><span style="color:#E6DB74"> &quot;your/project/path&quot;</span></span>
+<span class="line"><span style="color:#F92672">local</span><span style="color:#F8F8F2"> image_dir </span><span style="color:#F92672">=</span><span style="color:#E6DB74"> &quot;your/image/dir&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#66D9EF">require</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;lspconfig&quot;</span><span style="color:#F8F8F2">).pylsp.</span><span style="color:#66D9EF">setup</span><span style="color:#F8F8F2">({</span></span>
+<span class="line"><span style="color:#F8F8F2">	cmd </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;singularity&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;exec&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;-p&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#88846F">		-- Binding your project directory</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;-B&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">		project_dir </span><span style="color:#F92672">..</span><span style="color:#E6DB74"> &quot;:/srv&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;--pwd&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;/srv&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#88846F">		-- Specifying your image</span></span>
+<span class="line"><span style="color:#F8F8F2">		image_dir,</span></span>
+<span class="line"><span style="color:#88846F">		-- Executing the LSP in question.</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;/bin/bash&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;-c&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;pylsp&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">	},</span></span>
+<span class="line"><span style="color:#F8F8F2">})</span></span></code></pre></div></div> <p data-svelte-h="svelte-ayp8kw">If your LSP not directly accessible in your container image, you can also have
+arbitrarily complicated startup sequences, provided that nothing is printed
+into the standard streams by providing the executing script used to start the LSP:</p> <div class="code-block-container" data-svelte-h="svelte-5fwd5i"><div class="code-block-header">start_py.sh <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F">#!/bin/bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#88846F"># This will execute within the singularty session</span></span>
+<span class="line"><span style="color:#66D9EF">source</span><span style="color:#E6DB74"> /srv/myenv/bin/activate</span><span style="color:#88846F"> # Activate some virtual environment</span></span>
+<span class="line"><span style="color:#F92672">export</span><span style="color:#F8F8F2"> MY_ENV</span><span style="color:#F92672">=</span><span style="color:#E6DB74">&quot;MY_VALUE&quot;</span><span style="color:#88846F"> # Additional settings you want to have visible to the LSP</span></span>
+<span class="line"><span style="color:#A6E22E">/srv/myenv/bin/pylsp</span><span style="color:#AE81FF"> --option</span><span style="color:#88846F"> # Activating the LSP with some additional options.</span></span></code></pre></div></div> <p data-svelte-h="svelte-1r2x7rj">Then in your configuration lua file, you can swap out the final <code>&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;pylsp&quot;</code> entries with the new <code>&quot;/bin/bash/&quot;, &quot;-c&quot;, &quot;./start_lsp.sh&quot;</code>. If
+you are using formatters handlers such as <a href="https://github.com/stevearc/conform.nvim" rel="nofollow"><code>conform</code></a>, you can also do
+something similar, except that all commands other than singularity needs to be
+passed as the <code>args</code> method:</p> <div class="code-block-container" data-svelte-h="svelte-1engt8v"><div class="code-block-header">configuration for conform <span class="code-block-lang">[lua]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF">requires</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;conform&quot;</span><span style="color:#F8F8F2">).formatters.sing_ruff_format </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">	command </span><span style="color:#F92672">=</span><span style="color:#E6DB74"> &quot;singularity&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">	args </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;exec&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;-p&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#88846F">		-- Directory binding information</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;-B&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">		project_dir </span><span style="color:#F92672">..</span><span style="color:#E6DB74"> &quot;:/srv&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;--pwd&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;/srv&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#88846F">		-- Executing</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;/bin/bash&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;-c&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#E6DB74">		&quot;/srv/myenv/bin/ruff format --force-exclude --stdin-filename $FILENAME -&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">	},</span></span>
+<span class="line"><span style="color:#F8F8F2">	stdin </span><span style="color:#F92672">=</span><span style="color:#AE81FF"> true</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1cy9uv7">Notice that in this case the full formatting command with various arguments
+needs to be passed as a single string to singularity/bash.</p> <p data-svelte-h="svelte-xkev26">If you are using molten to have in-editor interactions with the python kernels,
+a similar trick can by installing a custom kernel launching process defined in
+you user kernel definitions (solution adapted from <a href="https://stackoverflow.com/a/63715102" rel="nofollow">this
+answer</a>)</p> <div class="code-block-container" data-svelte-h="svelte-ihikts"><div class="code-block-header">~/.local/share/jupyter/kernels/jetenv/kernel.json <span class="code-block-lang">[json]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">{</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">  &quot;argv&quot;</span><span style="color:#F8F8F2">: [</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;/usr/bin/singularity&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;exec&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;-B&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;/your/project/dir:/srv&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;-B&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;{connection_file}:/srv/.jupyter/connection-spec&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;--pwd&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;/srv&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;/your/image/path&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;/bin/bash&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;-c&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#CFCFC2">    &quot;/srv/myenv/bin/python -Xfrozen_modules=off -m ipykernel_launcher -f /srv/.jupyter/connection-spec&quot;</span></span>
+<span class="line"><span style="color:#F8F8F2">  ],</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">  &quot;display_name&quot;</span><span style="color:#F8F8F2">: </span><span style="color:#CFCFC2">&quot;jetenv&quot;</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">  &quot;language&quot;</span><span style="color:#F8F8F2">: </span><span style="color:#CFCFC2">&quot;python&quot;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre></div></div> <p data-svelte-h="svelte-1xms3od">This will allow you to use molten to see this new kernel that is created
+through a singularity command.</p> <blockquote data-svelte-h="svelte-175cq4t"><p>Note: one danger with this method is that it must be executed without the
+<code>-p</code> flag (compare with the other methods in this article). This may start
+the host system of available process namespace, and may be against the
+terms-and-services of your HPC machine.</p></blockquote> <blockquote data-svelte-h="svelte-129tdyn"><p>Note 2: If you are using this in combination with a nix-shell this may not
+work. Still not work entirely sure why this is the case just yet.</p></blockquote> <h2 id="project-specific-configurations" data-svelte-h="svelte-gpp5l0"><a aria-hidden="true" tabindex="-1" href="#project-specific-configurations"><span class="icon icon-link"></span></a>Project specific configurations</h2> <p data-svelte-h="svelte-9yb587">Now, since containers are likely to be project specific, you would likely not
+want to have these LSP/formatter settings be your global editor settings. But
+rather only be used if you are opening a file in the project directory. If you
+don’t want to have a full project manager style plugin, you can make a very
+simple file in the <code>~/.config/nvim/after/plugin</code> directory that contains
+something like:</p> <div class="code-block-container" data-svelte-h="svelte-11oeiep"><div class="code-block-header">project.lua <span class="code-block-lang">[lua]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">vim.api.</span><span style="color:#66D9EF">nvim_create_autocmd</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;VimEnter&quot;</span><span style="color:#F8F8F2">, {</span></span>
+<span class="line"><span style="color:#F8F8F2">	pattern </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> { </span><span style="color:#E6DB74">&quot;*&quot; </span><span style="color:#F8F8F2">},</span></span>
+<span class="line"><span style="color:#A6E22E">	callback</span><span style="color:#F92672"> =</span><span style="color:#F92672"> function</span><span style="color:#F8F8F2">()</span></span>
+<span class="line"><span style="color:#F92672">		local</span><span style="color:#F8F8F2"> config_name </span><span style="color:#F92672">=</span><span style="color:#E6DB74"> &quot;init.lua&quot;</span></span>
+<span class="line"><span style="color:#F92672">		local</span><span style="color:#F8F8F2"> project_config </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> vim.fs.</span><span style="color:#66D9EF">root</span><span style="color:#F8F8F2">(</span><span style="color:#AE81FF">0</span><span style="color:#F8F8F2">, vim.fs.</span><span style="color:#66D9EF">joinpath</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;.nvim&quot;</span><span style="color:#F8F8F2">, config_name))</span></span>
+<span class="line"><span style="color:#F92672">		if</span><span style="color:#F8F8F2"> project_config </span><span style="color:#F92672">~=</span><span style="color:#AE81FF"> nil</span><span style="color:#F92672"> then</span></span>
+<span class="line"><span style="color:#F8F8F2">			project_config </span><span style="color:#F92672">=</span><span style="color:#F8F8F2"> vim.fs.</span><span style="color:#66D9EF">joinpath</span><span style="color:#F8F8F2">(project_config, config_name)</span></span>
+<span class="line"><span style="color:#F8F8F2">			vim.</span><span style="color:#66D9EF">cmd</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">&quot;source &quot; </span><span style="color:#F92672">..</span><span style="color:#F8F8F2"> project_config)</span></span>
+<span class="line"><span style="color:#F92672">		end</span></span>
+<span class="line"><span style="color:#F92672">	end</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">})</span></span></code></pre></div></div> <p data-svelte-h="svelte-w3ntrf">With this very simply snippet, it will attempt to check if the parent directory
+structures contain a <code>.nvim</code> directory, and if it does, load the file
+<code>.nvim/init.lua</code> file into the neovim configuration. Since this is loaded after
+all configuration listed in the global neovim configuration, any configurations
+listed here will overwrite the global settings!</p></article> <footer class="svelte-a9w2ls"><span class="foot-header svelte-a9w2ls" data-svelte-h="svelte-1vhgsge">Tags</span><br> <span class="svelte-a9w2ls"><a href="../../tags/#vim">vim</a></span><span class="svelte-a9w2ls"><a href="../../tags/#computing">computing</a></span><span class="svelte-a9w2ls"><a href="../../tags/#tips">tips</a></span><span class="svelte-a9w2ls"><a href="../../tags/#containers">containers</a></span></footer> <div class="side-bar svelte-ype9gw"><button class="svelte-ype9gw"><div id="side-toggler-hide"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path><!-- HTML_TAG_END --></svg></div> <div id="side-toggler-show"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path><!-- HTML_TAG_END --></svg></div></button> <div class="side-bar-button"></div> <div class="side-bar-slider"><div class="side-bar-content svelte-ype9gw"><h2 class="side-bar-header svelte-ype9gw" data-svelte-h="svelte-r83smw">Outline</h2> <div id="side-bar-list"></div></div></div> </div></main> <footer class="svelte-ze0gu2"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1didkae = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.cMESTdA_.js"),
+						import("../../_app/immutable/entry/app.DvjIqt2n.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

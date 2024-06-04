@@ -4,23 +4,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
-		<link href="../../_app/immutable/assets/0.COE_kSqZ.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/0.B7MGzD8S.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
-		<link rel="modulepreload" href="../../_app/immutable/entry/start.CfNWxFgY.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.ChXo_7W6.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.cMESTdA_.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.cRLfCo9H.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CWVLUeLs.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.CG8mIXgs.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.CQ2PK9c7.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.DvjIqt2n.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.BWiPcvWN.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/0.Dzi52tLC.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.98a3tykM.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DkfvVG74.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/5.CwydSqbh.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.C7568gaw.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Nix as a local package manager</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
   </head>
@@ -90,24 +90,26 @@ required libraries are exposed to the package of interest.</p> <p data-svelte-h=
 that <code>nix</code> can be deployed as a standalone package manager to someone without
 root access, meaning that I supposedly deploy nix to machine that allows me to
 access the <code>nix.org</code> domains! So below are the instructions for setting up
-<code>nix</code> in your own environment.</p> <h3 id="nix-running-without-root" data-svelte-h="svelte-iss7kq"><a aria-hidden="true" tabindex="-1" href="#nix-running-without-root"><span class="icon icon-link"></span></a>nix running without root</h3> <p data-svelte-h="svelte-d58n00">First we need to get a “static” version of the <code>nix</code> package manager
-(self-contained executable without linking to any other library). This was
-actually the hardest step, as this URL is not marketed anywhere on the official
-nix documentation (shout out to <a href="https://bnikolic.co.uk/blog/nix/2024/01/16/nix-without-root.html" rel="nofollow">these</a> <a href="https://zameermanji.com/blog/2023/3/26/using-nix-without-root/" rel="nofollow">two</a> blog posts that I found
-during my hunt). You might want to change the version number depending on major
-nix updates as well as the machine that you are using:</p> <div class="code-block-container" data-svelte-h="svelte-2yhkcd"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">curl</span><span style="color:#AE81FF"> -L</span><span style="color:#E6DB74"> https://hydra.nixos.org/job/nix/maintenance-2.20/buildStatic.x86_64-linux/latest/download-by-type/file/binary-dist</span><span style="color:#F92672"> &gt;</span><span style="color:#E6DB74"> nixstatic</span></span>
-<span class="line"><span style="color:#A6E22E">chmod</span><span style="color:#E6DB74"> +x</span><span style="color:#E6DB74"> nixstatic</span></span></code></pre></div></div> <p data-svelte-h="svelte-1kg0ekw">By default, <code>nix</code> expects everything managed by <code>nix</code> related to be placed
-under <code>/nix/store</code> directory. Setting up in the root directory is not something
-that we have access to, in this case, so we will need to modify this behavior
-by editing the <code>~/.config/nix/nix.conf</code> file:</p> <div class="code-block-container" data-svelte-h="svelte-enh41a"><div class="code-block-header">In File [~/.config/nix/nix.conf] <span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>store = &lt;your/store/path&gt;</span></span>
-<span class="line"><span>extra-experimental-features = flakes nix-command</span></span>
-<span class="line"><span>ssl-cert-file = /etc/pki/tls/cert.pem</span></span></code></pre></div></div> <p data-svelte-h="svelte-rjgsxi">(As of 2024 May, the experimental features are required, or you will be typing
-<code>--extra-experimental-features</code> a lot). With this you can now spin up an
-interactive shell that contain the actual nix commands:</p> <div class="code-block-container" data-svelte-h="svelte-16uew0i"><div class="code-block-header">command for activating shell with nix commands <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">./nixstatic</span><span style="color:#E6DB74"> shell</span><span style="color:#E6DB74"> nixpkgs#nix</span><span style="color:#E6DB74"> nixpkgs#git</span><span style="color:#E6DB74"> nixpkgs#bashInteractive</span><span style="color:#AE81FF"> --command</span><span style="color:#E6DB74"> bash</span></span></code></pre></div></div> <p data-svelte-h="svelte-c60zvr">You will notice that the first time you do this is very slow, because nix
+<code>nix</code> in your own environment.</p> <h3 id="nix-running-without-root" data-svelte-h="svelte-iss7kq"><a aria-hidden="true" tabindex="-1" href="#nix-running-without-root"><span class="icon icon-link"></span></a>nix running without root</h3> <p data-svelte-h="svelte-17gbkwd">First we need to get a “static” version of the <code>nix</code> package manager
+(self-contained executable without linking to any other library). You can
+obtain the “nix-portable” file <a href="https://github.com/DavHau/nix-portable?tab=readme-ov-file#get-nix-portable" rel="nofollow">here</a>. You can get a static binary that
+does not need any external dependencies:</p> <div class="code-block-container" data-svelte-h="svelte-1egydlt"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">curl</span><span style="color:#AE81FF"> -L</span><span style="color:#E6DB74"> https://github.com/DavHau/nix-portable/releases/latest/download/nix-portable-$(</span><span style="color:#A6E22E">uname</span><span style="color:#AE81FF"> -m</span><span style="color:#E6DB74">)</span><span style="color:#F92672"> &gt;</span><span style="color:#E6DB74"> ./nix-portable</span></span>
+<span class="line"><span style="color:#A6E22E">chmod</span><span style="color:#E6DB74"> +x</span><span style="color:#E6DB74"> ./nix-portable</span></span></code></pre></div></div> <p data-svelte-h="svelte-6i8r24">The nix-portable package contains mechanisms to automatically handling the path
+re-routing required to make subseqent nix environments “think” that a writable
+<code>/nix</code> directory exists, even without root access. The 2 environment variable
+that you can use to change the behavior of nix portable:</p> <div class="code-block-container" data-svelte-h="svelte-1fjh7ht"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F92672">export</span><span style="color:#F8F8F2"> NP_LOCATION</span><span style="color:#F92672">=</span><span style="color:#F8F8F2">/path/to/large/store </span><span style="color:#88846F"># This is where you will actually place the file that go into /nix</span></span>
+<span class="line"><span style="color:#F92672">export</span><span style="color:#F8F8F2"> NP_RUNTIME</span><span style="color:#F92672">=</span><span style="color:#F8F8F2">bwrap </span><span style="color:#88846F"># How path re-rounting works (nix by default)</span></span></code></pre></div></div> <p data-svelte-h="svelte-19bwd7j">Notice that <code>NP_LOCATION</code> will overwrite the <code>store</code> that you have listed in
+your user <code>~/.config/nix/nix.conf</code>. Before we formally start a nix session, let
+us add a couple of niceties to nix (As of 2024 May, the experimental features
+are required, or you will be typing <code>--extra-experimental-features</code> a lot).</p> <div class="code-block-container" data-svelte-h="svelte-klulzq"><div class="code-block-header">In File [~/.config/nix/nix.conf] <span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>extra-experimental-features = flakes nix-command</span></span>
+<span class="line"><span>ssl-cert-file = /etc/pki/tls/cert.pem</span></span></code></pre></div></div> <p data-svelte-h="svelte-1jgx2lp">With this you can now spin up a new environment that actually contains a
+nominal nix command like:</p> <div class="code-block-container" data-svelte-h="svelte-jcyqrj"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">./nix-portable</span><span style="color:#E6DB74"> nix</span><span style="color:#E6DB74"> shell</span><span style="color:#E6DB74"> &quot;nixpkgs#nix&quot;</span><span style="color:#E6DB74"> &quot;nixpkgs#bashInteractive&quot;</span><span style="color:#AE81FF"> -c</span><span style="color:#E6DB74"> bash</span><span style="color:#AE81FF"> -l</span></span></code></pre></div></div> <p data-svelte-h="svelte-3wfcr7">You will notice that the first time you do this is very slow, because nix
 automatically detects all the required libraries required download the file
 required into the defined <code>store</code> directory to run the nix shell. In this shell
 you should see that the tool kits specified are now updated to the latest
-stable version found in the <a href="https://search.nixos.org/packages" rel="nofollow">NixOS package repository</a>.</p> <p data-svelte-h="svelte-1mpz4sd">You will also notice that subsequent calls to the spinning up this shell is now
+stable version found in the <a href="https://search.nixos.org/packages" rel="nofollow">NixOS package repository</a>. In future
+runs, you can run <code>nix shell --offline</code> to avoid re-downloading/updating
+packages if you don’t explicitly want to, as this is checked every time.</p> <p data-svelte-h="svelte-1mpz4sd">You will also notice that subsequent calls to the spinning up this shell is now
 fast, because nix stores the requested packages in the <code>&lt;store&gt;</code> directory
 specified earlier, so new shells that need new packages does not need to
 download an instance of the package every time.</p> <p data-svelte-h="svelte-18yhdxy">While it is tempting to stop here, and simply declare an alias that spins up
@@ -128,26 +130,23 @@ with.</p> <h3 id="setting-up-home-manager" data-svelte-h="svelte-9fyiyi"><a aria
 to handle user-level packages (as opposed to system-level package) and their
 configurations following the nix declarative paradigm. What this means for us
 where we don’t have a system-level package to manage, is that home manager can
-effectively all the packages we are interested in.</p> <p data-svelte-h="svelte-1qvui6s">The default distribution of home manager expects a standard nix set up where
-everything is placed under <code>/nix/store</code>. This is not our case, so we will need
-to build home manager directly (shout out to <a href="https://github.com/nix-community/home-manager/issues/3752#issuecomment-1566179742" rel="nofollow">this GitHub comment</a>
-that first showed this solution). Within your nix shell, where you should
-minimally have nix, bash and an updated version of git installed:</p> <div class="code-block-container" data-svelte-h="svelte-3cheqo"><div class="code-block-header">run within nix shell <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F">## Set up a nix shell with nix static, must include at least nix and an updated git</span></span>
-<span class="line"><span style="color:#88846F"># ./nixstatic shell nixpkgs#nix nixpkgs#git nixpkgs#bashInteractive --command bash</span></span>
-<span class="line"><span style="color:#A6E22E">git</span><span style="color:#E6DB74"> clone</span><span style="color:#E6DB74"> https://github.com/nix-community/home-manager.git</span></span>
+effectively all the packages we are interested in.</p> <p data-svelte-h="svelte-kcjjed">Because channel support is still incomplete with nix-portable, you need to
+install the home-manager channel from source (shout out to <a href="https://github.com/nix-community/home-manager/issues/3752#issuecomment-1566179742" rel="nofollow">this
+comment</a>) following the commands:</p> <div class="code-block-container" data-svelte-h="svelte-13dlxj1"><div class="code-block-header">run within nix shell <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">git</span><span style="color:#E6DB74"> clone</span><span style="color:#E6DB74"> https://github.com/nix-community/home-manager.git</span></span>
 <span class="line"><span style="color:#66D9EF">cd</span><span style="color:#E6DB74"> home-manager</span></span>
 <span class="line"><span style="color:#A6E22E">nix</span><span style="color:#E6DB74"> build</span><span style="color:#E6DB74"> .</span></span>
 <span class="line"><span style="color:#A6E22E">./results/bin/home-manager</span><span style="color:#E6DB74"> init</span></span>
 <span class="line"><span style="color:#88846F">## Should show a message like:</span></span>
 <span class="line"><span style="color:#88846F">## create ~/.config/home-manager/home.nix</span></span>
-<span class="line"><span style="color:#88846F">## create ~/.config/home-manager/flake.nix</span></span></code></pre></div></div> <p data-svelte-h="svelte-1o7i5vj">This will create the files required to declaring your default home environment.
-For a simple configuration we will only need to edit the <code>home.nix</code> file for
-now. For detailed instruction of what the configuration means, you should
-consult the official <a href="https://nix-community.github.io/home-manager/" rel="nofollow">documentation</a>. Let’s keep in simple in this
-example, and say we just need some extra packages: <a href="https://neovim.io/" rel="nofollow"><code>neovim</code></a>,
-<a href="https://www.zsh.org/" rel="nofollow"><code>zsh</code></a> and an updated version of <a href="https://git-scm.com/" rel="nofollow"><code>git</code></a>. The edits we need to make
-in this case is then just some additional updates to the <code>home.packages</code> list
-entry:</p> <div class="code-block-container" data-svelte-h="svelte-1wpwb6y"><div class="code-block-header">In File [~/.config/home-manager/home.nix] <span class="code-block-lang">[nix]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">{ </span><span style="color:#FD971F;font-style:italic">config</span><span style="color:#F92672">,</span><span style="color:#FD971F;font-style:italic"> pkgs</span><span style="color:#F92672">,</span><span style="color:#F92672"> ... </span><span style="color:#F8F8F2">}:</span></span>
+<span class="line"><span style="color:#88846F">## create ~/.config/home-manager/flake.nix</span></span></code></pre></div></div> <p data-svelte-h="svelte-kqpmxl">Following this, you should have access to the <code>home-manager</code> command, where you
+can then call the <code>home-manager init</code> to create the base file you need to
+declare your default home environment. For a simple configuration we will only
+need to edit the <code>home.nix</code> file for now. For detailed instruction of what the
+configuration means, you should consult the official <a href="https://nix-community.github.io/home-manager/" rel="nofollow">documentation</a>.
+Let’s keep in simple in this example, and say we just need some extra packages:
+<a href="https://neovim.io/" rel="nofollow"><code>neovim</code></a>, <a href="https://www.zsh.org/" rel="nofollow"><code>zsh</code></a> and an updated version of <a href="https://git-scm.com/" rel="nofollow"><code>git</code></a>. The
+edits we need to make in this case is then just some additional updates to the
+<code>home.packages</code> list entry:</p> <div class="code-block-container" data-svelte-h="svelte-1wpwb6y"><div class="code-block-header">In File [~/.config/home-manager/home.nix] <span class="code-block-lang">[nix]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F8F8F2">{ </span><span style="color:#FD971F;font-style:italic">config</span><span style="color:#F92672">,</span><span style="color:#FD971F;font-style:italic"> pkgs</span><span style="color:#F92672">,</span><span style="color:#F92672"> ... </span><span style="color:#F8F8F2">}:</span></span>
 <span class="line"><span style="color:#F8F8F2">{</span></span>
 <span class="line"><span style="color:#88846F">  # Home Manager needs a bit of information about you and the paths</span></span>
 <span class="line"><span style="color:#A6E22E">  home</span><span style="color:#F8F8F2">.</span><span style="color:#A6E22E">username</span><span style="color:#F92672"> =</span><span style="color:#E6DB74"> &quot;&lt;username&gt;&quot;</span><span style="color:#F8F8F2">;</span></span>
@@ -166,16 +165,18 @@ entry:</p> <div class="code-block-container" data-svelte-h="svelte-1wpwb6y"><div
 <span class="line"><span style="color:#88846F">  # Let Home Manager install and manage itself.</span></span>
 <span class="line"><span style="color:#A6E22E">  programs</span><span style="color:#F8F8F2">.</span><span style="color:#A6E22E">home-manager</span><span style="color:#F8F8F2">.</span><span style="color:#A6E22E">enable</span><span style="color:#F92672"> =</span><span style="color:#AE81FF"> true</span><span style="color:#F8F8F2">;</span></span>
 <span class="line"><span style="color:#F8F8F2">}</span><span style="color:#F44747">;</span></span></code></pre></div></div> <p data-svelte-h="svelte-fjke4n">Once you are happy with the list of packages, you can run the following items
-within a nix shells</p> <div class="code-block-container" data-svelte-h="svelte-1b9r55m"><div class="code-block-header">run within nix shell <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF">cd</span><span style="color:#E6DB74"> home-manager</span></span>
-<span class="line"><span style="color:#A6E22E">./results/bin/home-manager</span><span style="color:#E6DB74"> switch</span></span></code></pre></div></div> <p data-svelte-h="svelte-7pphin">This will install all the programs that you are using to <code>$HOME/.nix-profile</code>
+within a nix shells</p> <div class="code-block-container" data-svelte-h="svelte-aqef2x"><div class="code-block-header">run within nix shell <span class="code-block-lang">[bash]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#F92672">&lt;</span><span style="color:#F8F8F2">path</span><span style="color:#F92672">&gt;</span><span style="color:#F8F8F2">/to/store/results/bin/home-manager switch</span></span></code></pre></div></div> <p data-svelte-h="svelte-1qgx94a">This will install all the programs that you are using to <code>$HOME/.nix-profile</code>
 which in turn is actually linked to the where you have set up the full store
-paths (defined in your <code>~/.config/nix/nix.conf</code> file). As we are not using
-standard nix install, some path automation is not properly handled, so what you
-also need is to prepare a minimum <code>bashrc</code> file that looks something like:</p> <div class="code-block-container" data-svelte-h="svelte-5gwj1e"><div class="code-block-header">In file [~/.bashrc-nix.sh] <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F"># Required for home manager</span></span>
+paths (defined in your <code>~/.config/nix/nix.conf</code> file). You only need to run
+<code>home-manager</code> from the compile path only for the first time, all other times
+the <code>home-manager</code> binary will be appropriately linked into your environment
+path. As we are not using standard nix install, some path automation is not
+properly handled, so what you also need is to prepare a minimum <code>bashrc</code> file
+that looks something like:</p> <div class="code-block-container" data-svelte-h="svelte-5gwj1e"><div class="code-block-header">In file [~/.bashrc-nix.sh] <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#88846F"># Required for home manager</span></span>
 <span class="line"><span style="color:#66D9EF">source</span><span style="color:#F8F8F2"> $HOME</span><span style="color:#E6DB74">/.nix-profile/etc/profile.d/hm-session-vars.sh</span></span>
 <span class="line"><span style="color:#88846F"># Automatically setting up the path variable is not handled by HM in this configurations</span></span>
 <span class="line"><span style="color:#F92672">export</span><span style="color:#F8F8F2"> PATH</span><span style="color:#F92672">=</span><span style="color:#F8F8F2">$HOME/.nix-profile/bin/:$PATH</span></span></code></pre></div></div> <p data-svelte-h="svelte-rg2wha">Then you can jump all the way from the default login shell to your home-manager
-defined environment using the following one-liner:</p> <div class="code-block-container" data-svelte-h="svelte-e07385"><div class="code-block-header">run in default environment <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">./nixstatic</span><span style="color:#E6DB74"> shell</span><span style="color:#E6DB74"> nixpkgs#nix</span><span style="color:#AE81FF"> --command</span><span style="color:#E6DB74"> bash</span><span style="color:#AE81FF"> -l</span><span style="color:#AE81FF"> --rcfile=</span><span style="color:#F8F8F2">$HOME</span><span style="color:#AE81FF">/.bashrc-nix.sh</span></span></code></pre></div></div> <p data-svelte-h="svelte-1348wse">In this environment, you should be able to use all the packages that you have
+defined environment using the following one-liner:</p> <div class="code-block-container" data-svelte-h="svelte-1mk2b1v"><div class="code-block-header">run in default environment <span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">./nix-protable</span><span style="color:#E6DB74"> nix</span><span style="color:#E6DB74"> shell</span><span style="color:#E6DB74"> nixpkgs#nix</span><span style="color:#AE81FF"> --command</span><span style="color:#E6DB74"> bash</span><span style="color:#AE81FF"> -l</span><span style="color:#AE81FF"> --rcfile=</span><span style="color:#F8F8F2">$HOME</span><span style="color:#AE81FF">/.bashrc-nix.sh</span></span></code></pre></div></div> <p data-svelte-h="svelte-1348wse">In this environment, you should be able to use all the packages that you have
 listed in the <code>home.nix</code> file! I wouldn’t go over all the perks of using
 declarative system (like configuration-wide upgrading, generational roll-back
 and such), for more details of this, consider reading about <code>nix</code> in general.
@@ -184,13 +185,13 @@ the <code>home-manager switch</code> command after you have finished updating yo
 Notice that if anything fail, this will not affect you current environment (the
 reliability mantra of nix in full effect!)</p> <p data-svelte-h="svelte-1qk3yj5">To automate the process of spinning up a nix shell with home-manager packages
 when you log into the remote machine with a special tag, we can add an entry to
-your local <code>ssh</code> configuration as something like:</p> <div class="code-block-container" data-svelte-h="svelte-y39jpa"><div class="code-block-header">~/.ssh/config <span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Host remotehost*</span></span>
+your local <code>ssh</code> configuration as something like:</p> <div class="code-block-container" data-svelte-h="svelte-bv3ilp"><div class="code-block-header">~/.ssh/config <span class="code-block-lang">[plaintext]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>Host remotehost*</span></span>
 <span class="line"><span>    Host remotehost.com</span></span>
 <span class="line"><span>    * Additional ssh settings you might want</span></span>
 <span class="line"><span></span></span>
 <span class="line"><span>Host remotehost-nixshell</span></span>
 <span class="line"><span>    RequestTTY yes</span></span>
-<span class="line"><span>    RemoteCommand &lt;path&gt;/to/nixstatic shell nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh</span></span></code></pre></div></div> <p data-svelte-h="svelte-1p5n920">Notice that the <code>RequestTTY</code> is required for the shell prompt.</p> <blockquote data-svelte-h="svelte-1jkbclw"><p>While I did try and see of spin up this interactive shell using the
+<span class="line"><span>    RemoteCommand /path/to/nix-portable shell nixpkgs#nix --command bash -l --rcfile=$HOME/.bashrc-nix.sh</span></span></code></pre></div></div> <p data-svelte-h="svelte-1p5n920">Notice that the <code>RequestTTY</code> is required for the shell prompt.</p> <blockquote data-svelte-h="svelte-1jkbclw"><p>While I did try and see of spin up this interactive shell using the
 interactive paradigm, this doesn’t work as <code>nixstatic shell</code> does not work
 with flake files with a non-standard install. Unfortunately, this does mean
 that the nix may attempt to pull the most up-to-date package from the defined
@@ -224,7 +225,7 @@ for real.</p></article> <footer class="svelte-a9w2ls"><span class="foot-header s
 			
 			<script>
 				{
-					__sveltekit_4f47hs = {
+					__sveltekit_1didkae = {
 						base: new URL("../..", location).pathname.slice(0, -1),
 						assets: "/yimuchen.pages"
 					};
@@ -234,8 +235,8 @@ for real.</p></article> <footer class="svelte-a9w2ls"><span class="foot-header s
 					const data = [null,null];
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.CfNWxFgY.js"),
-						import("../../_app/immutable/entry/app.CG8mIXgs.js")
+						import("../../_app/immutable/entry/start.cMESTdA_.js"),
+						import("../../_app/immutable/entry/app.DvjIqt2n.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

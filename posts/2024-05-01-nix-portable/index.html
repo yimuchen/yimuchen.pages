@@ -9,23 +9,23 @@
 		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
-		<link rel="modulepreload" href="../../_app/immutable/entry/start.RaPclvlz.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.C9O-lPrt.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.CBo2y7Fe.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.BOwPeUSD.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.D5atRvuJ.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.BZHYYC9Z.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.BMRzhC_b.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.BYGSgCfF.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.B7LT_aZO.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/0.B1qdpG03.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.C_G_Nu19.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DHfFXa_h.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/5.DkMvuVPo.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.Byr4UIt0.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Nix as a local package manager</title><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Nix as a local package manager</title><!-- HEAD_svelte-pnj8jj_START --><link rel="icon" type="image/x-icon" href="../../favicon.ico"><!-- HEAD_svelte-pnj8jj_END --><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
   </head>
   <body>
-    <div>  <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">Nix as a local package manager</h1> <p>2024.May.1</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-x6c5t2"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-is-the-problem">What is the problem?</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-attempted-solutions">Some attempted solutions</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#nix-as-a-portable-package-manager">nix as a portable package manager</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#nix-running-without-root">nix running without root</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#setting-up-home-manager">Setting up home-manager</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-limitations">Some limitations</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-closing-thoughts">Some closing thoughts</a></li></ol></nav> <h2 id="what-is-the-problem" data-svelte-h="svelte-gst0r3"><a aria-hidden="true" tabindex="-1" href="#what-is-the-problem"><span class="icon icon-link"></span></a>What is the problem?</h2> <p data-svelte-h="svelte-r6ptsw">In our field where there are many specialized tool and <a href="https://home.cern/science/computing/storage" rel="nofollow">very-very
+    <div>   <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">Nix as a local package manager</h1> <p>2024.May.1</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-x6c5t2"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-is-the-problem">What is the problem?</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-attempted-solutions">Some attempted solutions</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#nix-as-a-portable-package-manager">nix as a portable package manager</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#nix-running-without-root">nix running without root</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#setting-up-home-manager">Setting up home-manager</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-limitations">Some limitations</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-closing-thoughts">Some closing thoughts</a></li></ol></nav> <h2 id="what-is-the-problem" data-svelte-h="svelte-gst0r3"><a aria-hidden="true" tabindex="-1" href="#what-is-the-problem"><span class="icon icon-link"></span></a>What is the problem?</h2> <p data-svelte-h="svelte-r6ptsw">In our field where there are many specialized tool and <a href="https://home.cern/science/computing/storage" rel="nofollow">very-very
 large</a> data sets, we typically need to log into a centrally managed
 cluster perform our data analysis requirements. The tools provided there for
 working with text files is typically rather dated: while standard tools like
@@ -225,7 +225,7 @@ for real.</p></article> <footer class="svelte-a9w2ls"><span class="foot-header s
 			
 			<script>
 				{
-					__sveltekit_9mds9h = {
+					__sveltekit_kdupq3 = {
 						base: new URL("../..", location).pathname.slice(0, -1),
 						assets: "/yimuchen.pages"
 					};
@@ -235,8 +235,8 @@ for real.</p></article> <footer class="svelte-a9w2ls"><span class="foot-header s
 					const data = [null,null];
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.RaPclvlz.js"),
-						import("../../_app/immutable/entry/app.BZHYYC9Z.js")
+						import("../../_app/immutable/entry/start.CBo2y7Fe.js"),
+						import("../../_app/immutable/entry/app.BYGSgCfF.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

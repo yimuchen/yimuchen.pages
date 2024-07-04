@@ -36,14 +36,27 @@ sudo pacman -S qemu libvirt dnsmasq virt-manager bridge-utils flex bison iptable
 ### Step 1 - Creating the base image
 
 ```bash title="create base image"
-docker run -it
+docker run -it \
+    --device /dev/kvm \
+    -p 50922:10022 \
+    -e GENERATE_UNIQUE=true \
+    -v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY \
+    -e WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}" \
+    -e DISPLAY=":1" -e QT_QPA_PLATFORM=wayland -e XDG_RUNTIME_DIR=/tmp -e GDK_BACKEND=wayland -e CLUTTER_BACKEND=wayland \
+    -e MASTER_PLIST_URL='https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom-sonoma.plist' \
+    sickcodes/docker-osx:latest
 ```
+
 
 On running this command, you will be prompted with the OSX installer. Here, you
 will need to use the disk erase utility for "erase" the largest disk detected.
 Do not worry, the size is just and indication of the free space on the host
 system, it will not actually wipe your disk, nor will it actually take up the
 remaining free space.
+
+> Note: when running this command, you may need to run the command as a
+> privileged docker user (with an additional --privileged flag and running with
+> sudo). This is not an ideal solution, but is currently being discuess upstream
 
 Then follow the installation instructions, then you should arrive at an useable
 GUI after following the instructions to completion.
@@ -70,6 +83,9 @@ Copy this file to somewhere that you can manage more easily.
 docker run -it \
     -p 50922:10022 \
     -e GENERATE_UNIQUE=true \
+    -v "$PWD/mac_hdd.img:/image" \
+    -v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY \
+    -e WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}" \
     -e DISPLAY=":1" -e QT_QPA_PLATFORM=wayland -e XDG_RUNTIME_DIR=/tmp -e GDK_BACKEND=wayland -e CLUTTER_BACKEND=wayland \
     -e MASTER_PLIST_URL='https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom-sonoma.plist' \
     sickcodes/docker-osx:naked

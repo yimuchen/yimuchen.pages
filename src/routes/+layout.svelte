@@ -11,7 +11,7 @@ import { base } from "$app/paths";
 </script>
 
 <svelte:head>
-   <link rel="icon" type="image/x-icon" href="{base}/favicon.ico">
+   <link rel="icon" type="image/x-icon" href={`${base}/favicon.ico`}>
 </svelte:head>
 <Header />
 

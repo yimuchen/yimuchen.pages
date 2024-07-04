@@ -2,8 +2,12 @@
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { faGithub } from "@fortawesome/free-brands-svg-icons";
   import { faBlog } from "@fortawesome/free-solid-svg-icons";
+  import { base } from "$app/paths";
 
   export let data;
+  let selected_tool = "";
+  $: tool_index = data.toolkit.findIndex((el)=> el.metadata.name == selected_tool);
+  $: tool_display = data.toolkit[tool_index >= 0 ? tool_index : 0];
 </script>
 
 <svelte:head>
@@ -64,25 +68,42 @@
 <div class="content-container">
   <h2 id="toolkit">Toolkit</h2>
 
-  <h2>UNDER CONSTRUCTION</h2>
-  <!--
-  {#each data.toolkit as tool}
+  Most of what is displayed here is a quick summary of my technical proficiency
+  in terms of computational tools.
+
+  <div class="tool-selector">
+    {#each data.toolkit as tool}
+      <input
+        name="toolkit"
+        type="radio"
+        id={tool.metadata.name}
+        bind:group={selected_tool}
+        value={tool.metadata.name}
+      />
+      <label for={tool.metadata.name}
+        ><img
+          src={`${base}/image/about/${tool.metadata.logo}`}
+          alt={tool.metadata.title}
+        /></label
+      >
+    {/each}
+  </div>
     <div class="experience-container">
       <div class="experience-header">
-        <div class="experience-logo">
-          <img src={tool.metadata.logo} alt={tool.metadata.name} />
+        <div class="toolkit-logo">
+          <img
+            src={`${base}/image/about/${tool_display.metadata.logo}`}
+            alt={tool_display.metadata.title}
+          />
         </div>
         <div class="experience-headtext">
-          <span class="experience-title">{tool.metadata.name}</span>
-          <span class="experience-prof">{tool.metadata.proficiency}</span>
+          <span class="experience-title">{tool_display.metadata.title}</span>
         </div>
       </div>
       <div class="experience-content">
-        <svelte:component this={tool.default} />
+        <svelte:component this={tool_display.default} />
       </div>
     </div>
-  {/each}
-  -->
 </div>
 
 <style>
@@ -151,6 +172,27 @@
     bottom: 10px;
     padding-left: 20px;
   }*/
+
+  /* For the tool selecting banner */
+  .tool-selector {
+    text-align: center;
+  }
+  .tool-selector input[type="radio"] {
+    display: none;
+  }
+  .tool-selector label img {
+    width: 50px;
+    padding: 15px;
+  }
+  .tool-selector :checked + label img {
+    transform: scale(0.9);
+    box-shadow: 0 0 5px #666;
+    z-index: -1;
+  }
+  .toolkit-logo img {
+    height: 5em;
+    border-radius: 0%;
+  }
 
   :global(.toc) {
     display: none;

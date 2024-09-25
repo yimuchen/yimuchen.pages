@@ -173,3 +173,8 @@ span.highlight.line {
 .code-block-numbered [data-line-numbers-max-digits="3"] > [data-line]::before {
   width: 3rem;
 }
+
+/** video takes up 100% of the text width */
+video {
+  width: 100%;
+}

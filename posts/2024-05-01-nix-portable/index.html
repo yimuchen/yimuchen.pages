@@ -4,28 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
-		<link href="../../_app/immutable/assets/0.B7MGzD8S.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/0.Sl07kAzb.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
 		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
-		<link rel="modulepreload" href="../../_app/immutable/entry/start.0Q_Bsi_V.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.Dg0rddCe.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.DYycTNfO.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.DfksOkby.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.RC6C2qAj.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.BB3yaSn7.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.D6kgxu3v.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/index.B7LT_aZO.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/0.Bl2Ib83x.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DHfFXa_h.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CdQvNdX5.js">
-		<link rel="modulepreload" href="../../_app/immutable/nodes/5.B-zEjcni.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.6VzWaEKc.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CkGaSySg.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.C1FmrZbK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DKPK4hvO.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.msZdRd0J.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CfQxYllG.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.T2TaZ-dS.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.tQJTWVuc.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>Nix as a local package manager</title><!-- HEAD_svelte-iilc1r_START --><link rel="icon" type="image/x-icon" href="../../favicon.ico"><!-- HEAD_svelte-iilc1r_END --><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
   </head>
   <body>
-    <div>   <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">Nix as a local package manager</h1> <p>2024.May.1</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-x6c5t2"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-is-the-problem">What is the problem?</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-attempted-solutions">Some attempted solutions</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#nix-as-a-portable-package-manager">nix as a portable package manager</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#nix-running-without-root">nix running without root</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#setting-up-home-manager">Setting up home-manager</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-limitations">Some limitations</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-closing-thoughts">Some closing thoughts</a></li></ol></nav> <h2 id="what-is-the-problem" data-svelte-h="svelte-gst0r3"><a aria-hidden="true" tabindex="-1" href="#what-is-the-problem"><span class="icon icon-link"></span></a>What is the problem?</h2> <p data-svelte-h="svelte-r6ptsw">In our field where there are many specialized tool and <a href="https://home.cern/science/computing/storage" rel="nofollow">very-very
+    <div>   <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">Nix as a local package manager</h1> <p>2024.May.1</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-x6c5t2"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-is-the-problem">What is the problem?</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-attempted-solutions">Some attempted solutions</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#nix-as-a-portable-package-manager">nix as a portable package manager</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#nix-running-without-root">nix running without root</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#setting-up-home-manager">Setting up home-manager</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-limitations">Some limitations</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#some-closing-thoughts">Some closing thoughts</a></li></ol></nav> <h2 id="what-is-the-problem" data-svelte-h="svelte-gst0r3"><a aria-hidden="true" tabindex="-1" href="#what-is-the-problem"><span class="icon icon-link"></span></a>What is the problem?</h2> <p data-svelte-h="svelte-r6ptsw">In our field where there are many specialized tool and <a href="https://home.cern/science/computing/storage" rel="nofollow">very-very
 large</a> data sets, we typically need to log into a centrally managed
 cluster perform our data analysis requirements. The tools provided there for
 working with text files is typically rather dated: while standard tools like
@@ -93,7 +93,7 @@ access the <code>nix.org</code> domains! So below are the instructions for setti
 <code>nix</code> in your own environment.</p> <h3 id="nix-running-without-root" data-svelte-h="svelte-iss7kq"><a aria-hidden="true" tabindex="-1" href="#nix-running-without-root"><span class="icon icon-link"></span></a>nix running without root</h3> <p data-svelte-h="svelte-17gbkwd">First we need to get a “static” version of the <code>nix</code> package manager
 (self-contained executable without linking to any other library). You can
 obtain the “nix-portable” file <a href="https://github.com/DavHau/nix-portable?tab=readme-ov-file#get-nix-portable" rel="nofollow">here</a>. You can get a static binary that
-does not need any external dependencies:</p> <div class="code-block-container" data-svelte-h="svelte-1egydlt"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">curl</span><span style="color:#AE81FF"> -L</span><span style="color:#E6DB74"> https://github.com/DavHau/nix-portable/releases/latest/download/nix-portable-$(</span><span style="color:#A6E22E">uname</span><span style="color:#AE81FF"> -m</span><span style="color:#E6DB74">)</span><span style="color:#F92672"> &gt;</span><span style="color:#E6DB74"> ./nix-portable</span></span>
+does not need any external dependencies:</p> <div class="code-block-container" data-svelte-h="svelte-1eb6wh8"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">curl</span><span style="color:#AE81FF"> -L</span><span style="color:#E6DB74"> https://github.com/DavHau/nix-portable/releases/latest/download/nix-portable-</span><span style="color:#F8F8F2">$(</span><span style="color:#A6E22E">uname</span><span style="color:#AE81FF"> -m</span><span style="color:#F8F8F2">) </span><span style="color:#F92672">&gt;</span><span style="color:#E6DB74"> ./nix-portable</span></span>
 <span class="line"><span style="color:#A6E22E">chmod</span><span style="color:#E6DB74"> +x</span><span style="color:#E6DB74"> ./nix-portable</span></span></code></pre></div></div> <p data-svelte-h="svelte-6i8r24">The nix-portable package contains mechanisms to automatically handling the path
 re-routing required to make subseqent nix environments “think” that a writable
 <code>/nix</code> directory exists, even without root access. The 2 environment variable
@@ -225,7 +225,7 @@ for real.</p></article> <footer class="svelte-a9w2ls"><span class="foot-header s
 			
 			<script>
 				{
-					__sveltekit_1a1sqvk = {
+					__sveltekit_1si5f6i = {
 						base: new URL("../..", location).pathname.slice(0, -1),
 						assets: "/yimuchen.pages"
 					};
@@ -235,8 +235,8 @@ for real.</p></article> <footer class="svelte-a9w2ls"><span class="foot-header s
 					const data = [null,null];
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.0Q_Bsi_V.js"),
-						import("../../_app/immutable/entry/app.BB3yaSn7.js")
+						import("../../_app/immutable/entry/start.DYycTNfO.js"),
+						import("../../_app/immutable/entry/app.CkGaSySg.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

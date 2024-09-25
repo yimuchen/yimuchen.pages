@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.Sl07kAzb.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.DYycTNfO.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.DfksOkby.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.6VzWaEKc.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CkGaSySg.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.C1FmrZbK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DKPK4hvO.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.msZdRd0J.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CfQxYllG.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.T2TaZ-dS.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.tQJTWVuc.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>REPL development experience in neovim and tmux</title><!-- HEAD_svelte-iilc1r_START --><link rel="icon" type="image/x-icon" href="../../favicon.ico"><!-- HEAD_svelte-iilc1r_END --><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>   <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">REPL development experience in neovim and tmux</h1> <p>2024.Sep.25</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-90wfzg"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#programming-tmux">Programming tmux</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-combined-result--the-tmux--neovim-repl-experience">The combined result — the tmux + neovim REPL experience</a></li></ol></nav> <p data-svelte-h="svelte-dyt13w">When developing and writing code for data analysis, I most of the time I cannot
+get what I need exactly on the first try, and writing code via a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop" rel="nofollow">REPL</a>
+cycle commonly used. The most common method of running REPL development is
+arguably the use of <a href="https://jupyter.org/" rel="nofollow">Jupyter</a> servers and writing code in <a href="https://jupyter.org/" rel="nofollow">Jupyter
+notebooks</a>. While there are many advantages to writing code then
+immediately executing it to see a graphical result immediately, I personally
+feel that the Jupyter workflow comes with its own set of constrains that
+sometime feel infuriating.</p> <ul data-svelte-h="svelte-1416dar"><li>Code editing in a browser: to use Jupyter you will need to interact with your
+code either through the Jupyter browser interface or <a href="https://code.visualstudio.com/" rel="nofollow">something
+similar</a>. This means you are giving up, or you need great efforts to
+duplicate the settings that you already have on existing browser. Depending
+on the amount of tools you expect out of your editor (other than converting
+keystrokes into character), this may or may not be a deal-breaker for you.
+For me, the fully integrated LSP support (for some reason, vs-code LSP
+support was always a bit patchy for me), as well as the binding for code
+formatting tools. A secondary issue for this is browsers are surprisingly
+compute intensive, and it always felt rather annoying to hear my laptops fans
+ramp up when waiting from a graphical result to return.</li> <li>The Jupyter notebook file is effectively a JSON file with a bunch of
+meta-data tracking information, as well as string representations of the
+graphical elements. This makes proper version management of notebooks
+excessively verbose to manage.</li></ul> <p data-svelte-h="svelte-raktr4">Having moved my workflow to neovim, the question then becomes with what we
+require out of jupyter notebook workflows, and see if one can replicate an
+equivalent and potentially better experience using just command line tool:</p> <ol data-svelte-h="svelte-ozdi85"><li><p>Graphical results: with the better maturity of <a href="https://en.wikipedia.org/wiki/Sixel" rel="nofollow">sixel</a> <a href="https://www.arewesixelyet.com/" rel="nofollow">support</a>, we can technically create a simple alias dump plot
+files to the terminal. Ideally this alias should result in a zero keystroke
+overhead for displaying plots as with the standard Jupyter workflow (plots
+are shown immediately after code execution).</p></li> <li><p>Executing code chunks: when developing a new function for a toolkit, we will
+need the ability to redefine and execute a chunk of code over and over again
+with:</p> <ul><li>Precision on where the chunk starts and ends</li> <li>Minimum keystrokes to define where the chunk starts and end.</li></ul> <p>With the help of LSPs, and other in-editor syntax parsing tools, this can
+actually be done without the need for code cells! For example, the
+<a href="https://github.com/echasnovski/mini.surround" rel="nofollow">mini-surround</a> plugin adds syntax aware scoping to vim
+operations, so you can very simply define operations such as “yaF” (yank
+around function) and “vaC” (visual select around class). So at this point,
+remaining issue is how this can be passed to something that actually
+executes the code.</p></li> <li><p>Persistent session: spawning and processing data is usually the step that
+takes the most time, so if possible, we will need a persistent session that
+keeps what we want in memory events after swapping files to edit (or even
+exiting the editor). While there is the option of using the <a href="http://neovim.io/doc/user/terminal.html#terminal" rel="nofollow">in-built
+terminal</a> in neovim, I feel like there is a better solution.</p></li></ol> <h2 id="programming-tmux" data-svelte-h="svelte-jsvn6j"><a aria-hidden="true" tabindex="-1" href="#programming-tmux"><span class="icon icon-link"></span></a>Programming tmux</h2> <p data-svelte-h="svelte-ovasoo">The multiplexer tool <a href="https://github.com/tmux/tmux/wiki" rel="nofollow">tmux</a> allows for the creating terminal session that
+can persist even after the terminal program used to spawn the session is
+closed. An even more interesting aspect of <code>tmux</code> is that all controls of
+<code>tmux</code> session can be handled by <strong>any</strong> program that can interact with the
+user shell. For example, while we can create a new <code>tmux</code> window in a tmux
+session with the keystrokes <code>&lt;Ctl-B&gt;5</code>, we can also call a shell command
+outside the main tmux session:</p> <div class="code-block-container" data-svelte-h="svelte-1o1zc6h"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">tmux</span><span style="color:#E6DB74"> new-window</span><span style="color:#AE81FF"> -t</span><span style="color:#F8F8F2"> ${name}</span><span style="color:#E6DB74">:5</span><span style="color:#AE81FF"> -n</span><span style="color:#E6DB74"> &quot;My window name&quot;</span></span></code></pre></div></div> <p data-svelte-h="svelte-hq7gdt">Here the <code>-t</code> flag is followed by the “target” (window 5 of the “name” tmux
+session), and <code>-n</code> is one of the eye candies of immediately adding a name to
+the window instance.</p> <p data-svelte-h="svelte-1c5nnfs">Even more interesting, we can send directly send keystrokes to <strong>any</strong> pane!</p> <div class="code-block-container" data-svelte-h="svelte-160f85z"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#A6E22E">tmux</span><span style="color:#E6DB74"> send-keys</span><span style="color:#AE81FF"> -t</span><span style="color:#E6DB74"> 3:0.0</span><span style="color:#E6DB74"> &quot;echo </span><span style="color:#AE81FF">\&quot;</span><span style="color:#E6DB74">Hello world</span><span style="color:#AE81FF">\&quot;</span><span style="color:#E6DB74">&quot;</span><span style="color:#E6DB74"> Enter</span></span></code></pre></div></div> <p data-svelte-h="svelte-13gpq4m">So this means that any execution can technically execute anything string, if
+needed!</p> <p data-svelte-h="svelte-1ut0z0h">The combination of this programmable interface with the maturity of sixel
+support within <a href="https://github.com/tmux/tmux/commit/dfbc6b1888c110cf0ade66f20188c57757ee1298" rel="nofollow">tmux session</a>, means that all of our goals above
+can potentially be solved! So what would a combined solution look and feel
+like?</p> <h2 id="the-combined-result--the-tmux--neovim-repl-experience" data-svelte-h="svelte-f55cwk"><a aria-hidden="true" tabindex="-1" href="#the-combined-result--the-tmux--neovim-repl-experience"><span class="icon icon-link"></span></a>The combined result — the tmux + neovim REPL experience</h2> <p data-svelte-h="svelte-18r07z6">My full set of results can mainly be found in my <a href="https://github.com/yimuchen/dotfile" rel="nofollow"><code>dotfiles</code></a>
+repository, with the key files being:</p> <ul data-svelte-h="svelte-15qdp1s"><li><a href="https://github.com/yimuchen/dotfiles/blob/master/nvim/after/plugin/tmux-repl.lua" rel="nofollow"><code>nvim/after/plugin/tmux-repl.lua</code></a>: for defining how neovim
+keystrokes interact with tmux session.</li> <li>[<code>tmux/_tmux_custom.sh</code>]: A set of custom shell scripts for handling tmux
+interactions.</li></ul> <p data-svelte-h="svelte-1nd4noc">But basically the new workflow looks something like this:</p> <ol data-svelte-h="svelte-1dg4cgj"><li><p>Start a fresh tmux session (the script automatically creates the session
+name to match the directory)</p></li> <li><p>Within tmux, hit <code>&lt;prefix&gt;1</code> (in my case: <code>&lt;Ctl-B&gt;1</code>) to create an “editor”
+window, this opens a neovim instance and this window will immediately close
+when neovim is closed.</p></li> <li><p>Within <code>neovim</code>, hit <code>&lt;prefix&gt;tr</code> (in my case: <code>&lt;space&gt;tr</code>) to “t”oggle a
+“r”epl terminal. Notice that this terminal is:</p> <ol><li>Handled by tmux, and is send to a background window when “closed” by
+neovim (persistent session).</li> <li>Immediately spawn a <code>ipython</code> session, for me this behavior is defined by
+placing a <code>.repl.sh</code> file in the working directory to let tmux know what
+to execute when requesting a REPL terminal.</li></ol></li> <li><p>To execute code in neovim, highlight the required session in visual mode
+(<code>ggVG</code> can be used to select the entire file, <code>vaF</code> can be used to select a
+single function), then hit <code>&lt;prefix&gt;pr</code> when still in visual mode to ‘p’ass
+selection to the ‘r’epl terminal!</p></li></ol> <p data-svelte-h="svelte-ck277k">Below is a simple demonstration for what can be done!</p> <video controls data-svelte-h="svelte-ndosgk"><source src="../../image/posts/20240925/nvim-repl.mp4" type="video/mp4"></video> <p data-svelte-h="svelte-1ruxfcs">The solution is still one step from being complete, as <code>matplotlib</code> does not
+have a well-developed sixel backend that we directly display plots within the
+repl session itself. While there are attempts to add such
+<a href="https://pypi.org/project/matplotlib-backend-sixel/" rel="nofollow">backends</a>, my initial testings indicate that these
+sometimes have problems either with tmux or singularity containers. But this I
+hope is a demonstration that at least the dreams of fully leaving the jupyter
+ecosystem to once again write pure text file when developing is now close to
+fruition!</p></article> <footer class="svelte-a9w2ls"><span class="foot-header svelte-a9w2ls" data-svelte-h="svelte-1vhgsge">Tags</span><br> <span class="svelte-a9w2ls"><a href="../../tags/#vim">vim</a></span><span class="svelte-a9w2ls"><a href="../../tags/#computing">computing</a></span><span class="svelte-a9w2ls"><a href="../../tags/#tips">tips</a></span></footer> <div class="side-bar svelte-ype9gw"><button class="svelte-ype9gw"><div id="side-toggler-hide"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path><!-- HTML_TAG_END --></svg></div> <div id="side-toggler-show"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path><!-- HTML_TAG_END --></svg></div></button> <div class="side-bar-button"></div> <div class="side-bar-slider"><div class="side-bar-content svelte-ype9gw"><h2 class="side-bar-header svelte-ype9gw" data-svelte-h="svelte-r83smw">Outline</h2> <div id="side-bar-list"></div></div></div> </div></main> <footer class="svelte-ze0gu2"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1si5f6i = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.DYycTNfO.js"),
+						import("../../_app/immutable/entry/app.CkGaSySg.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

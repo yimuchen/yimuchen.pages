@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.Sl07kAzb.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.Ct2GoIZi.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/entry.COHi57xK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/scheduler.D0k7T8uo.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.D9n5n-wJ.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.ibsLk6k7.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.i0JcJhIq.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/preload-helper.C1FmrZbK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.DKPK4hvO.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.UBChLoYe.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.CfQxYllG.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.T2TaZ-dS.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.2LEFrkuL.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/each.D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/posts.CXhWDRWx.js"><title>ZLE - a glimpse of advanced command augmentation</title><!-- HEAD_svelte-iilc1r_START --><link rel="icon" type="image/x-icon" href="../../favicon.ico"><!-- HEAD_svelte-iilc1r_END --><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>   <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">ZLE - a glimpse of advanced command augmentation</h1> <p>2025.Jan.17</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-11ukb7v"><ol class="toc-level toc-level-1"></ol></nav> <p data-svelte-h="svelte-bnjz42">Have you ever ran into a case where the certain commands always require some
+prefix/setup before it can be properly executed? One of the most outstanding is
+to do anything with <a href="https://cms-sw.github.io/" rel="nofollow">CMSSW</a>, will need to load in the environment first,
+event if it is a small task such as looking at the contents of a single file.
+Other common annoyance include the python <a href="https://docs.python.org/3/library/venv.html" rel="nofollow">virtual environments</a>, where
+you forgot to switch into the environment before initiating the <a href="https://pip.pypa.io/en/stable/" rel="nofollow"><code>pip</code></a>
+command, and now you have to redo all the install commands again, plus clean up
+the dangling libraries that now live somewhere in your global python instance.
+Is there a way of catching commands that you type into the prompt, check for
+common “errors” again your use-case logics, and modify the commands accordingly
+before executing?</p> <p data-svelte-h="svelte-1f9xoq6">The common solution for “modifying commands” is <a href="https://ss64.com/bash/alias.html" rel="nofollow">aliases</a>, but this is
+solution in basically simple string substitution of the command that you type
+in. While you can technically include bash logic into these aliases, you
+effectively need all logic to be contained in a fancy on-liner bash statement
+which quickly becomes unreadable. Is there a more intuitive way doing this?</p> <p data-svelte-h="svelte-ey2vu7">If you are using <a href="https://www.zsh.org/" rel="nofollow"><code>zsh</code></a> instead of the more vanilla <a href="https://www.gnu.org/software/bash/" rel="nofollow"><code>bash</code></a> shell,
+there is actually a very simple solution!</p> <div class="code-block-container" data-svelte-h="svelte-b3do2b"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">function</span><span style="color:#A6E22E"> modify-accept-line</span><span style="color:#F8F8F2">() {</span></span>
+<span class="line"><span style="color:#F8F8F2">  BUFFER</span><span style="color:#F92672">=</span><span style="color:#E6DB74">&quot;echo </span><span style="color:#F8F8F2">$BUFFER</span><span style="color:#E6DB74"> ; </span><span style="color:#F8F8F2">$BUFFER</span><span style="color:#E6DB74">&quot;</span></span>
+<span class="line"><span style="color:#A6E22E">  zle</span><span style="color:#E6DB74"> .accept-line</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"><span style="color:#A6E22E">zle</span><span style="color:#AE81FF"> -N</span><span style="color:#E6DB74"> accept-line</span><span style="color:#E6DB74"> modify-accept-line</span></span></code></pre></div></div> <p data-svelte-h="svelte-1di2339">If you include this snippet in your <code>.zshrc</code> file, and source this file. Next time
+you type a command you will see that after you hit enter, what you enter into
+the prompt will be modified!</p> <div class="code-block-container" data-svelte-h="svelte-kd0niz"><div class="code-block-header"><span class="code-block-lang">[text]</span></div> <div class="code-block "><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span>&gt; hello&lt;Enter&gt;</span></span>
+<span class="line"><span>&gt; echo hello ; hello</span></span>
+<span class="line"><span>hello</span></span>
+<span class="line"><span>hello: command not found</span></span></code></pre></div></div> <p data-svelte-h="svelte-198gmyz">The understanding this snippet itself is pretty straightforwards: the <code>$BUFFER</code>
+variable is whatever is in the prompt at the time you hit enter, and you can
+modify this variable via this new function before the <code>zle .accept-line</code> is
+called, which tell the <code>zsh</code> interactive shell to actually execute the command.
+In general such operations are part of the ”<a href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html" rel="nofollow">zsh line editor</a> <a href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets" rel="nofollow">widgets</a>”, which allow for editing of the buffer string
+programmatically. You probably have actually interacted with this system
+before, as it is effectively how tab completion works in <code>zsh</code>! For our case,
+we are only interested in the <code>.accept-line</code> widget, which trigger only when
+the full buffer has been typed out.</p> <hr> <p data-svelte-h="svelte-1emiumj">So what can we use this for? Referring back to my example with <code>CMSSW</code>, we can
+now say that if this is our input buffer looks like CMSSW command, and we
+detect that the <code>CMSSW</code> environment is <em>not</em> set, then attempt to load in the
+<code>cmsenv</code> command directly, so we can supply the <code>modify-accept-line</code> with
+something like:</p> <div class="code-block-container" data-svelte-h="svelte-ls53sp"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">function</span><span style="color:#A6E22E"> modify-accept-line</span><span style="color:#F8F8F2">() {</span></span>
+<span class="line"><span style="color:#88846F">  # If the input buffer starts with the cms-sw like command prefix</span></span>
+<span class="line"><span style="color:#F92672">  if</span><span style="color:#F8F8F2"> [[ $BUFFER </span><span style="color:#F92672">==</span><span style="color:#F8F8F2"> cmsRun</span><span style="color:#F92672">*</span><span style="color:#F8F8F2"> ]] </span><span style="color:#F92672">||</span><span style="color:#F8F8F2"> [[ $BUFFER </span><span style="color:#F92672">==</span><span style="color:#F8F8F2"> edm</span><span style="color:#F92672">*</span><span style="color:#F8F8F2"> ]] </span><span style="color:#F92672">||</span><span style="color:#F8F8F2"> [[ $BUFFER </span><span style="color:#F92672">==</span><span style="color:#F8F8F2"> scram</span><span style="color:#F92672">*</span><span style="color:#F8F8F2"> ]]; </span><span style="color:#F92672">then</span></span>
+<span class="line"><span style="color:#88846F">    #If the $CMSSW_BASE variable is not set</span></span>
+<span class="line"><span style="color:#F92672">    if</span><span style="color:#F8F8F2"> [[ </span><span style="color:#F92672">-z</span><span style="color:#F8F8F2"> $CMSSW_BASE ]]; </span><span style="color:#F92672">then</span></span>
+<span class="line"><span style="color:#88846F">      # Prefix the command with `cmsenv` command</span></span>
+<span class="line"><span style="color:#F8F8F2">      BUFFER</span><span style="color:#F92672">=</span><span style="color:#E6DB74">&quot;cmsenv ; </span><span style="color:#F8F8F2">$BUFFER</span><span style="color:#E6DB74">&quot;</span></span>
+<span class="line"><span style="color:#F92672">    fi</span></span>
+<span class="line"><span style="color:#F92672">  fi</span></span>
+<span class="line"><span style="color:#A6E22E">  zle</span><span style="color:#E6DB74"> .accept-line</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"><span style="color:#A6E22E">zle</span><span style="color:#AE81FF"> -N</span><span style="color:#E6DB74"> accept-line</span><span style="color:#E6DB74"> modify-accept-line</span></span></code></pre></div></div> <p data-svelte-h="svelte-4w96ai">Or for a more involved example, where the <code>modify-accept-line</code> can run any
+function visible to the <code>zsh</code> session, you can have it so that if you run a
+<code>python</code> command, it recursively searches the parent directory for a
+<code>environment.yaml</code> file to see if you are expected to be running a <code>conda</code>
+environment. If yes, and the <code>conda</code> environment defined in the <code>environment</code>
+is not active, switch to it before executing the python command:</p> <div class="code-block-container" data-svelte-h="svelte-ehycsj"><div class="code-block-header"><span class="code-block-lang">[bash]</span></div> <div class="code-block code-copyable"><pre class="shiki monokai" style="background-color:#272822;color:#F8F8F2" tabindex="0"><code><span class="line"><span style="color:#66D9EF;font-style:italic">function</span><span style="color:#A6E22E"> _add_conda_prefix</span><span style="color:#F8F8F2">() {</span></span>
+<span class="line"><span style="color:#88846F">  # Finding directory containing pattern https://unix.stackexchange.com/a/22215</span></span>
+<span class="line"><span style="color:#F8F8F2">  env_dir</span><span style="color:#F92672">=</span><span style="color:#F8F8F2">$PWD</span></span>
+<span class="line"><span style="color:#F92672">  while</span><span style="color:#F8F8F2"> [[ </span><span style="color:#E6DB74">&quot;</span><span style="color:#F8F8F2">$env_dir</span><span style="color:#E6DB74">&quot;</span><span style="color:#F92672"> !=</span><span style="color:#E6DB74"> &quot;&quot;</span><span style="color:#F92672"> &amp;&amp;</span><span style="color:#F92672"> !</span><span style="color:#F92672"> -e</span><span style="color:#E6DB74"> &quot;</span><span style="color:#F8F8F2">$env_dir</span><span style="color:#E6DB74">/environment.yaml&quot;</span><span style="color:#F8F8F2"> ]]; </span><span style="color:#F92672">do</span></span>
+<span class="line"><span style="color:#F8F8F2">    env_dir</span><span style="color:#F92672">=</span><span style="color:#F8F8F2">${env_dir</span><span style="color:#F92672">%/*</span><span style="color:#F8F8F2">}</span></span>
+<span class="line"><span style="color:#F92672">  done</span></span>
+<span class="line"><span style="color:#F92672">  if</span><span style="color:#F8F8F2"> [[ $env_dir </span><span style="color:#F92672">==</span><span style="color:#E6DB74"> &quot;&quot;</span><span style="color:#F8F8F2"> ]]; </span><span style="color:#F92672">then</span></span>
+<span class="line"><span style="color:#F92672">    return</span></span>
+<span class="line"><span style="color:#F92672">  fi</span></span>
+<span class="line"><span style="color:#88846F">  # Checking the name of environment. Ideally you should use yq for yaml</span></span>
+<span class="line"><span style="color:#88846F">  # parsing, not this is no generically available on your system</span></span>
+<span class="line"><span style="color:#F8F8F2">  env_name</span><span style="color:#F92672">=</span><span style="color:#F8F8F2">$(</span><span style="color:#A6E22E">head</span><span style="color:#AE81FF"> -n</span><span style="color:#AE81FF"> 1</span><span style="color:#E6DB74"> &quot;${</span><span style="color:#F8F8F2">env_dir</span><span style="color:#E6DB74">}/environment.yaml&quot;</span><span style="color:#F92672"> |</span><span style="color:#A6E22E"> awk</span><span style="color:#E6DB74"> &#39;{print $2}&#39;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#88846F">  # Check if prefix match, if not add a conda_command prefix</span></span>
+<span class="line"><span style="color:#F92672">  if</span><span style="color:#F8F8F2"> [[ $(</span><span style="color:#A6E22E">basename</span><span style="color:#E6DB74"> CONDA_PREFIX</span><span style="color:#F8F8F2">) </span><span style="color:#F92672">!=</span><span style="color:#F8F8F2"> ${env_name} ]]; </span><span style="color:#F92672">then</span></span>
+<span class="line"><span style="color:#66D9EF">    echo</span><span style="color:#E6DB74"> &quot;conda activate ${</span><span style="color:#F8F8F2">env_name</span><span style="color:#E6DB74">} ; &quot;</span></span>
+<span class="line"><span style="color:#F92672">  fi</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#66D9EF;font-style:italic">function</span><span style="color:#A6E22E"> modify-accept-line</span><span style="color:#F8F8F2">() {</span></span>
+<span class="line"><span style="color:#88846F">  # If the input buffer starts with the cms-sw like command prefix</span></span>
+<span class="line"><span style="color:#F92672">  if</span><span style="color:#F8F8F2"> [[ $BUFFER </span><span style="color:#F92672">==</span><span style="color:#F8F8F2"> python</span><span style="color:#F92672">*</span><span style="color:#F8F8F2"> ]] </span><span style="color:#F92672">||</span><span style="color:#F8F8F2"> [[ $BUFFER </span><span style="color:#F92672">==</span><span style="color:#F8F8F2"> pip</span><span style="color:#F92672">*</span><span style="color:#F8F8F2"> ]]; </span><span style="color:#F92672">then</span></span>
+<span class="line"><span style="color:#88846F">      # Prefix the command with `cmsenv` command</span></span>
+<span class="line"><span style="color:#F8F8F2">      BUFFER</span><span style="color:#F92672">=</span><span style="color:#E6DB74">&quot;$(</span><span style="color:#A6E22E">_add_conda_prefix</span><span style="color:#E6DB74">) </span><span style="color:#F8F8F2">$BUFFER</span><span style="color:#E6DB74">&quot;</span></span>
+<span class="line"><span style="color:#F92672">    fi</span></span>
+<span class="line"><span style="color:#F92672">  fi</span></span>
+<span class="line"><span style="color:#A6E22E">  zle</span><span style="color:#E6DB74"> .accept-line</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"><span style="color:#A6E22E">zle</span><span style="color:#AE81FF"> -N</span><span style="color:#E6DB74"> accept-line</span><span style="color:#E6DB74"> modify-accept-line</span></span></code></pre></div></div> <p data-svelte-h="svelte-a00muf">At this point, the program-ability of the shell environment, the sky is the
+limit, and this can be used to engineer away the little annoyances in your
+daily shell life. Always beware of the <a href="https://xkcd.com/1319/" rel="nofollow">pitfall of automation</a> though.</p> <hr> <p data-svelte-h="svelte-188i9k9">Some things that you might want to note:</p> <ul data-svelte-h="svelte-f0c9ed"><li>The <code>.accept-line</code> widget will only be triggered for interactive prompts.
+This means that the same logic will not be reflected in scripts, so you still
+need to keep track of your execution logic.</li> <li>The modifications to the buffer line <em>will</em> be reflected in the command
+history, so you can still use that to trace your execution logic with the
+modified command if you somehow forget if a command modification was
+performed or not.</li> <li>The <code>$BUFFER</code> variable is the <em>entire</em> input buffer, meaning that the way we
+have set up commands in the examples above, it will only detect the <code>python</code>
+command if your entire buffer starts with the <code>&quot;python&quot;</code> string; in other
+that solution will <em>not</em> modify python commands that are nested in inline
+<code>if</code>/<code>for</code> statements. As this page aims to be a quick example to solve
+little annoyances, I will not go into details of how to perform shell script
+parsing in with shell script itself to have all instances of python be
+modified.</li></ul></article> <footer class="svelte-a9w2ls"><span class="foot-header svelte-a9w2ls" data-svelte-h="svelte-1vhgsge">Tags</span><br> <span class="svelte-a9w2ls"><a href="../../tags/#computing">computing</a></span><span class="svelte-a9w2ls"><a href="../../tags/#tips">tips</a></span></footer> <div class="side-bar svelte-ype9gw"><button class="svelte-ype9gw"><div id="side-toggler-hide"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path><!-- HTML_TAG_END --></svg></div> <div id="side-toggler-show"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path><!-- HTML_TAG_END --></svg></div></button> <div class="side-bar-button"></div> <div class="side-bar-slider"><div class="side-bar-content svelte-ype9gw"><h2 class="side-bar-header svelte-ype9gw" data-svelte-h="svelte-r83smw">Outline</h2> <div id="side-bar-list"></div></div></div> </div></main> <footer class="svelte-ze0gu2"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_3glbby = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.Ct2GoIZi.js"),
+						import("../../_app/immutable/entry/app.i0JcJhIq.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+import{s as C,n as p}from"./CywiF0zC.js";import{S as M,i as _,e as c,s as d,c as u,g as m,a as w,b as S,d as s,f as r}from"./Csr7VRhO.js";function k(x){let t,y='<ol class="toc-level toc-level-1"></ol>',n,l,v=`I have worked with many flavors of numerical libraries to solve numerical
+computation required for physics analysis. Most of my work resolves around
+statistical methods, though I have worked with frequency analysis and time
+integral methods as well.`,f,o,g="Some public example of my works regarding numerical methods",h,a,b=`<li>C function pointer based libraries (using <a href="https://www.gnu.org/software/gsl/" rel="nofollow">GSL</a>):
+<ul><li>A <a href="https://github.com/yimuchen/UserUtils/tree/master/MathUtils" rel="nofollow">library</a> used for quick-and-dirty methods of uncertainty
+propagation through numerical operations.</li></ul></li> <li>C++/Python object-oriented libraries (such as <a href="https://root.cern/" rel="nofollow">CERN-ROOT</a>)
+<ul><li>A custom <a href="https://github.com/UMDCMS/SiPMCalib" rel="nofollow">implementation</a> of a PDF used to model <a href="http://arxiv.org/pdf/1609.01181" rel="nofollow">SiPM
+responses</a></li> <li>A more mixed <a href="https://github.com/NTUHEP-Tstar" rel="nofollow">repository</a> of a full <a href="https://cds.cern.ch/record/2273911" rel="nofollow">physics
+analysis</a>.</li></ul></li> <li>Array based libraries (such as <a href="https://numpy.org/" rel="nofollow"><code>numpy</code></a> and <a href="https://awkward-array.org/doc/main/" rel="nofollow">awkward
+arrays</a>):
+<ul><li><a href="https://github.com/UMDCMS/sipmpdf" rel="nofollow">Reimplementation</a> of the SiPM response function using
+<a href="https://github.com/zfit/zfit" rel="nofollow">zfit</a>+<a href="https://www.tensorflow.org/" rel="nofollow">tensorflow</a> for parallelized distribution
+fitting.</li> <li>Mixed <a href="https://gitlab.cern.ch/cms-emj/EMJAnalysis" rel="nofollow">repository</a> a full <a href="https://arxiv.org/abs/2403.01556" rel="nofollow">physics analysis</a> (this
+repository requires a CERN account to access).</li></ul></li>`;return{c(){t=c("nav"),t.innerHTML=y,n=d(),l=c("p"),l.textContent=v,f=d(),o=c("p"),o.textContent=g,h=d(),a=c("ul"),a.innerHTML=b,this.h()},l(e){t=u(e,"NAV",{class:!0,"data-svelte-h":!0}),m(t)!=="svelte-11ukb7v"&&(t.innerHTML=y),n=w(e),l=u(e,"P",{"data-svelte-h":!0}),m(l)!=="svelte-gc3fq7"&&(l.textContent=v),f=w(e),o=u(e,"P",{"data-svelte-h":!0}),m(o)!=="svelte-1sjvax5"&&(o.textContent=g),h=w(e),a=u(e,"UL",{"data-svelte-h":!0}),m(a)!=="svelte-2t8m1h"&&(a.innerHTML=b),this.h()},h(){S(t,"class","toc")},m(e,i){s(e,t,i),s(e,n,i),s(e,l,i),s(e,f,i),s(e,o,i),s(e,h,i),s(e,a,i)},p,i:p,o:p,d(e){e&&(r(t),r(n),r(l),r(f),r(o),r(h),r(a))}}}const T={name:"numerical",title:"Numerical computations",proficiency:"Advanced",logo:"numerical.svg"};class U extends M{constructor(t){super(),_(this,t,null,k,C,{})}}export{U as default,T as metadata};

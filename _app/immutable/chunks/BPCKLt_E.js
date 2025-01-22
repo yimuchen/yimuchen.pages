@@ -1,0 +1,12 @@
+import{s as b,n as f}from"./CywiF0zC.js";import{S as w,i as C,e as h,s as v,c,g as m,a as g,b as M,d as i,f as n}from"./Csr7VRhO.js";function T(y){let t,p='<ol class="toc-level toc-level-1"></ol>',r,o,u=`Most of my work revolves around developing routines that will be used either by
+myself or a small group of people on the same physics analysis team. While I
+make an effort to ensure the routine are readable/maintainable to people other
+than myself, this type of work typically is not indicative to how well I
+actually achieved readability/maintainability goals. Though recently, I’ve
+started to contribute to some of the newer numerical libraries that I have been
+using, trying to add tools for general use: here are <a href="https://github.com/CoffeaTeam/coffea/pull/798" rel="nofollow">some</a> <a href="https://github.com/CoffeaTeam/coffea/pull/935" rel="nofollow">of</a> <a href="https://github.com/CoffeaTeam/coffea/pull/790" rel="nofollow">my</a> <a href="https://github.com/CoffeaTeam/coffea/discussions/1100" rel="nofollow">contributions</a>.`,s,a,d=`In addition to general purpose libraries, some of my work also revolves around
+writing code for certain control interfaces with the anticipation that the user
+has little-to-no code interface knowledge. The most recent iteration of a
+custom <a href="https://github.com/UMDCMS/SiPMCalibControl" rel="nofollow">command-line shell</a> (written using Python’s <a href="https://docs.python.org/3/library/cmd.html" rel="nofollow">cmd</a>),
+as well as a graphical interface using <a href="https://react.dev/" rel="nofollow">ReactJS</a> (example code
+<a href="https://github.com/UMDCMS/SiPMCalibControl" rel="nofollow">here</a>) and <a href="https://doc.qt.io/qtforpython-6/" rel="nofollow"><code>PyQt</code></a> (example code <a href="https://github.com/yimuchen/gui_example" rel="nofollow">here</a>).`;return{c(){t=h("nav"),t.innerHTML=p,r=v(),o=h("p"),o.innerHTML=u,s=v(),a=h("p"),a.innerHTML=d,this.h()},l(e){t=c(e,"NAV",{class:!0,"data-svelte-h":!0}),m(t)!=="svelte-11ukb7v"&&(t.innerHTML=p),r=g(e),o=c(e,"P",{"data-svelte-h":!0}),m(o)!=="svelte-iikflq"&&(o.innerHTML=u),s=g(e),a=c(e,"P",{"data-svelte-h":!0}),m(a)!=="svelte-m009rt"&&(a.innerHTML=d),this.h()},h(){M(t,"class","toc")},m(e,l){i(e,t,l),i(e,r,l),i(e,o,l),i(e,s,l),i(e,a,l)},p:f,i:f,o:f,d(e){e&&(n(t),n(r),n(o),n(s),n(a))}}}const k={name:"app",title:"Developing for end users",proficiency:"Advanced",logo:"gui.svg"};class S extends w{constructor(t){super(),C(this,t,null,T,b,{})}}export{S as default,k as metadata};

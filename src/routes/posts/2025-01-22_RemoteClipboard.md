@@ -178,7 +178,8 @@ is done here (also if you are implementing this yourself, you should also
 implement a nicer method for handling the secret validation token), then you
 should be free to simply to use `my_command | emitter.py` where ever you go and
 get the result into your local clipboard to be either included in presentation
-or paper!
+or paper! My own implementation of this can be found in my [`dotfiles`][dotfiles]
+repository [here][emit] and [here][list].
 
 [reverse-proxy]: https://man.openbsd.org/ssh#R
 [sshconf]: https://man.openbsd.org/ssh_config
@@ -188,3 +189,6 @@ or paper!
 [pipe]: https://www.gnu.org/software/bash/manual/html_node/Pipelines.html
 [subprocess]: https://docs.python.org/3/library/subprocess.html
 [systemd]: https://wiki.archlinux.org/title/Systemd/User#Basic_setup
+[dotfiles]: https://github.com/yimuchen/dotfiles
+[emit]: https://github.com/yimuchen/dotfiles/blob/master/bin/remote/rcb
+[list]: https://github.com/yimuchen/dotfiles/blob/master/bin/local/rcb_listener.py

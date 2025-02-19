@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/0.Sl07kAzb.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.DCIUOyEa.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-02-17-TEXTip_custompackage.BJ_OyN1F.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2017-11-10-Stamps.fmqiAiqW.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/2019-07-31-resistorcalc.CCVtijh-.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.DgTIs5L1.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CQhVyuZ8.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CywiF0zC.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BjKai22-.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/DHnXWfQZ.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.CF2CTKAw.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/C1FmrZbK.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/Csr7VRhO.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.CqDBVMLV.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/dMNmw4_Y.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/T2TaZ-dS.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.CUetCijq.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/D6YF6ztN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CXhWDRWx.js"><title>NixOS - a year-long reflection</title><!-- HEAD_svelte-iilc1r_START --><link rel="icon" type="image/x-icon" href="../../favicon.ico"><!-- HEAD_svelte-iilc1r_END --><!-- HEAD_svelte-tef83d_START --><!-- HEAD_svelte-tef83d_END -->
+  </head>
+  <body>
+    <div>   <button id="showButton" class="svelte-16eha3j"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path><!-- HTML_TAG_END --></svg></button>  <main> <header style="background-image: url(&quot;../../image/banner/thoughts.jpg&quot;);" class="svelte-a9w2ls"><h1 class="svelte-a9w2ls">NixOS - a year-long reflection</h1> <p>2025.Feb.19</p></header> <article class="content-container"><nav class="toc" data-svelte-h="svelte-9wot20"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-nixos-does-well">What NixOS does well</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#closeness-of-package-installation-and-configuration--system-replicability">Closeness of package installation and configuration — system replicability</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#exotic-package-dependencies-and-explicitly-adding-dependencies">Exotic package dependencies and explicitly adding dependencies</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#temporary-development-installs">Temporary development installs</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#explicitly-defining-what-is-exposed-to-the-user--functionality-hiding">Explicitly defining what is exposed to the user — functionality hiding</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-makes-nix-infuriatingfrustrating">What makes Nix infuriating/frustrating</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#doing-everything-the-nix-way">Doing everything “the Nix way”</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#no-proper-method-of-temporarily-pinning-a-package">No proper method of temporarily pinning a package</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#the-fragility-of-the-monolithic-nixpkgs-repository">The fragility of the monolithic nixpkgs repository</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#the-lack-of-documentation">The lack of documentation</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#what-do-i-actually-want-in-from-nix-like-systems">What do I actually want in from Nix-like systems</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#the-alternate-solution--decman">The alternate solution — decman</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#what-about-remote-package-installation">What about remote package installation?</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#will-you-never-be-using-nix">Will you never be using nix?</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#conclusion">Conclusion</a></li></ol></nav> <p data-svelte-h="svelte-yhguey">About <a href="../2024-05-01-nix-portable">one year ago</a>, I started running
+<a href="https://nixos.org/" rel="nofollow">NixOS</a> as my daily operating system, and after this one year and much
+reflection, I’ve concluded that it is time to switch away form NixOS as my
+primary system again. This blog post will serve as a snapshot of what it was
+like for myself to be using NixOS, both a reflection of what I found appealing
+about NixOS and my own learning along the way, as well as the frustrations that
+ultimately pushed me away.</p> <h2 id="what-nixos-does-well" data-svelte-h="svelte-dj9b1e"><a aria-hidden="true" tabindex="-1" href="#what-nixos-does-well"><span class="icon icon-link"></span></a>What NixOS does well</h2> <h3 id="closeness-of-package-installation-and-configuration--system-replicability" data-svelte-h="svelte-1vaf9ht"><a aria-hidden="true" tabindex="-1" href="#closeness-of-package-installation-and-configuration--system-replicability"><span class="icon icon-link"></span></a>Closeness of package installation and configuration — system replicability</h3> <p data-svelte-h="svelte-12oyfdy">I have two primary machines that I daily drive, and I want the experience
+between these two machines to be as identical as possible, meaning that I want
+the same set of programs installed with as-close-to-identical theming and
+configurations as reasonably possible. This means keeping both the master
+package list synced, along with a handful configurations files that is relevant
+to the usage experience. The problem, however, comes when there are
+configurations that are intrinsically different the 2 machines: slightly
+different hardware capabilities requiring different driver packages; different
+screen real estate requiring slightly different configuration fields; different
+storage sizes means that backup handling is different and such. When you want
+something to be “nearly the same”, it gets stuck in the awkward middle ground
+of not being able to stuff everything in a git repository and call it a day,
+but at the same time much too cumbersome to maintain two separate instances of
+the configurations files because too many entries needs to be kept in sync.</p> <p data-svelte-h="svelte-5v6z22">The Nix way of configuration systems is glorious: the requirement of a package
+is almost immediately followed by the configuration snippet, and the
+configuration being part of a programming logic means that logic can be built
+into that extract configuration: the same package can be installed with
+slightly different configuration flag based on the differences between the
+multiple systems that you are maintaining, all the while retaining identical
+configurations everywhere.</p> <p data-svelte-h="svelte-ce4sh8">The fact that nix generates the actual configuration files that are placed in
+the <code>/etc</code> or other directory during build time also means that it solves one
+of my biggest grips managing configuration files on Linux: configuration files
+can grow into monstrous multi-thousand line entities, while only three lines
+are relevant to the configuration that I want to do. The nix configuration
+system means that the “configuration” that I interact with (i.e. the <code>.nix</code>
+file in question) needs only to keep those relevant lines massively reducing
+the amount of stuff I need to keep in my configuration repository.</p> <p data-svelte-h="svelte-1sf76gi">Another problem that the nix method of configuration solves is that
+cross-package configurations can now be done in whatever method makes the most
+sense for system maintainer: for example, instead of all “network
+configurations” sitting in a gigantic file, with comment snippets that point to
+the configuration of other programs that may or may not be out of date, nix
+then allows the network configurations to sit directly behind each package
+install, so that it is much easier to keep track of why configurations are
+enabled, and also cleanly disables them when a package becomes obsolete.</p> <p data-svelte-h="svelte-16njhh">The tools provided in nix is the closest thing I got to system replicability
+(<em>not</em> reproducibility, that is a distinction that I will discuss in a little
+later). The fact that I can run <code>nix</code> as a local package manager also means I
+can replicate all my terminal experience to the many computing clusters that I
+need to interact with was the biggest push for me to start investigating how to
+use nix in the first place.</p> <h3 id="exotic-package-dependencies-and-explicitly-adding-dependencies" data-svelte-h="svelte-1iezklx"><a aria-hidden="true" tabindex="-1" href="#exotic-package-dependencies-and-explicitly-adding-dependencies"><span class="icon icon-link"></span></a>Exotic package dependencies and explicitly adding dependencies</h3> <p data-svelte-h="svelte-jnzjnu">Despite the best efforts of distribution maintainers, there will be odd cases
+where the official package manager does not properly list “all” dependencies.
+Maybe there is some odd format conversion routine of package “A” that requires
+extra python package “B” and is not listed because it is not considered a
+“core” feature of the primary package (One example that I ran into was the
+conversion o <a href="https://en.wikipedia.org/wiki/AutoCAD_DXF" rel="nofollow">DXF</a> files to regular <a href="https://en.wikipedia.org/wiki/SVG" rel="nofollow">SVG</a> files using
+<a href="https://inkscape.org/" rel="nofollow">inkscape</a>). So you go ahead and explicitly install this package in
+the command line package “B”. Great, now there is this dangling package “B”
+that is labeled as being explicitly requested user, but to the package
+manager, this package is completely unrelated to package “A”; the problem here
+goes both ways: if you no longer use package “A” and uninstall it, you now have
+this unnecessary package “B” floating around in your system; or after sometime
+when performing system maintenance, you see that package “B” is not required by
+anything else, so you uninstalled it because you think you don’t need it,
+thereby unwittingly breaking that fix for package “A”.</p> <p data-svelte-h="svelte-1hsiuuh">The nix way of adding packages to the system means that there such dependencies
+can actually be properly tracked: for example, when you install a packaged with
+python as a dependency, you can <a href="https://wiki.nixos.org/wiki/Python" rel="nofollow">also specify</a> exactly which
+addition python packages you want to go along with the python environment in
+question.</p> <h3 id="temporary-development-installs" data-svelte-h="svelte-1ldp9yy"><a aria-hidden="true" tabindex="-1" href="#temporary-development-installs"><span class="icon icon-link"></span></a>Temporary development installs</h3> <p data-svelte-h="svelte-1xx2q6w"><a href="https://github.com/cpm-cmake/CPM.cmake" rel="nofollow">C and C++ does not have package managers</a>. So when you need to build a
+C/C++ project, you might be tempted to install the build dependencies with your
+system package manager. Great! Now you have a whole host of low-level packages
+that you don’t know if you can or cannot install after you are done with the
+project, or after you moved the project else where. This environment isolation
+problem for C/C++ project is probably why all newer languages try to have this
+function built in.</p> <p data-svelte-h="svelte-2er4an">The <a href="https://wiki.nixos.org/wiki/Development_environment_with_nix-shell" rel="nofollow"><code>shell</code></a> function of <code>nix</code> essentially the functionality of
+project-level package management to anything you might be using, regardless
+what language you might be using (even <code>Fortran</code> if you still need to work with
+that for whatever reason).</p> <p data-svelte-h="svelte-r7edfd">This also extends to the use of temporary packages for interactive sessions. If
+there is a transient issue that you need to solve just this once, you can
+quickly jump into a shell with the temporary diagnostic tools, and cleanly jump
+out, where it would look like the package never existed in the first place (the
+actual files are, of course, cleaned up after the next <code>nix-garbage-collect</code>
+call).</p> <h3 id="explicitly-defining-what-is-exposed-to-the-user--functionality-hiding" data-svelte-h="svelte-1ipr9su"><a aria-hidden="true" tabindex="-1" href="#explicitly-defining-what-is-exposed-to-the-user--functionality-hiding"><span class="icon icon-link"></span></a>Explicitly defining what is exposed to the user — functionality hiding</h3> <p data-svelte-h="svelte-162kegg">For certain packages, you might just want some of the functionality to be
+exposed to the user: An example is that you might want to have the <code>icat</code>
+module around from the <a href="https://sw.kovidgoyal.net/kitty/" rel="nofollow"><code>kitty</code> terminal</a> for the fullest implementation
+of the <a href="https://sw.kovidgoyal.net/kitty/graphics-protocol/" rel="nofollow">image display protocol</a>, but still want to use your favorite
+terminal emulator instead of <code>kitty</code>, and/or you don’t want an extra
+application entry taking up space in your application manager. In <code>nix</code>, there
+are ways to make sure packages are installed, but only exposed to the user
+through other functionalities.</p> <p data-svelte-h="svelte-1s128tq">I add this mainly as a nicety, not strictly as a “must have” for system
+management. I like having my environment clean, but not to the extent that all
+unused entries should be purged at all times.</p> <hr> <p data-svelte-h="svelte-t3neqe">In this one year experiment of daily driving NixOS, it made me think more
+carefully about what package-manager systems should try and do, what makes for
+a “good” system maintenance experience, and where other package managers
+(system or otherwise) are failing to provide tools that is useful. And just for
+gaining this experience, I would always be happy that I took this route of
+trying to daily drive NixOS.</p> <p data-svelte-h="svelte-zrevl4">And now for the parts of NixOS that ultimately pushed me away from NixOS in
+search of another solution.</p> <h2 id="what-makes-nix-infuriatingfrustrating" data-svelte-h="svelte-frdpp2"><a aria-hidden="true" tabindex="-1" href="#what-makes-nix-infuriatingfrustrating"><span class="icon icon-link"></span></a>What makes Nix infuriating/frustrating</h2> <h3 id="doing-everything-the-nix-way" data-svelte-h="svelte-bpn330"><a aria-hidden="true" tabindex="-1" href="#doing-everything-the-nix-way"><span class="icon icon-link"></span></a>Doing everything “the Nix way”</h3> <p data-svelte-h="svelte-fak07d">While I do think nix configurations is amazing, at the end of the day it is
+just another layer of abstraction on top of the existing abstractions found in
+Linux configuration system.</p> <p data-svelte-h="svelte-1i4rc0s">At some points, it felt redundant: Is having a line <code>vim.opt.relativenumber = true</code> in a lua file really that much different than adding,
+<code>neovim={enable=True; relativenumber=True}</code> in a nix file? Especially when
+neovim’s <code>lua</code> file will eventually contain additional items anyway?</p> <p data-svelte-h="svelte-fwjfbd">At other points, it’s frustrating when the abstractions are leaky. If the
+option flag that you are looking for is not implemented in nix, you either have
+to implement the functionality in nix yourself (after a year I still don’t
+properly understand how the think in terms of functional programming languages,
+more on that later), or resort of having the “file contents” be injected into
+configuration files, at which point the question becomes why don’t I just
+managed configurations directly with the configuration files instead of having
+nix as an “extra layer”?</p> <p data-svelte-h="svelte-s9dmf5">The worst problem is when nix abstraction bleeds into everything in a way that
+is incompatible with any other systems. One of the more egregious examples I
+ended up having was the configuration files I had for <code>zsh</code>, where I realized
+that the generation of the <code>zsh</code> is so fragmented that I would be impossible to
+move away from nix without major refactoring of how machine-specific
+configurations are handled. Packages not being able to be ported between <code>Nix</code>
+systems and other <a href="https://fr.wikipedia.org/wiki/Filesystem_Hierarchy_Standard" rel="nofollow"><code>FHS</code></a>-based systems was already becoming problematic,
+and it hit me that if my <em>configurations</em> were going this route as well, how
+much am I really giving up for the promise of reproducibility?</p> <h3 id="no-proper-method-of-temporarily-pinning-a-package" data-svelte-h="svelte-1wjuteh"><a aria-hidden="true" tabindex="-1" href="#no-proper-method-of-temporarily-pinning-a-package"><span class="icon icon-link"></span></a>No proper method of temporarily pinning a package</h3> <p data-svelte-h="svelte-11303bo">While there is a promise of reproducibility and rollback on the system level,
+what I found in practice is that getting the nix to actually install packages
+that was not on the <code>HEAD</code> of the <code>nixpkgs</code> channels was incredibly involved.
+Here is an example that actually happened to myself: there was a regression in
+a GUI application (<a href="https://www.kicad.org/" rel="nofollow">KiCad</a> in this case), where I need to roll back to version
+<code>8.0.X</code> while the leading branch is at <code>8.0.Y</code>. To do so in nix, I need to
+either:</p> <ul data-svelte-h="svelte-1ff31h7"><li>Split my repository reference <a href="https://github.com/NixOS/nixpkgs" rel="nofollow"><code>nixpkgs</code></a> into <code>nixpkgs-unstable</code>
+(rolling release) and <code>nixpkgs-24.11</code> (latest stable), and point just one
+specific package to user <code>nixpkgs-24.11</code>, this is, of course, working on the
+assumption that version that I wanted was still being used in the stable
+branch, if not, I would need to point to an even older <code>nixpkgs</code> version,
+where there isn’t an easy way to look up which version of in which <code>nixpkgs</code>
+branch, and pray that that branch is still kept in the official nix cache
+system. If it is not in the cache system, I’m looking at building the
+“entire” package compile chain (yes, including the all the compilers of
+low-level languages and all the high-level language interpreter of that
+specific branch) on my personal machine.</li> <li>Maintain a temporary branch of the <code>&lt;package&gt;.nix</code> file to always use a
+custom version. (Which is something that I don’t want to do)</li></ul> <p data-svelte-h="svelte-rwtpnx">When I was using <a href="https://archlinux.org/" rel="nofollow">ArchLinux</a>, rolling back to a version is
+effectively: going to the Arch time machine to find the snapshot of the package
+at a certain date, download the package and install it with <code>pacman -U</code>. Sure,
+now there is no guarantee that there is package will 100% function as with the
+NixOS forcing you to replicate the entire environment at some snapshot, but in
+most cases, I’m not trying to roll back a package to a completely different
+version, this is just a sub-sub version change, where I can most likely track
+the total number of changes that are done, do I really want to have a complete
+separate compile environment in my machine just to roll back?</p> <p data-svelte-h="svelte-1dxg4x5">At least for my use cases, the promise of “NixOS being declarative” feel just a
+bit broken. In language-specific package manager (think <a href="https://packaging.python.org/en/latest/tutorials/installing-packages/" rel="nofollow"><code>pip</code></a> and
+<a href="https://www.npmjs.com/" rel="nofollow"><code>npm</code></a> related tool chains), pinning a package version is as
+straightforwards as changing a few lines in the configuration to something like
+<code>package1==x.y.z</code>. There are no such equivalences in <code>nix</code>, which, at least to
+myself, defeats quite a bit of the purpose of wanting to claim your entire
+system is declarative: You can only declare what is allowed by <code>nixpkgs</code>. I
+would much rather <code>nix</code> have some equivalent of <code>pip</code>/<code>npm</code>’s system, where you
+can explicitly pin package version, and then complain loudly if something is
+obviously in conflict.</p> <h3 id="the-fragility-of-the-monolithic-nixpkgs-repository" data-svelte-h="svelte-c8bmdr"><a aria-hidden="true" tabindex="-1" href="#the-fragility-of-the-monolithic-nixpkgs-repository"><span class="icon icon-link"></span></a>The fragility of the monolithic <code>nixpkgs</code> repository</h3> <p data-svelte-h="svelte-1t268l3">Despite the mantra of NixOS being of package reproducibility and dependency
+isolation, I have found that, in practice, the rolling release of the NixOS
+package repository to be surprisingly fragile and prone to breaking, especially
+when compared to other rolling release versions like Archlinux. During my
+one-year span of using NixOS, multiple times the “stable” version of the Linux
+kernel and “stable” version of the nvidia drivers where simply not compatible,
+large GUI packages having esoteric build fails after a repository update
+(<a href="https://www.freecad.org/" rel="nofollow">FreeCad</a> and <a href="https://www.kicad.org/" rel="nofollow">KiCad</a> are particularly prone to this for some
+reason); and to top this all off, the update to the rolling release branch
+simply is not as immediate as other distributions. While I found this odd that
+there are so many hiccups in the package distribution process for a Linux
+distribution that has been around <a href="https://en.wikipedia.org/wiki/NixOS#History" rel="nofollow">nearly as long</a> as
+<a href="https://en.wikipedia.org/wiki/Arch_Linux#History" rel="nofollow">Arch</a>, I still understand that <code>nix</code> expects users to be more
+hands on with package management. All of this would have been tolerable if it
+was not for the final issue that I don’t see an easy way of fixing.</p> <h3 id="the-lack-of-documentation" data-svelte-h="svelte-1659yvv"><a aria-hidden="true" tabindex="-1" href="#the-lack-of-documentation"><span class="icon icon-link"></span></a>The lack of documentation</h3> <p data-svelte-h="svelte-g8p13d">This was probably the final straw that pushed to start looking for nix
+alternatives after the whole fiasco with package pinning and breaking
+repositories. Nix, being a <a href="https://en.wikipedia.org/wiki/Functional_programming" rel="nofollow">functional language</a>, is already hard enough
+to generalize as is, and when trying to look up how to do something, there
+isn’t centralized wiki that I can reference (I mean, <a href="https://wiki.nixos.org/wiki/NixOS_Wiki" rel="nofollow">there</a> <a href="https://nixos.wiki/wiki/Main_Page" rel="nofollow">is</a>, but that hardly contains enough information, and the fact
+there are two wiki’s also highlights the problem), and I have to resort to
+scouring <a href="https://www.reddit.com/r/NixOS/" rel="nofollow">Reddit</a> or <a href="https://discourse.nixos.org/" rel="nofollow">Discourse</a> for solution
+patches that I don’t fully understand, have difficultly generalizing to a more
+complete solution, and am not certain will still be a good solution 6 months
+down the line. Maybe the documentation is fine, and I just too
+procedural-oriented to actually understand now to navigate nix documentations,
+but having to learn all the oddities of a functional language, the oddities of
+interacting with <code>nixpkgs</code>, and having no solid ground to work off in terms of
+references is just too much, especially in a pinch when I need to change
+something “right now”.</p> <h2 id="what-do-i-actually-want-in-from-nix-like-systems" data-svelte-h="svelte-1isbhnb"><a aria-hidden="true" tabindex="-1" href="#what-do-i-actually-want-in-from-nix-like-systems"><span class="icon icon-link"></span></a>What do I actually want in from Nix-like systems</h2> <p data-svelte-h="svelte-1h37l46">After some long reflections just after the frustrating experience with <code>nix</code>, I
+wanted to rethink why it was that I was attracted to <code>nix</code> in the first place.
+Is it actual reproducibility and declarative-ness? To be honest, not really. I
+don’t actually care what my system looks like 100 day ago, and I certainly am
+not going to dedicate hard drive space for a snapshot of my machine state to
+trace these steps. If this is not the actual target that I want out of my
+system management experience, I don’t think NixOS is actually the distribution
+for me.</p> <p data-svelte-h="svelte-1aqpm9c">What I really want out of <code>nix</code>, when tracing the line-of-thought in my initial
+praise of <code>nix</code>, can effectively be boiled down to just 2 points:</p> <ul data-svelte-h="svelte-fvjm9f"><li>Closeness of installation and configurations.</li> <li>Ease of temporary installs and cleanup</li></ul> <p data-svelte-h="svelte-1fkj5v6">What I actually want is <em>replicability</em>: the ability to ensure the same
+experience across multiple machines; while reproducibility should always
+guarantee replicability, just wanting replicability should not require the
+amounts of stringent-ness and tie-in as NixOS demands.</p> <p data-svelte-h="svelte-16zsre0">Is there a way to achieve what I want without having to completely dive tied to
+the <code>nix</code> ecosystem, outside of hand-rolling everything myself?</p> <h3 id="the-alternate-solution--decman" data-svelte-h="svelte-1198kc7"><a aria-hidden="true" tabindex="-1" href="#the-alternate-solution--decman"><span class="icon icon-link"></span></a>The alternate solution — <a href="https://github.com/kiviktnm/decman/" rel="nofollow"><code>decman</code></a></h3> <p data-svelte-h="svelte-lijmdg">Turns out, I’m not the only one what has the same frustrations with NixOS, and
+a solution for <a href="https://archlinux.org/" rel="nofollow">Archlinux</a> has already been developed:
+<a href="https://github.com/kiviktnm/decman/" rel="nofollow"><code>decman</code></a>!</p> <p data-svelte-h="svelte-1djjc24">Breaking it down, <code>decman</code> takes the listed packages (both standard and AUR)
+and uses this to generate a list of install/remove commands after comparing
+this with the current system state. It has very base-line modules to also
+handle the generation of files to fixed paths, as well as listing commands to
+run after installation/upgrades (such as enabling services), this effectively
+covers all the basis on my requirements! But what is my operations is not
+covered by existing <code>decman</code> functionalities? Because <code>decman</code> is written in
+<a href="https://www.python.org/" rel="nofollow">Python</a>, it is very easy to <a href="https://en.wikipedia.org/wiki/Monkey_patch" rel="nofollow">patch</a> in functions. And
+being python, this is not just limited to the simple stuff like adding
+machine/user-specific configurations using <code>if</code> statements on environment. Need
+something in incrementally update a <code>cfg</code> file? Python has a
+<a href="https://docs.python.org/3/library/configparser.html" rel="nofollow">module</a> for that! Want to use symbolic links instead of explicitly
+writing file contents for certain configuration files? Python has a
+<a href="https://docs.python.org/3/library/os.html#os.symlink" rel="nofollow">module</a> for that! Want to download something from a fixed URL to
+use for your configuration? Python has a <a href="https://requests.readthedocs.io/en/latest/" rel="nofollow">module</a> for that! Want to
+perform the same operation over a list of files/modules? You can write looping
+in whatever method you have in mind!</p> <p data-svelte-h="svelte-s5dap0">It felt very freeing to be able to patch whatever function one has in mind
+directly on-the-fly with whatever modules Python has to offer instead of having
+to wade through the fragmented information of how <code>nix</code>/<code>nixpkgs</code> functions on
+the internet. The <code>decman</code> package serves as a nice base to start off “80% of
+the way there”, and you the then free to build up extra extensions that best
+suit what you want to do with your system. This ethos I feel is much more
+fitting of how I want to manage my personal systems. Nix in comparison feels
+much more robust (less likely to generate something that can catastrophically
+break your system), but at the same time much more rigid (not being allowed to
+do something outside predefined limits) to the point of feeling suffocating. A
+similar statement seems to be from the developer of decman.</p> <h3 id="what-about-remote-package-installation" data-svelte-h="svelte-1m6xst2"><a aria-hidden="true" tabindex="-1" href="#what-about-remote-package-installation"><span class="icon icon-link"></span></a>What about remote package installation?</h3> <p data-svelte-h="svelte-1onmdvq">One of the big benefits that pushed me to working with nix was the ability to
+install arbitrary packages on any machine, regardless of if I have root access
+or not. If I am no longer using <code>nix</code>, what am I going to do about that?
+Another Linux distributions nicely slides into the picture: <a href="https://www.gentoo.org/" rel="nofollow">Gentoo</a>!
+Their <a href="https://wiki.gentoo.org/wiki/Project:Prefix" rel="nofollow">“prefix” project</a> for allowing the Gentoo build system
+<a href="https://wiki.gentoo.org/wiki/Portage" rel="nofollow"><code>portage</code></a> to be portable on any <a href="https://en.wikipedia.org/wiki/POSIX" rel="nofollow">POSIX</a>-like machine
+is very simple to set up! You can find the instructions here, and it is
+basically [3 lines of commands][prefix-boostrap] (minus the many, many hours
+you will need to wait for the package compilation)</p> <blockquote data-svelte-h="svelte-sy2afq"><p>Actually, that was a lie, because the CERN <a href="https://www.openafs.org/" rel="nofollow">AFS file system</a> is an
+incredibly annoying file system to work with. In this particular case, AFS
+not allowing pipe files to be created, breaking many of the installation
+scripts handled by the Gentoo package manager. Luckily, Gentoo has the
+foresight of isolated all building actions into a dedicated <code>$EPREFIX/tmp</code>
+directory, so as long as you bind that path to a directory that is not under
+the AFS directory (like the system <code>/tmp</code> directory), most install scripts
+would work. Another outlier is during the installation of the <code>sgml</code> package
+used for documentation generation, as when it invokes the <a href="https://man7.org/linux/man-pages/man1/flock.1.html" rel="nofollow"><code>flock</code></a>
+command, AFS will effectively freeze up. To get around this, you actually
+need to install <code>sgml</code> on another machine, then copy the contents in the
+<code>$EPREFIX/usr/share</code> directory under AFS. To reiterate, this is not a problem
+with Gentoo, but a rant of how AFS is a terrible file system to work with
+from the user side.</p></blockquote> <p data-svelte-h="svelte-d1pyvm">Having everything compile from source also has other benefits compared with
+running <code>nix</code>. Even though <a href="https://github.com/DavHau/nix-portable" rel="nofollow"><code>nix-portable</code></a> tries to be as
+“native” as possible, <code>nix-portable</code> having to go through <a href="https://proot-me.github.io/" rel="nofollow"><code>proot</code></a>
+still introduces oddities that is unavoidable: users ID needs to be masked, so
+all other users showing up as <code>nobody</code> when inspecting system resource usages
+in <code>htop</code> is one example. With everything being compiled from source, packages
+installed with <code>portage</code> is about as native as one can get, with basically
+mirrored functionality from what I have on my local installations. This is not
+to say <code>portage</code> was all smooth sailing: <code>btop</code> simply refuses to compile is
+oddity that I have not solved yet, and getting GUI programs such as <code>kitty</code> to
+compile required additional flags to be toggled in the prefix system (something
+that was not immediately obvious to me when I first ran the command). The
+replicability aspect right now doesn’t expand beyond keeping a list of packages
+in plain text, but with proper <a href="https://github.com/yimuchen/dotfiles/blob/master/bin/common/symlinkmgr" rel="nofollow">configuration file management</a>, it
+is already providing 95% functionality of what I want out of nix running on
+remote machines.</p> <h3 id="will-you-never-be-using-nix" data-svelte-h="svelte-1s4j6f5"><a aria-hidden="true" tabindex="-1" href="#will-you-never-be-using-nix"><span class="icon icon-link"></span></a>Will you never be using <code>nix</code>?</h3> <p data-svelte-h="svelte-826tkz">I think nix still has its place. <code>decman</code> is effectively a wrapper for vanilla
+<code>pacman</code>, and is not designed to work on per-directory or per-project bases,
+only for system level package management. So when I am working on a project
+that uses a tool chain that does not have a good in-built package management
+system (think C/C++), then <code>nix</code> is the perfect solution for this.</p> <hr> <h2 id="conclusion" data-svelte-h="svelte-1ae49rv"><a aria-hidden="true" tabindex="-1" href="#conclusion"><span class="icon icon-link"></span></a>Conclusion</h2> <p data-svelte-h="svelte-1stk74c">So TL;DR: Got <a href="https://en.wiktionary.org/wiki/skill_issue" rel="nofollow">skill-issued</a> by a <a href="https://en.wikipedia.org/wiki/Functional_programming" rel="nofollow">functional language</a>, so I’m giving up on NixOS
+for now. The tools that I will now be using be using from now one is:</p> <ul data-svelte-h="svelte-1xjq2tz"><li><a href="https://archlinux.org/" rel="nofollow">Archlinux</a> with <a href="https://github.com/kiviktnm/decman/" rel="nofollow"><code>decman</code></a> for all my personal machines.</li> <li><a href="https://www.gentoo.org/" rel="nofollow">Gentoo</a> <a href="https://wiki.gentoo.org/wiki/Portage" rel="nofollow"><code>portage</code></a> for machines where I don’t have
+root access.</li> <li><a href="https://nixos.org/" rel="nofollow">Nix</a> as the package manager for individual project.</li></ul> <p data-svelte-h="svelte-4l76fh">Are these tools perfect? Far from it, and there is much configuration to be
+done (THE <a href="https://www.reddit.com/r/unixporn/comments/3iy3wd/stupid_question_what_is_ricing/" rel="nofollow">RICING</a> NEVER STOPS). But the biggest upside for using this
+is I can now say that:</p> <blockquote data-svelte-h="svelte-y3r0br"><p>I use <a href="https://archlinux.org/" rel="nofollow">Arch</a>, <a href="https://www.gentoo.org/" rel="nofollow">Gentoo</a>, <strong>and</strong> <a href="https://nixos.org/" rel="nofollow">Nix</a>, <a href="https://github.com/overmighty/i-use-arch-btw?tab=readme-ov-file" rel="nofollow">BTW</a>. X)</p></blockquote></article> <footer class="svelte-a9w2ls"><span class="foot-header svelte-a9w2ls" data-svelte-h="svelte-1vhgsge">Tags</span><br> <span class="svelte-a9w2ls"><a href="../../tags/#computing">computing</a></span><span class="svelte-a9w2ls"><a href="../../tags/#tips">tips</a></span></footer> <div class="side-bar svelte-ype9gw"><button class="svelte-ype9gw"><div id="side-toggler-hide"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path><!-- HTML_TAG_END --></svg></div> <div id="side-toggler-show"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path><!-- HTML_TAG_END --></svg></div></button> <div class="side-bar-button"></div> <div class="side-bar-slider"><div class="side-bar-content svelte-ype9gw"><h2 class="side-bar-header svelte-ype9gw" data-svelte-h="svelte-r83smw">Outline</h2> <div id="side-bar-list"></div></div></div> </div></main> <footer class="svelte-ze0gu2"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- HTML_TAG_START --><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path><!-- HTML_TAG_END --></svg> <a href="https://github.com/yimuchen/" data-svelte-h="svelte-1lnvvne">Find me on GitHub</a> </footer> 
+			
+			<script>
+				{
+					__sveltekit_1yikdb = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						assets: "/yimuchen.pages"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.DgTIs5L1.js"),
+						import("../../_app/immutable/entry/app.CF2CTKAw.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

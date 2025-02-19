@@ -5,7 +5,7 @@ tags: [computing, tips]
 banner: thoughts.jpg
 ---
 
-About [one year ago](./2024-05-01-nix-portable.md), I started running
+About [one year ago](../2024-05-01-nix-portable), I started running
 [NixOS][nixos] as my daily operating system, and after this one year and much
 reflection, I've concluded that it is time to switch away form NixOS as my
 primary system again. This blog post will serve as a snapshot of what it was
